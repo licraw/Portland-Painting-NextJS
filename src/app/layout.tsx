@@ -1,6 +1,9 @@
+// src/app/layout.tsx
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Nav from "./components/Nav";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +31,28 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
+          {/* Header */}
+          <header>
+            <Nav />
+          </header>
+
+          {/* Main content */}
+          <main className="p-8 pb-20">{children}</main>
+
+          {/* Footer */}
+          <footer className="flex gap-6 flex-wrap items-center justify-center p-4">
+            <a
+              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+              href="https://nextjs.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Go to nextjs.org →
+            </a>
+            {/* Add any other footer links or content here */}
+          </footer>
+        </div>
       </body>
     </html>
   );
