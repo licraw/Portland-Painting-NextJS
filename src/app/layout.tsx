@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,9 +42,7 @@ export default function RootLayout({
           <main className="p-8 pb-20">{children}</main>
 
           {/* Footer */}
-          <footer className="flex gap-6 flex-wrap items-center justify-center p-4">
-            {/* Add any other footer links or content here */}
-          </footer>
+         <Footer />
         </div>
       </body>
     </html>
