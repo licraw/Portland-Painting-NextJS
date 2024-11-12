@@ -8,7 +8,7 @@ interface BannerProps {
   imagePath: string;
   cta: string;
   description: string;
-  ctaLink: string; // Add a link for the CTA button
+  ctaLink: string;
 }
 
 export default function Banner({ imagePath, cta, description, ctaLink }: BannerProps) {

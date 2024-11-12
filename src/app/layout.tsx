@@ -42,14 +42,6 @@ export default function RootLayout({
 
           {/* Footer */}
           <footer className="flex gap-6 flex-wrap items-center justify-center p-4">
-            <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Go to nextjs.org →
-            </a>
             {/* Add any other footer links or content here */}
           </footer>
         </div>
