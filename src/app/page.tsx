@@ -35,6 +35,13 @@ export default function HomePage() {
           "/gallery/interior2.jpeg",
           "/gallery/interior3.jpeg",
         ]}
+        secondaryImages={
+          [
+            "/gallery/exterior1.jpeg",
+            "/gallery/exterior2.jpeg",
+            "/gallery/exterior3.jpeg",
+          ]
+        }
       >
         <p>Servicing the greater Portland, OR metro area, we offer both Interior and exterior repaints as well as chronic failure solutions like lead paint removal of old failing substrates and carpentry repairs, of which ensures a sound substrate on historic homes to preserve them for another 100 years to come. A new exterior paint coating is not just about looks, but more importantly preservation of your investment. Over time, exposure to our nature’s element, your home or property’s exterior coating can become worn, faded, cracked, peeled and even rotten. </p>
         <p>Here in the Pacific Northwest precipitation and moisture is a reliable constant that must be protected against. And conversely the sun and Ultra Violet (UV) light can cause an equal amount of damage over time. Our goal is to not only make your property look beautiful but to protect your investment from our unique weather and sun related damage.</p>

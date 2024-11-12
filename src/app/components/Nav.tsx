@@ -101,14 +101,12 @@ export default function Nav() {
       </ul>
 
       {/* Hamburger Icon (Mobile Only) */}
-      <div className="lg:hidden">
         <button
           onClick={toggleMenu}
-          className="text-white focus:outline-none"
+          className="text-white focus:outline-none lg:hidden"
         >
           {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
-      </div>
 
       {/* Contact (Desktop Only) */}
       <div className="hidden lg:flex items-center space-x-2 bg-green-700 text-white px-4 py-2 rounded-full">
