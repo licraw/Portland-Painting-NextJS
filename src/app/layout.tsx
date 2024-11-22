@@ -1,8 +1,8 @@
-// src/app/layout.tsx
-
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Header from "./components/Header";
+import PencilBanner from "./components/PencilBanner";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 
@@ -34,15 +34,20 @@ export default function RootLayout({
       >
         <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
           {/* Header */}
-          <header>
+          <Header>
+            <PencilBanner
+              ctaText="HERE"
+              ctaAction="/estimate"
+              description="To inquire please fill out a FREE quote request"
+            />
             <Nav />
-          </header>
+          </Header>
 
           {/* Main content */}
           <main className="p-8 pb-20">{children}</main>
 
           {/* Footer */}
-         <Footer />
+          <Footer />
         </div>
       </body>
     </html>

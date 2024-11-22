@@ -3,21 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // Correct import for Next.js app router
+import { usePathname } from "next/navigation";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get the current path
+  const pathname = usePathname();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-gray-900 text-white shadow-md relative">
       {/* Logo */}
-      <div className="flex items-center space-x-4 bg-white p-2 rounded-md">
+      <Link href="/" className="flex items-center space-x-4 bg-white p-2 rounded-md">
         <Image src="/logo.svg" alt="Company Logo" width={100} height={40} />
-      </div>
+      </Link>
+
 
       {/* Main Navigation Links */}
       <ul
