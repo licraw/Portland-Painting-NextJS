@@ -9,6 +9,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoverPainting, setHoverPainting] = useState(false);
+  const [hoverAboutUs, setHoverAboutUs] = useState(false);
+  const [hoverGallery, setHoverGallery] = useState(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -102,25 +104,85 @@ export default function Nav() {
             Contact
           </Link>
         </li>
-        <li>
+        <li
+          className="relative"
+          onMouseEnter={() => setHoverAboutUs(true)}
+          onMouseLeave={() => setHoverAboutUs(false)}
+        >
           <Link
-            href="/about-us"
+            href="#"
             className={`hover:text-gray-400 transition flex items-center ${
               pathname === "/about-us" ? "underline underline-offset-4 decoration-2 decoration-white" : ""
             }`}
           >
             About Us
+            <span className="ml-1 text-sm">&#9660;</span>
           </Link>
+          {/* Sub Navigation */}
+          {hoverAboutUs && (
+            <ul className="absolute left-0 top-full bg-gray-800 shadow-md rounded-md p-2 space-y-2">
+              <li>
+                <Link
+                  href="/about-us/employment"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Employment
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about-us/reviews"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Reviews
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about-us/green-and-safe"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Green and Safe
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
-        <li>
+        <li
+          className="relative"
+          onMouseEnter={() => setHoverGallery(true)}
+          onMouseLeave={() => setHoverGallery(false)}
+        >
           <Link
-            href="/gallery"
+            href="#"
             className={`hover:text-gray-400 transition flex items-center ${
               pathname === "/gallery" ? "underline underline-offset-4 decoration-2 decoration-white" : ""
             }`}
           >
             Gallery
+            <span className="ml-1 text-sm">&#9660;</span>
           </Link>
+          {/* Sub Navigation */}
+          {hoverGallery && (
+            <ul className="absolute left-0 top-full bg-gray-800 shadow-md rounded-md p-2 space-y-2">
+              <li>
+                <Link
+                  href="/gallery/interior"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Interior
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/gallery/exterior"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Exterior
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
       </ul>
 
