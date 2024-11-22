@@ -14,6 +14,7 @@ export default function EstimateForm() {
   });
   const [status, setStatus] = useState("");
 
+  //@ts-expect-error use e
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -22,10 +23,11 @@ export default function EstimateForm() {
     }));
   };
 
+  //@ts-expect-error use e
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
-  
+
     try {
       const response = await fetch("/api/sendEmail", {
         method: "POST",
@@ -34,11 +36,11 @@ export default function EstimateForm() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       const result = await response.json();
       if (result.success) {
         setStatus("Email sent successfully!");
-  
+
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
             method: "POST",
@@ -52,7 +54,7 @@ export default function EstimateForm() {
             }),
           });
         }
-  
+
         setFormData({
           name: "",
           email: "",
@@ -65,19 +67,18 @@ export default function EstimateForm() {
       } else {
         setStatus("Failed to send email.");
       }
-    } catch (error) {
+    } catch {
       setStatus("Error sending email.");
     }
   };
-  
-
-   
 
   return (
     <section className="max-w-6xl mx-auto my-4 p-6 bg-white border rounded-lg shadow-md flex flex-col md:flex-row gap-8">
       <div className="flex-1 text-center md:text-left">
         <p className="text-gray-700 mb-6">
-          Once we receive your request, our estimators will promptly contact you. We eagerly anticipate collaborating with you on your upcoming project.
+          Once we receive your request, our estimators will promptly contact
+          you. We eagerly anticipate collaborating with you on your upcoming
+          project.
         </p>
         <Image
           src="/gallery/carpentry1.jpg"
@@ -153,7 +154,8 @@ export default function EstimateForm() {
 
           <div>
             <label className="block text-gray-700">
-              Want a promo code to receive a discount? Sign up for our newsletter and get money off your estimate!
+              Want a promo code to receive a discount? Sign up for our
+              newsletter and get money off your estimate!
             </label>
             <input
               type="text"
