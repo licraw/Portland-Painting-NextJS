@@ -8,6 +8,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoverPainting, setHoverPainting] = useState(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -18,7 +19,6 @@ export default function Nav() {
       <Link href="/" className="flex items-center space-x-4 bg-white p-2 rounded-md">
         <Image src="/logo.svg" alt="Company Logo" width={100} height={40} />
       </Link>
-
 
       {/* Main Navigation Links */}
       <ul
@@ -36,9 +36,13 @@ export default function Nav() {
             Home
           </Link>
         </li>
-        <li className="relative">
+        <li
+          className="relative"
+          onMouseEnter={() => setHoverPainting(true)}
+          onMouseLeave={() => setHoverPainting(false)}
+        >
           <Link
-            href="/painting"
+            href="#"
             className={`hover:text-gray-400 transition flex items-center ${
               pathname === "/painting" ? "underline underline-offset-4 decoration-2 decoration-white" : ""
             }`}
@@ -46,6 +50,27 @@ export default function Nav() {
             Painting
             <span className="ml-1 text-sm">&#9660;</span>
           </Link>
+          {/* Sub Navigation */}
+          {hoverPainting && (
+            <ul className="absolute left-0 top-full bg-gray-800 shadow-md rounded-md p-2 space-y-2">
+              <li>
+                <Link
+                  href="/painting/interior"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Interior
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/painting/exterior"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
+                >
+                  Exterior
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
         <li>
           <Link
@@ -77,7 +102,7 @@ export default function Nav() {
             Contact
           </Link>
         </li>
-        <li className="relative">
+        <li>
           <Link
             href="/about-us"
             className={`hover:text-gray-400 transition flex items-center ${
@@ -85,10 +110,9 @@ export default function Nav() {
             }`}
           >
             About Us
-            <span className="ml-1 text-sm">&#9660;</span>
           </Link>
         </li>
-        <li className="relative">
+        <li>
           <Link
             href="/gallery"
             className={`hover:text-gray-400 transition flex items-center ${
@@ -96,18 +120,14 @@ export default function Nav() {
             }`}
           >
             Gallery
-            <span className="ml-1 text-sm">&#9660;</span>
           </Link>
         </li>
       </ul>
 
       {/* Hamburger Icon (Mobile Only) */}
-        <button
-          onClick={toggleMenu}
-          className="text-white focus:outline-none lg:hidden"
-        >
-          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        </button>
+      <button onClick={toggleMenu} className="text-white focus:outline-none lg:hidden">
+        {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
 
       {/* Contact (Desktop Only) */}
       <div className="hidden lg:flex items-center space-x-2 bg-green-700 text-white px-4 py-2 rounded-full">
