@@ -4,7 +4,6 @@ export default function Footer() {
   return (
     <footer className="bg-white py-12 border-t border-gray-200">
       <div className="max-w-5xl mx-auto flex flex-col items-center md:flex-row md:justify-between px-4">
-        
         {/* Text Content - Centered */}
         <div className="text-center md:text-left flex-1">
           <h2 className="text-2xl font-semibold mb-4">Portland Painting & Restoration</h2>
