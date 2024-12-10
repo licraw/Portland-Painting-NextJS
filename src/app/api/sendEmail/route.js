@@ -1,9 +1,10 @@
 import nodemailer from 'nodemailer';
 
 export async function POST(request) {
-    const { name, email, phone, address, overview, promoCode } = await request.json();
-
-    const message = `
+    const { name, email, phone, address, overview, promoCode, formType } = await request.json();
+    let message = '';
+    if (formType !== 'estimate') {
+     message = `
       Name: ${name}
       Email: ${email}
       Phone: ${phone}
@@ -11,6 +12,14 @@ export async function POST(request) {
       Project Overview: ${overview}
       Promo Code: ${promoCode || 'None'}
     `;
+    } else if (formType === 'contact') {
+      message = `
+      Name: ${name}
+      Email: ${email}
+      Phone: ${phone}
+      Message: ${overview}
+    `;
+    }
 
     try {
         const transporter = nodemailer.createTransport({
