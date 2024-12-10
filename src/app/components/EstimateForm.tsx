@@ -11,6 +11,7 @@ export default function EstimateForm() {
     overview: "",
     promoCode: "",
     subscribeToMailchimp: false,
+    formType: "estimate",
   });
   const [status, setStatus] = useState("");
 

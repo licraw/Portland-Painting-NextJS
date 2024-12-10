@@ -6,26 +6,71 @@ export default function ContactForm() {
     name: "",
     email: "",
     phone: "",
-    message: "",
+    address: "",
+    overview: "",
+    promoCode: "",
+    subscribeToMailchimp: false,
+    formType: "contact",
   });
   const [status, setStatus] = useState("");
 
   //@ts-expect-error use e
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
-//@ts-expect-error use e
-  const handleSubmit = (e) => {
+
+  //@ts-expect-error use e
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
-    console.log("Form Data:", formData);
-    setTimeout(() => {
-      setStatus("Message sent successfully!");
-    }, 1000);
+
+    try {
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus("Message sent successfully!");
+
+        if (formData.subscribeToMailchimp) {
+          await fetch("/api/subscribe", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: formData.email,
+              firstName: formData.name.split(" ")[0],
+              lastName: formData.name.split(" ")[1] || "",
+            }),
+          });
+        }
+
+        // Reset the form after successful submission
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          overview: "",
+          promoCode: "",
+          subscribeToMailchimp: false,
+        });
+      } else {
+        setStatus("Failed to send message.");
+      }
+    } catch {
+      setStatus("Error sending message.");
+    }
   };
 
   return (
@@ -66,13 +111,25 @@ export default function ContactForm() {
       <div>
         <label className="block text-gray-700">Message*</label>
         <textarea
-          name="message"
-          value={formData.message}
+          name="overview"
+          value={formData.overview}
           onChange={handleChange}
           className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          rows={4}
+          rows={3}
           required
         ></textarea>
+      </div>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          name="subscribeToMailchimp"
+          checked={formData.subscribeToMailchimp}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        <label className="text-gray-700">
+          Subscribe to our newsletter for updates and discounts
+        </label>
       </div>
       <button
         type="submit"
