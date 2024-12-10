@@ -131,17 +131,6 @@ export default function ContactForm() {
           required
         ></textarea>
       </div>
-      <div>
-        <label className="block text-gray-700">Promo Code</label>
-        <input
-          type="text"
-          name="promoCode"
-          value={formData.promoCode}
-          onChange={handleChange}
-          placeholder="Promo Code"
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-        />
-      </div>
       <div className="flex items-center">
         <input
           type="checkbox"
