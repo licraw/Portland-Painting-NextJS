@@ -64,6 +64,7 @@ export default function ContactForm() {
           overview: "",
           promoCode: "",
           subscribeToMailchimp: false,
+          formType: "contact",
         });
       } else {
         setStatus("Failed to send message.");
