@@ -64,6 +64,7 @@ export default function EstimateForm() {
           overview: "",
           promoCode: "",
           subscribeToMailchimp: false,
+          formType: "estimate",
         });
       } else {
         setStatus("Failed to send email.");

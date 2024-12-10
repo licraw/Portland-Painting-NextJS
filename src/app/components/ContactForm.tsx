@@ -64,6 +64,7 @@ export default function ContactForm() {
           overview: "",
           promoCode: "",
           subscribeToMailchimp: false,
+          formType: "contact",
         });
       } else {
         setStatus("Failed to send message.");
@@ -109,7 +110,18 @@ export default function ContactForm() {
         />
       </div>
       <div>
-        <label className="block text-gray-700">Message*</label>
+        <label className="block text-gray-700">Project Address*</label>
+        <input
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-gray-700">Project Overview*</label>
         <textarea
           name="overview"
           value={formData.overview}
@@ -118,6 +130,17 @@ export default function ContactForm() {
           rows={3}
           required
         ></textarea>
+      </div>
+      <div>
+        <label className="block text-gray-700">Promo Code</label>
+        <input
+          type="text"
+          name="promoCode"
+          value={formData.promoCode}
+          onChange={handleChange}
+          placeholder="Promo Code"
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+        />
       </div>
       <div className="flex items-center">
         <input
