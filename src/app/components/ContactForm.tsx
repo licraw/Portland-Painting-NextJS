@@ -29,7 +29,8 @@ export default function ContactForm() {
     setStatus("Sending...");
 
     try {
-      const response = await fetch("/api/sendEmail", {
+      // Call the new Asana task creation route
+      const response = await fetch("/api/createAsanaTask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +40,7 @@ export default function ContactForm() {
 
       const result = await response.json();
       if (result.success) {
-        setStatus("Message sent successfully!");
+        setStatus("Request successfully submitted!");
 
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
@@ -67,10 +68,11 @@ export default function ContactForm() {
           formType: "contact",
         });
       } else {
-        setStatus("Failed to send message.");
+        setStatus("Failed to submit request.");
       }
-    } catch {
-      setStatus("Error sending message.");
+    } catch (error) {
+      console.error("Error:", error);
+      setStatus("Error submitting request.");
     }
   };
 
@@ -110,18 +112,7 @@ export default function ContactForm() {
         />
       </div>
       <div>
-        <label className="block text-gray-700">Project Address*</label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">Project Overview*</label>
+        <label className="block text-gray-700">Message*</label>
         <textarea
           name="overview"
           value={formData.overview}
