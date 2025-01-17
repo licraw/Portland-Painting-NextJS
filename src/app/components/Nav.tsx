@@ -32,12 +32,12 @@ export default function Nav() {
           color: black;
         }
       `}</style>
-      <nav className="flex flex-col bg-white shadow-md relative">
+      <nav className="flex flex-col bg-white relative">
         {/* Main Navigation */}
         <div className="flex items-center justify-between px-8 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-4 py-2">
-            <Image src="/logo.svg" alt="Company Logo" width={150} height={50} />
+            <Image src="/logo.svg" alt="Company Logo" width={165} height={55} />
           </Link>
 
           {/* Main Navigation Links */}
