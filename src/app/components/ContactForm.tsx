@@ -1,95 +1,88 @@
 "use client";
-import { useState } from "react";
+
+import { useState } from 'react';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    overview: "",
-    promoCode: "",
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    overview: '',
+    promoCode: '',
     subscribeToMailchimp: false,
-    formType: "contact",
-    photo: null, // Single photo upload
+    formType: 'contact',
+    photos: [],
   });
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
 
-  //@ts-expect-error use e
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    if (type === "file") {
-      // Handle single photo upload
+    if (type === 'file') {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: files[0] || null, // Use the first file or null if no file is selected
+        [name]: Array.from(files),
       }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
 
-  //@ts-expect-error use e
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
+    setStatus('Sending...');
 
     try {
-      // Prepare form data for submission, including the photo
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key === "photo" && value) {
-          formDataToSend.append("photo", value); // Append the photo file
+        if (key === 'photos' && value.length > 0) {
+          value.forEach((file) => formDataToSend.append('photos', file));
         } else {
           formDataToSend.append(key, value);
         }
       });
 
-      // Call the new Asana task creation route
-      const response = await fetch("/api/createAsanaTask", {
-        method: "POST",
+      const response = await fetch('/api/createAsanaTask', {
+        method: 'POST',
         body: formDataToSend,
       });
 
       const result = await response.json();
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        setStatus('Request successfully submitted!');
 
         if (formData.subscribeToMailchimp) {
-          await fetch("/api/subscribe", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+          await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               email: formData.email,
-              firstName: formData.name.split(" ")[0],
-              lastName: formData.name.split(" ")[1] || "",
+              firstName: formData.name.split(' ')[0],
+              lastName: formData.name.split(' ')[1] || '',
             }),
           });
         }
 
-        // Reset the form after successful submission
         setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          overview: "",
-          promoCode: "",
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
+          overview: '',
+          promoCode: '',
           subscribeToMailchimp: false,
-          formType: "contact",
-          photo: null,
+          formType: 'contact',
+          photos: [], // Clear photos
         });
       } else {
-        setStatus("Failed to submit request.");
+        setStatus('Failed to submit request.');
       }
     } catch (error) {
-      console.error("Error:", error);
-      setStatus("Error submitting request.");
+      console.error('Error:', error);
+      setStatus('Error submitting request.');
     }
   };
 
@@ -140,10 +133,12 @@ export default function ContactForm() {
         ></textarea>
       </div>
       <div>
-        <label className="block text-gray-700">Upload Photo</label>
+        <label className="block text-gray-700">Upload Photos (Max 5)</label>
         <input
           type="file"
-          name="photo"
+          name="photos"
+          multiple
+          accept="image/*"
           onChange={handleChange}
           className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
