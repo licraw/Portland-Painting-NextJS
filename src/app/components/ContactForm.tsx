@@ -43,7 +43,7 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setStatus('Sending...');
 
