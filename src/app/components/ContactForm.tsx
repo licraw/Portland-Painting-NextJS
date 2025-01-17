@@ -1,78 +1,102 @@
 "use client";
-import { useState } from "react";
+
+import { useState } from 'react';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    overview: "",
-    promoCode: "",
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    overview: '',
+    promoCode: '',
     subscribeToMailchimp: false,
-    formType: "contact",
+    formType: 'contact',
+    photos: [],
   });
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
 
-  //@ts-expect-error use e
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  interface FormData {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    overview: string;
+    promoCode: string;
+    subscribeToMailchimp: boolean;
+    formType: string;
+    photos: File[];
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked, files } = e.target as HTMLInputElement;
+    if (type === 'file') {
+      setFormData((prevData: FormData) => ({
+        ...prevData,
+        [name]: files ? Array.from(files) : [],
+      }));
+    } else {
+      setFormData((prevData: FormData) => ({
+        ...prevData,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
   };
 
-  //@ts-expect-error use e
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
+    setStatus('Sending...');
 
     try {
-      // Call the new Asana task creation route
-      const response = await fetch("/api/createAsanaTask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'photos' && Array.isArray(value) && value.length > 0) {
+            if (Array.isArray(value)) {
+              value.forEach((file: File) => formDataToSend.append('photos', file));
+            }
+        } else {
+          formDataToSend.append(key, value.toString());
+        }
+      });
+
+      const response = await fetch('/api/createAsanaTask', {
+        method: 'POST',
+        body: formDataToSend,
       });
 
       const result = await response.json();
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        setStatus('Request successfully submitted!');
 
         if (formData.subscribeToMailchimp) {
-          await fetch("/api/subscribe", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+          await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               email: formData.email,
-              firstName: formData.name.split(" ")[0],
-              lastName: formData.name.split(" ")[1] || "",
+              firstName: formData.name.split(' ')[0],
+              lastName: formData.name.split(' ')[1] || '',
             }),
           });
         }
 
-        // Reset the form after successful submission
         setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          overview: "",
-          promoCode: "",
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
+          overview: '',
+          promoCode: '',
           subscribeToMailchimp: false,
-          formType: "contact",
+          formType: 'contact',
+          photos: [],
         });
       } else {
-        setStatus("Failed to submit request.");
+        setStatus('Failed to submit request.');
       }
     } catch (error) {
-      console.error("Error:", error);
-      setStatus("Error submitting request.");
+      console.error('Error:', error);
+      setStatus('Error submitting request.');
     }
   };
 
@@ -121,6 +145,17 @@ export default function ContactForm() {
           rows={3}
           required
         ></textarea>
+      </div>
+      <div>
+        <label className="block text-gray-700">Upload Photos (Max 5)</label>
+        <input
+          type="file"
+          name="photos"
+          multiple
+          accept="image/*"
+          onChange={handleChange}
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+        />
       </div>
       <div className="flex items-center">
         <input
