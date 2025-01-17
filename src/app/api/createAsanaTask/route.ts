@@ -1,4 +1,4 @@
-import Asana from "asana";
+const Asana = require('asana');
 import { NextRequest } from "next/server";
 import { writeFile } from "fs/promises";
 import fs from "fs";
@@ -37,11 +37,9 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    //@ts-expect-error  - error
     const client = Asana.ApiClient.instance;
     const token = client.authentications["token"];
     token.accessToken = process.env.ASANA_TOKEN;
-    //@ts-expect-error  - error
     const tasksApiInstance = new Asana.TasksApi();
     const body = {
       data: {
@@ -57,7 +55,6 @@ export async function POST(request: NextRequest) {
 
     console.log("Task created successfully:", result);
 
-    //@ts-expect-error - error
     const attachmentsApiInstance = new Asana.AttachmentsApi();
 
     for (const photoFile of photoFiles) {
