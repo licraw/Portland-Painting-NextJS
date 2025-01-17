@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
@@ -16,15 +16,27 @@ export default function ContactForm() {
   });
   const [status, setStatus] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  interface FormData {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    overview: string;
+    promoCode: string;
+    subscribeToMailchimp: boolean;
+    formType: string;
+    photos: File[];
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked, files } = e.target as HTMLInputElement;
     if (type === 'file') {
-      setFormData((prevData) => ({
+      setFormData((prevData: FormData) => ({
         ...prevData,
-        [name]: Array.from(files),
+        [name]: files ? Array.from(files) : [],
       }));
     } else {
-      setFormData((prevData) => ({
+      setFormData((prevData: FormData) => ({
         ...prevData,
         [name]: type === 'checkbox' ? checked : value,
       }));
@@ -38,10 +50,12 @@ export default function ContactForm() {
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'photos' && value.length > 0) {
-          value.forEach((file) => formDataToSend.append('photos', file));
+        if (key === 'photos' && Array.isArray(value) && value.length > 0) {
+            if (Array.isArray(value)) {
+              value.forEach((file: File) => formDataToSend.append('photos', file));
+            }
         } else {
-          formDataToSend.append(key, value);
+          formDataToSend.append(key, value.toString());
         }
       });
 
@@ -75,7 +89,7 @@ export default function ContactForm() {
           promoCode: '',
           subscribeToMailchimp: false,
           formType: 'contact',
-          photos: [], // Clear photos
+          photos: [],
         });
       } else {
         setStatus('Failed to submit request.');

@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
 
@@ -12,42 +13,67 @@ export default function EstimateForm() {
     promoCode: "",
     subscribeToMailchimp: false,
     formType: "estimate",
+    photos: [],
   });
   const [status, setStatus] = useState("");
 
-  //@ts-expect-error use e
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  interface ChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {
+    target: (EventTarget & HTMLInputElement & { files: FileList | null }) | (EventTarget & HTMLTextAreaElement) & {
+      name: string;
+      value: string;
+      type: string;
+      checked?: boolean;
+      files?: FileList | null;
+    };
+  }
+
+  const handleChange = (e: ChangeEvent) => {
+    const { name, value, type, checked, files } = e.target;
+    if (type === "file") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: files ? Array.from(files) : [],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
-  //@ts-expect-error use e
-  const handleSubmit = async (e) => {
+
+  interface ApiResponse {
+    success: boolean;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Sending...");
 
     try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "photos" && Array.isArray(value) && value.length > 0) {
+          value.forEach((file) => formDataToSend.append("photos", file));
+        } else {
+          formDataToSend.append(key, value.toString());
+        }
       });
 
-      const result = await response.json();
+      const response = await fetch("/api/createAsanaTask", {
+        method: "POST",
+        body: formDataToSend,
+      });
+
+      const result: ApiResponse = await response.json();
       if (result.success) {
-        setStatus("Email sent successfully!");
+        setStatus("Request successfully submitted!");
 
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               email: formData.email,
               firstName: formData.name.split(" ")[0],
@@ -65,12 +91,14 @@ export default function EstimateForm() {
           promoCode: "",
           subscribeToMailchimp: false,
           formType: "estimate",
+          photos: [],
         });
       } else {
-        setStatus("Failed to send email.");
+        setStatus("Failed to submit request.");
       }
-    } catch {
-      setStatus("Error sending email.");
+    } catch (error) {
+      console.error("Error:", error);
+      setStatus("Error submitting request.");
     }
   };
 
@@ -152,6 +180,18 @@ export default function EstimateForm() {
               rows={3}
               required
             ></textarea>
+          </div>
+
+          <div>
+            <label className="block text-gray-700">Upload Photos (Max 5)</label>
+            <input
+              type="file"
+              name="photos"
+              multiple
+              accept="image/*"
+              onChange={handleChange}
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+            />
           </div>
 
           <div>
