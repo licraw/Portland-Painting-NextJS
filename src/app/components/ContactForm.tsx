@@ -11,16 +11,25 @@ export default function ContactForm() {
     promoCode: "",
     subscribeToMailchimp: false,
     formType: "contact",
+    photo: null, // Single photo upload
   });
   const [status, setStatus] = useState("");
 
   //@ts-expect-error use e
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    const { name, value, type, checked, files } = e.target;
+    if (type === "file") {
+      // Handle single photo upload
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: files[0] || null, // Use the first file or null if no file is selected
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   //@ts-expect-error use e
@@ -29,13 +38,20 @@ export default function ContactForm() {
     setStatus("Sending...");
 
     try {
+      // Prepare form data for submission, including the photo
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "photo" && value) {
+          formDataToSend.append("photo", value); // Append the photo file
+        } else {
+          formDataToSend.append(key, value);
+        }
+      });
+
       // Call the new Asana task creation route
       const response = await fetch("/api/createAsanaTask", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       const result = await response.json();
@@ -66,6 +82,7 @@ export default function ContactForm() {
           promoCode: "",
           subscribeToMailchimp: false,
           formType: "contact",
+          photo: null,
         });
       } else {
         setStatus("Failed to submit request.");
@@ -121,6 +138,15 @@ export default function ContactForm() {
           rows={3}
           required
         ></textarea>
+      </div>
+      <div>
+        <label className="block text-gray-700">Upload Photo</label>
+        <input
+          type="file"
+          name="photo"
+          onChange={handleChange}
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
+        />
       </div>
       <div className="flex items-center">
         <input
