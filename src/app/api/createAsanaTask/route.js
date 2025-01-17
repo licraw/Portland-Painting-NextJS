@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import Asana from 'asana';
 
 export async function POST(request) {
   const { name, email, phone, address, overview, promoCode, formType } = await request.json();
@@ -21,36 +21,41 @@ export async function POST(request) {
   }
 
   try {
-    const ASANA_PROJECT_ID = '9865446660987'; // Ensure this is a string
-    const ASANA_API_URL = 'https://app.asana.com/api/1.0/tasks';
-    const ASANA_TOKEN = process.env.ASANA_TOKEN;
+    let client = Asana.ApiClient.instance;
+    let token = client.authentications['token'];
+    token.accessToken = process.env.ASANA_TOKEN;
 
-    const asanaResponse = await fetch(ASANA_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ASANA_TOKEN}`,
+    let tasksApiInstance = new Asana.TasksApi();
+    let body = {
+      data: {
+        workspace: "9802913355207",
+        name: asanaTaskName,
+        notes: asanaTaskNotes,
+        assignee: "1120216186554330",
+        projects: ["9865446660987"],
       },
-      body: JSON.stringify({
-        data: {
-          name: asanaTaskName,
-          notes: asanaTaskNotes,
-          projects: [String(ASANA_PROJECT_ID)], // Convert project ID to a string
-        },
-      }),
-    });
+    };
+    let opts = {};
 
-    const asanaResult = await asanaResponse.json();
+    let result;
+    try {
+      result = await tasksApiInstance.createTask(body, opts);
+      console.log("Task created successfully:", result);
+    } catch (taskError) {
+      console.error("Error during task creation:", taskError);
+      throw new Error("Task creation failed");
+    }
 
-    // Log response for debugging
-    console.log("Asana Response:", asanaResult);
-
-    if (!asanaResponse.ok) {
-      throw new Error(`Asana API Error: ${asanaResult.errors[0].message}`);
+    if (!result || !result.data) {
+      throw new Error("Unexpected response from Asana API");
     }
 
     return new Response(
-      JSON.stringify({ success: true, asanaTask: asanaResult.data }),
+      JSON.stringify({
+        success: true,
+        message: "Task created successfully",
+        task: result.data,
+      }),
       { status: 200 }
     );
   } catch (error) {

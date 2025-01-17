@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "asana": "^3.0.14",
+    "form-data": "^4.0.1",
+    "formidable": "^3.5.2",
     "next": "15.0.3",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16",
