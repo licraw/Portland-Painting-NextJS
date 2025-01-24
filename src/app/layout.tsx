@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import PencilBanner from "./components/PencilBanner";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <GoogleCaptchaWrapper>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -46,10 +48,13 @@ export default function RootLayout({
           {/* Main content */}
           <main className="p-8 pb-20">{children}</main>
 
+
           {/* Footer */}
           <Footer />
         </div>
       </body>
     </html>
+    </GoogleCaptchaWrapper>
+
   );
 }

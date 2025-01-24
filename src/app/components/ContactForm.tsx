@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from 'react';
+import axios from 'axios';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ContactForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -46,6 +49,35 @@ export default function ContactForm() {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setStatus('Sending...');
+
+    if (!executeRecaptcha) {
+      setStatus('Recaptcha not ready. Please try again.');
+      return;
+    }
+
+    const gRecaptchaToken = await executeRecaptcha('contact_form');
+
+    const response = await axios({
+      method: "post",
+      url: "/api/verifyRecaptcha",
+      data: {
+        gRecaptchaToken,
+      },
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response?.data?.success === true) {
+      console.log(`Success with score: ${response?.data?.score}`);
+      setStatus('ReCaptcha Verified and Form Submitted!')
+    } else {
+      console.log(`Failure with score: ${response?.data?.score}`);
+      setStatus("Failed to verify recaptcha! You must be a robot!")
+      return;
+    }
+
 
     try {
       const formDataToSend = new FormData();

@@ -57,8 +57,13 @@ export async function POST(request: NextRequest) {
 
     const attachmentsApiInstance = new Asana.AttachmentsApi();
 
+    if(!photoFiles || photoFiles.length === 0) {
     for (const photoFile of photoFiles) {
       const tempDir = path.resolve("/tmp");
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir);
+}
+
       const tempFilePath = path.join(tempDir, photoFile.name);
 
       try {
@@ -94,6 +99,7 @@ export async function POST(request: NextRequest) {
         );
       }
     }
+  }
 
     return new Response(
       JSON.stringify({
