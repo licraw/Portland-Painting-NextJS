@@ -36,29 +36,54 @@ export async function POST(request: NextRequest) {
 **Message**: ${overview}`;
   }
 
+
+
   try {
     const client = Asana.ApiClient.instance;
     const token = client.authentications["token"];
     token.accessToken = process.env.ASANA_TOKEN;
     const tasksApiInstance = new Asana.TasksApi();
+    console.log("promo code", promoCode);
+    const dueDate = new Date().toISOString().split('T')[0];
     const body = {
       data: {
         workspace: "9802913355207",
         name: asanaTaskName,
         notes: asanaTaskNotes,
+        due_on: dueDate,
         assignee: "me",
         projects: ["9865446660987"],
+        custom_fields: {
+          "1208441371887522" : "1208441371887523",
+          "1208441371887529" : "1208441371887530",
+          "1208441371887534" : name,
+          "1209143077541096" : promoCode
+
+        }
       },
     };
 
     const result = await tasksApiInstance.createTask(body, {});
 
-    console.log("Task created successfully:", result);
-
+    console.log("Task created successfully:");
+    console.log("Result:", JSON.stringify(result, null, 2)); // Logs the entire result in a readable JSON format
+    
+    if (result.data && result.data.custom_fields) {
+      console.log("Custom Fields:");
+      result.data.custom_fields.forEach((field: any, index: number) => {
+        console.log(`Field ${index + 1}:`, field);
+      });
+    }
+    
     const attachmentsApiInstance = new Asana.AttachmentsApi();
 
+    if(!photoFiles || photoFiles.length === 0) {
     for (const photoFile of photoFiles) {
       const tempDir = path.resolve("/tmp");
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir);
+}
+
       const tempFilePath = path.join(tempDir, photoFile.name);
 
       try {
@@ -94,6 +119,7 @@ export async function POST(request: NextRequest) {
         );
       }
     }
+  }
 
     return new Response(
       JSON.stringify({
