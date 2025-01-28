@@ -1,8 +1,9 @@
-const Asana = require('asana');
+const Asana = require("asana");
 import { NextRequest } from "next/server";
 import { writeFile } from "fs/promises";
 import fs from "fs";
 import path from "path";
+import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
 
   let asanaTaskName = "";
   let asanaTaskNotes = "";
+  let emailMessage = "";
 
   if (formType === "estimate") {
     asanaTaskName = `New Estimate Request from ${name}`;
@@ -29,22 +31,37 @@ export async function POST(request: NextRequest) {
 **Address**: ${address}
 **Project Overview**: ${overview}
 **Promo Code**: ${promoCode || "None"}`;
+
+    emailMessage = `
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Address: ${address}
+Project Overview: ${overview}
+Promo Code: ${promoCode || "None"}
+`;
   } else if (formType === "contact") {
     asanaTaskName = `New Contact Request from ${name}`;
     asanaTaskNotes = `**Email**: ${email}
 **Phone**: ${phone}
 **Message**: ${overview}`;
+
+    emailMessage = `
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Message: ${overview}
+`;
   }
 
-
-
   try {
+    // ASANA Integration
     const client = Asana.ApiClient.instance;
     const token = client.authentications["token"];
     token.accessToken = process.env.ASANA_TOKEN;
     const tasksApiInstance = new Asana.TasksApi();
-    console.log("promo code", promoCode);
-    const dueDate = new Date().toISOString().split('T')[0];
+    const dueDate = new Date().toISOString().split("T")[0];
+
     const body = {
       data: {
         workspace: "9802913355207",
@@ -54,44 +71,30 @@ export async function POST(request: NextRequest) {
         assignee: "me",
         projects: ["9865446660987"],
         custom_fields: {
-          "1208441371887522" : "1208441371887523",
-          "1208441371887529" : "1208441371887530",
-          "1208441371887534" : name,
-          "1209143077541096" : promoCode
-
-        }
+          "1208441371887522": "1208441371887523",
+          "1208441371887529": "1208441371887530",
+          "1208441371887534": name,
+          "1209143077541096": promoCode,
+        },
       },
     };
 
     const result = await tasksApiInstance.createTask(body, {});
+    console.log("Task created successfully:", result);
 
-    console.log("Task created successfully:");
-    console.log("Result:", JSON.stringify(result, null, 2)); // Logs the entire result in a readable JSON format
-    
-    if (result.data && result.data.custom_fields) {
-      console.log("Custom Fields:");
-      result.data.custom_fields.forEach((field: any, index: number) => {
-        console.log(`Field ${index + 1}:`, field);
-      });
-    }
-    
     const attachmentsApiInstance = new Asana.AttachmentsApi();
 
-    if(!photoFiles || photoFiles.length === 0) {
     for (const photoFile of photoFiles) {
       const tempDir = path.resolve("/tmp");
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
-}
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir);
+      }
 
       const tempFilePath = path.join(tempDir, photoFile.name);
 
-      try {
-        await writeFile(
-          tempFilePath,
-          Buffer.from(await photoFile.arrayBuffer())
-        );
+      await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
 
+      try {
         const attachmentResult =
           await attachmentsApiInstance.createAttachmentForObject({
             parent: result.data.gid,
@@ -109,41 +112,50 @@ if (!fs.existsSync(tempDir)) {
           }
         });
       } catch (error) {
-        const err = error as Error & {
-          response?: { body?: { errors: { message: string }[] } };
-        };
-        console.error(
-          `Error uploading attachment: ${photoFile.name}`,
-          err.message,
-          err.response?.body
-        );
+        console.error(`Error uploading attachment: ${photoFile.name}`, error);
       }
     }
-  }
+
+    // GMAIL Integration
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: `"${name}" <${email}>`,
+      to: process.env.RECIPIENT_EMAIL,
+      subject: `New ${formType === "estimate" ? "Estimate" : "Contact"} Request from ${name}`,
+      text: emailMessage,
+      attachments: await Promise.all(
+        photoFiles.map(async (photoFile) => ({
+          filename: photoFile.name,
+          content: Buffer.from(await photoFile.arrayBuffer()),
+        }))
+      ),
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully");
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Task created successfully",
+        message: "Task created and email sent successfully",
         task: result.data,
       }),
       { status: 200 }
     );
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error creating Asana task:", error.message);
-      return new Response(
-        JSON.stringify({
-          error: error.message || "Failed to create Asana task",
-        }),
-        { status: 500 }
-      );
-    } else {
-      console.error("Unknown error creating Asana task");
-      return new Response(
-        JSON.stringify({ error: "Failed to create Asana task" }),
-        { status: 500 }
-      );
-    }
+    console.error("Error:", error);
+    return new Response(
+      JSON.stringify({
+        error: "An error occurred while processing the request",
+      }),
+      { status: 500 }
+    );
   }
 }
