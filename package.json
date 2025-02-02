@@ -29,6 +29,7 @@
     "@types/asana": "^0.18.16",
     "@types/grecaptcha": "^3.0.9",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-google-recaptcha": "^2.1.9",
