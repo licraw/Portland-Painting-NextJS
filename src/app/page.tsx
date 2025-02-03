@@ -3,10 +3,13 @@
 import Banner from "./components/Banner";
 import Image from "next/image";
 import ServicePreview from "./components/ServicePreview";
+import About from "./components/home/About";
+import Services from "./components/home/Services";
 
 export default function HomePage() {
   return (
     <div>
+      <div className='p-8 pl-6 lg:pl-20'>
       <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
         <div className="flex items-center justify-center w-8 h-6 bg-white rounded-full">
           <Image
@@ -24,13 +27,13 @@ export default function HomePage() {
         style={{
           fontFamily: '"Helvetica Neue", Arial, sans-serif',
           fontWeight: 500,
-          fontSize: "72px",
           lineHeight: "1.2",
         }}
-        className="sm:text-[36px] sm:leading-[1.1]"
+        className="font-sans font-medium text-4xl md:text-2xl lg:text-7xl leading-[1.2]"
       >
         Transform Your Space with Painting and Restoration Experts
       </h1>
+      </div>
 
       <Banner
         ctaLink="/estimate"
@@ -39,32 +42,8 @@ export default function HomePage() {
         description="Portland Painting and Restoration is one of Portland and Vancouver’s premier repair, light remodel, and finish contractors."
       />
 
-      {/* Image and Heading Section */}
-      <div className="my-8 flex items-center justify-center gap-4">
-        <Image
-          src="/paintRoller.svg"
-          alt="Paint Roller"
-          width={50}
-          height={20}
-        />
-      </div>
-
-      {/* Main Text Content */}
-      <div className="my-8 max-w-3xl mx-auto">
-        <p>
-          <strong>Portland Painting and Restoration</strong> is one of Portland
-          and Vancouver’s premier repair, light remodel, and finish contractors.
-          Our team of professional <strong>Carpenters and Painters</strong>,
-          along with dedicated{" "}
-          <strong>Estimators, Project Managers, and Office Staff</strong>, work
-          together to deliver top-tier results with a focus on client
-          satisfaction and quality workmanship. We specialize in providing
-          thoughtful, era-appropriate solutions that enhance and protect your
-          property, whether through{" "}
-          <strong>carpentry repairs, remodeling, cabinet modifications</strong>,
-          or <strong>painting services</strong>.
-        </p>
-      </div>
+      <About />
+      <Services />
       {/* Services Sections */}
       <ServicePreview
         title="Painting"
