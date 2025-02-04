@@ -12,6 +12,13 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sans: ['"Helvetica Neue"', "Arial", "sans-serif"],
+      },
+      fontSize: {
+        '36px': ['36px', { lineHeight: '1.2' }],
+        '72px': ['72px', { lineHeight: '1.1' }],
+      },
     },
   },
   plugins: [],

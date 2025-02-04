@@ -46,7 +46,7 @@ export default function RootLayout({
           </Header>
 
           {/* Main content */}
-          <main className="p-8 pb-20">{children}</main>
+          <main className="pb-20">{children}</main>
 
 
           {/* Footer */}

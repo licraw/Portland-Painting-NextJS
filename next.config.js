@@ -8,5 +8,8 @@ module.exports = {
     eslint: {
       // Ignore ESLint errors during builds
       ignoreDuringBuilds: true,
-    }
+    },
+    compiler: {
+      styledComponents: true,
+    },
   };
