@@ -27,9 +27,9 @@ const CardContainer = styled.div`
 const Services = () => {
   const [activeCard, setActiveCard] = useState("Painting");
 
-  function handleCardClick(e) {
-    const card = e.currentTarget; // The whole Card div
-    const title = card.querySelector("h2")?.textContent || ""; // Always find the h2
+  function handleCardClick(e: { currentTarget: any; }) {
+    const card = e.currentTarget;
+    const title = card.querySelector("h2")?.textContent || "";
 
     setActiveCard(title);
   }

@@ -45,7 +45,7 @@ export default function HomePage() {
       <About />
       <Services />
       {/* Services Sections */}
-      <ServicePreview
+      {/* <ServicePreview
         title="Painting"
         icon="/paintBucket.svg"
         images={[
@@ -127,7 +127,7 @@ export default function HomePage() {
           provide thoughtful solutions that enhance the beauty and value of your
           home.
         </p>
-      </ServicePreview>
+      </ServicePreview> */}
     </div>
   );
 }

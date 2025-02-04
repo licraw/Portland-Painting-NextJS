@@ -12,7 +12,7 @@ interface ServiceCardProps {
   image?: string;
   isactive?: boolean;
   secondImage?: string;
-  handleCardClick?: (e) => void;
+  handleCardClick?: (e: any) => void;
 }
 
 const Card = styled.div.withConfig({
