@@ -11,6 +11,7 @@ interface ServiceCardProps {
   description?: string;
   image?: string;
   isactive?: boolean;
+  secondImage?: string;
   handleCardClick?: (e) => void;
 }
 
@@ -88,7 +89,6 @@ const ToggleGroup = styled.div`
   border-radius: 24px;
   padding: 4px;
   position: relative;
-  width: 160px;
   height: 40px;
 `;
 
@@ -110,8 +110,8 @@ const ToggleButton = styled.button<{ selected: boolean }>`
 const ToggleSlider = styled.div<{ activeindex: number }>`
   position: absolute;
   top: 4px;
-  left: ${({ activeindex }) => (activeindex === 0 ? "4px" : "calc(50% - 4px)")};
-  width: 50%;
+  left: ${({ activeindex }) => (activeindex === 0 ? "4px" : "50%")};
+  width: calc(50% - 4px);
   height: 80%;
   background: #2d6a4f;
   border-radius: 20px;
@@ -154,6 +154,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   image,
   isactive,
+  secondImage,
   handleCardClick,
 }) => {
   const [paintingOption, setPaintingOption] = useState<"interior" | "exterior">(
@@ -164,7 +165,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     <Card
       isactive={isactive}
       title={title}
-      image={image}
+      image={title !== "Painting" ? image : (paintingOption === "interior" ? image : secondImage)}
       onClick={handleCardClick}
     >
       <ContentWrapper>
@@ -179,6 +180,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                     activeindex={paintingOption === "interior" ? 0 : 1}
                   />
                   <ToggleButton
+                    className={paintingOption === "interior" ? "interiorActive" : "exteriorActive"}
                     selected={paintingOption === "interior"}
                     onClick={(e) => {
                       e.stopPropagation();

@@ -9,7 +9,7 @@ import Services from "./components/home/Services";
 export default function HomePage() {
   return (
     <div>
-      <div className='p-8 pl-6 lg:pl-20'>
+      <div className='p-8 pl-6 lg:pl-20 lg:pr-20'>
       <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
         <div className="flex items-center justify-center w-8 h-6 bg-white rounded-full">
           <Image
