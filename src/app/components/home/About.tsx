@@ -152,7 +152,7 @@ const About = () => {
               and protect your property, whether through carpentry repairs, remodeling,
               cabinet modifications, or painting services.
             </p>
-            <AboutLink href="/about">About Us</AboutLink>
+            <AboutLink href="/about-us/green-and-safe">About Us</AboutLink>
           </SectionContent>
         </AboutRow>
 
