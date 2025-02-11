@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
   const promoCode = data.get("promoCode") as string;
   const formType = data.get("formType") as string;
 
-  if (!photoFiles || photoFiles.length === 0) {
-    throw new Error("No photos uploaded.");
-  }
+  // if (!photoFiles || photoFiles.length === 0) {
+  //   throw new Error("No photos uploaded.");
+  // }
 
   let asanaTaskName = "";
   let asanaTaskNotes = "";

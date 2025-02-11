@@ -6,7 +6,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ContactForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
@@ -19,34 +19,22 @@ export default function ContactForm() {
   });
   const [status, setStatus] = useState('');
 
-  interface FormData {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    overview: string;
-    promoCode: string;
-    subscribeToMailchimp: boolean;
-    formType: string;
-    photos: File[];
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked, files } = e.target as HTMLInputElement;
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
     if (type === 'file') {
-      setFormData((prevData: FormData) => ({
+      setFormData((prevData) => ({
         ...prevData,
         [name]: files ? Array.from(files) : [],
       }));
     } else {
-      setFormData((prevData: FormData) => ({
+      setFormData((prevData) => ({
         ...prevData,
         [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('Sending...');
 
@@ -56,50 +44,30 @@ export default function ContactForm() {
     }
 
     const gRecaptchaToken = await executeRecaptcha('contact_form');
+    const response = await axios.post('/api/verifyRecaptcha', { gRecaptchaToken });
 
-    const response = await axios({
-      method: "post",
-      url: "/api/verifyRecaptcha",
-      data: {
-        gRecaptchaToken,
-      },
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response?.data?.success === true) {
-      console.log(`Success with score: ${response?.data?.score}`);
-      setStatus('ReCaptcha Verified and Form Submitted!')
-    } else {
-      console.log(`Failure with score: ${response?.data?.score}`);
-      setStatus("Failed to verify recaptcha! You must be a robot!")
+    if (!response?.data?.success) {
+      setStatus('Failed to verify recaptcha! You must be a robot!');
       return;
     }
-
 
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'photos' && Array.isArray(value) && value.length > 0) {
-            if (Array.isArray(value)) {
-              value.forEach((file: File) => formDataToSend.append('photos', file));
-            }
+        if (key === 'photos' && Array.isArray(value)) {
+          value.forEach((file) => formDataToSend.append('photos', file));
         } else {
           formDataToSend.append(key, value.toString());
         }
       });
 
-      const response = await fetch('/api/createAsanaTask', {
+      const result = await fetch('/api/createAsanaTask', {
         method: 'POST',
         body: formDataToSend,
-      });
+      }).then((res) => res.json());
 
-      const result = await response.json();
       if (result.success) {
         setStatus('Request successfully submitted!');
-
         if (formData.subscribeToMailchimp) {
           await fetch('/api/subscribe', {
             method: 'POST',
@@ -111,7 +79,6 @@ export default function ContactForm() {
             }),
           });
         }
-
         setFormData({
           name: '',
           email: '',
@@ -133,78 +100,24 @@ export default function ContactForm() {
   };
 
   return (
-    <form className="space-y-4 bg-gray-100 p-6 rounded-lg" onSubmit={handleSubmit}>
-      <div>
-        <label className="block text-gray-700">Name*</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          required
-        />
+    <form className="space-y-6 bg-white p-10 rounded-lg shadow-2xl max-w-4xl mx-auto border border-gray-200" onSubmit={handleSubmit}>
+      <h2 className="text-4xl font-bold text-center text-green-900">Get In Touch</h2>
+      <p className="text-center text-gray-700 mb-6">We’d love to hear from you. Fill out the form below and we’ll get back to you soon.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full" />
+        <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full" />
       </div>
-      <div>
-        <label className="block text-gray-700">Email*</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">Phone*</label>
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">Message*</label>
-        <textarea
-          name="overview"
-          value={formData.overview}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-          rows={3}
-          required
-        ></textarea>
-      </div>
+      <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full" />
+      <textarea name="overview" placeholder="Your Message" value={formData.overview} onChange={handleChange} rows={4} required className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"></textarea>
       <div>
         <label className="block text-gray-700">Upload Photos (Max 5)</label>
-        <input
-          type="file"
-          name="photos"
-          multiple
-          accept="image/*"
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-        />
+        <input type="file" name="photos" multiple accept="image/*" onChange={handleChange} className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700" />
       </div>
       <div className="flex items-center">
-        <input
-          type="checkbox"
-          name="subscribeToMailchimp"
-          checked={formData.subscribeToMailchimp}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        <label className="text-gray-700">
-          Subscribe to our newsletter for updates and discounts
-        </label>
+        <input type="checkbox" name="subscribeToMailchimp" checked={formData.subscribeToMailchimp} onChange={handleChange} className="mr-2" />
+        <label className="text-gray-700">Subscribe to our newsletter for updates and discounts</label>
       </div>
-      <button
-        type="submit"
-        className="w-full bg-green-700 text-white font-semibold py-3 rounded-lg hover:bg-green-800 transition"
-      >
+      <button type="submit" className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800 transition-all">
         Send Message
       </button>
       <p className="text-center text-gray-700 mt-4">{status}</p>
