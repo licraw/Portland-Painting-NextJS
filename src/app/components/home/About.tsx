@@ -146,13 +146,11 @@ const About = () => {
               professional Carpenters and Painters, along with dedicated Estimators,
               Project Managers, and Office Staff, work together to deliver top-tier
               results with a focus on client satisfaction and quality workmanship.
-            </p>
-            <p>
               We specialize in providing thoughtful, era-appropriate solutions that enhance
               and protect your property, whether through carpentry repairs, remodeling,
               cabinet modifications, or painting services.
             </p>
-            <AboutLink href="/about">About Us</AboutLink>
+            <AboutLink href="/about-us/green-and-safe">About Us</AboutLink>
           </SectionContent>
         </AboutRow>
 

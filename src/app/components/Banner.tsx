@@ -32,7 +32,7 @@ export default function Banner({
       <div className="absolute inset-0 bg-black opacity-50" />
 
       {/* Text Content */}
-      <div className="absolute bottom-8 left-2 text-left text-white px-4 lg:bottom-24 lg:left-20">
+      <div className="absolute bottom-8 left-2 text-left text-white px-6 lg:px-0 lg:bottom-24 lg:left-20">
         <p className="text-base lg:text-xl mb-6 lg:mb-8 max-w-xs lg:max-w-lg">
           {description}
         </p>

@@ -1,8 +1,5 @@
-// Example usage in a page or another component
-
 import Banner from "./components/Banner";
 import Image from "next/image";
-import ServicePreview from "./components/ServicePreview";
 import About from "./components/home/About";
 import Services from "./components/home/Services";
 
@@ -44,90 +41,6 @@ export default function HomePage() {
 
       <About />
       <Services />
-      {/* Services Sections */}
-      {/* <ServicePreview
-        title="Painting"
-        icon="/paintBucket.svg"
-        images={[
-          "/gallery/interior1.jpeg",
-          "/gallery/interior2.jpeg",
-          "/gallery/interior3.jpeg",
-        ]}
-        secondaryImages={[
-          "/gallery/exterior1.jpeg",
-          "/gallery/exterior2.jpeg",
-          "/gallery/exterior3.jpeg",
-        ]}
-      >
-        <p>
-          Servicing the greater Portland, OR metro area, we offer both Interior
-          and exterior repaints as well as chronic failure solutions like lead
-          paint removal of old failing substrates and carpentry repairs, of
-          which ensures a sound substrate on historic homes to preserve them for
-          another 100 years to come. A new exterior paint coating is not just
-          about looks, but more importantly preservation of your investment.
-          Over time, exposure to our nature’s element, your home or property’s
-          exterior coating can become worn, faded, cracked, peeled and even
-          rotten.{" "}
-        </p>
-        <p>
-          Here in the Pacific Northwest precipitation and moisture is a reliable
-          constant that must be protected against. And conversely the sun and
-          Ultra Violet (UV) light can cause an equal amount of damage over time.
-          Our goal is to not only make your property look beautiful but to
-          protect your investment from our unique weather and sun related
-          damage.
-        </p>
-      </ServicePreview>
-
-      <ServicePreview
-        title="Carpentry"
-        icon="/carpentry.svg"
-        images={[
-          "/gallery/carpentry1.jpg",
-          "/gallery/carpentry2.jpg",
-          "/gallery/carpentry3.jpg",
-        ]}
-      >
-        <p>
-          Ready to finally add that crown molding you’ve always wanted or
-          refinish your cabinets? If you’ve been delaying these upgrades, now is
-          the perfect time to take action. At{" "}
-          <strong>Portland Painting &amp; Restoration</strong>, we’re more than
-          just painters—we’re skilled <strong>carpentry experts</strong>.
-          Whether you need <strong>light carpentry work</strong>,{" "}
-          <strong>repairing damaged wood</strong>, or{" "}
-          <strong>installing decorative moldings</strong>, our team is equipped
-          to elevate your property. From restoration to custom details, we
-          provide thoughtful solutions that enhance the beauty and value of your
-          home.
-        </p>
-      </ServicePreview>
-
-      <ServicePreview
-        title="Restoration"
-        icon="/carpentry.svg"
-        images={[
-          "/gallery/restoration1.jpg",
-          "/gallery/restoration2.jpg",
-          "/gallery/restoration3.jpg",
-          "/gallery/restoration4.jpg",
-        ]}
-      >
-        <p>
-          Ready to finally add that crown molding you’ve always wanted or
-          refinish your cabinets? If you’ve been delaying these upgrades, now is
-          the perfect time to take action. At{" "}
-          <strong>Portland Painting &amp; Restoration</strong>, we’re more than
-          just painters—we’re skilled <strong>carpentry experts</strong>.
-          Whether you need <strong>light carpentry work</strong>,{" "}
-          <strong>repairing damaged wood</strong>, or{" "}
-          <strong>installing decorative moldings</strong>, our team is equipped
-          to elevate your property. From restoration to custom details, we
-          provide thoughtful solutions that enhance the beauty and value of your
-          home.
-        </p>
-      </ServicePreview> */}
     </div>
   );
 }
