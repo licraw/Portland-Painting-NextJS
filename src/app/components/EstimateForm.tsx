@@ -23,8 +23,8 @@ export default function EstimateForm() {
   });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked, files } = e.target as HTMLInputElement;
     if (type === "file") {
       setFormData((prevData) => ({
         ...prevData,
@@ -38,7 +38,7 @@ export default function EstimateForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Sending...");
 
