@@ -10,31 +10,29 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+
   const pathname = usePathname();
 
-  // Close the mobile menu whenever the route changes.
+  // Close the mobile menu whenever the route changes
   useEffect(() => {
     setMenuOpen(false);
+    setServicesOpen(false);
+    setAboutOpen(false);
+    setGalleryOpen(false);
   }, [pathname]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-    // Reset submenus when toggling.
+    // Reset submenus whenever toggling the entire menu
     if (!menuOpen) {
       setServicesOpen(false);
       setAboutOpen(false);
+      setGalleryOpen(false);
     }
   };
 
-  const handleServicesClick = () => {
-    setServicesOpen(!servicesOpen);
-  };
-
-  const handleAboutClick = () => {
-    setAboutOpen(!aboutOpen);
-  };
-
-  // Example: Any of these paths will highlight “Services” as active.
+  // Example "active" states:
   const isServicesActive = [
     "/painting/interior",
     "/painting/exterior",
@@ -42,12 +40,13 @@ export default function Nav() {
     "/restoration",
   ].includes(pathname);
 
-  // Any /about-us path highlights About Us as active.
   const isAboutActive =
     pathname === "/about-us" || pathname.startsWith("/about-us/");
 
-  // Example: If you want “Projects” to highlight at /projects:
-  const isProjectsActive = pathname.startsWith("/projects");
+  const isGalleryActive = [
+    "/gallery/interior",
+    "/gallery/exterior",
+  ].includes(pathname);
 
   return (
     <>
@@ -87,6 +86,8 @@ export default function Nav() {
                 Home
               </Link>
             </li>
+
+            {/* Services Dropdown on hover (desktop) */}
             <li className="group relative">
               <Link
                 href="#"
@@ -97,8 +98,8 @@ export default function Nav() {
                 Services
                 <span className="ml-1 text-sm">&#9660;</span>
               </Link>
-              {/* Hover dropdown on desktop */}
-              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-2 border border-gray-200">
+              {/* Hover dropdown */}
+              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
                 <Link
                   href="/painting/interior"
                   className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
@@ -133,16 +134,40 @@ export default function Nav() {
                 </Link>
               </div>
             </li>
-            <li>
+
+            {/* Gallery Dropdown on hover (desktop) */}
+            <li className="group relative">
               <Link
-                href="/projects"
-                className={`hover:text-black transition ${
-                  isProjectsActive ? "text-black" : ""
+                href="#"
+                className={`hover:text-black transition flex items-center ${
+                  isGalleryActive ? "text-black" : ""
                 }`}
               >
-                Projects
+                Gallery
+                <span className="ml-1 text-sm">&#9660;</span>
               </Link>
+              {/* Hover dropdown */}
+              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
+                <Link
+                  href="/gallery/interior"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/gallery/interior" ? "text-black" : ""
+                  }`}
+                >
+                  Interior
+                </Link>
+                <Link
+                  href="/gallery/exterior"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/gallery/exterior" ? "text-black" : ""
+                  }`}
+                >
+                  Exterior
+                </Link>
+              </div>
             </li>
+
+            {/* About Us dropdown (desktop) */}
             <li className="group relative">
               <Link
                 href="#"
@@ -153,8 +178,7 @@ export default function Nav() {
                 About Us
                 <span className="ml-1 text-sm">&#9660;</span>
               </Link>
-              {/* Hover dropdown on desktop */}
-              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-2 border border-gray-200">
+              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
                 <Link
                   href="/about-us/employment"
                   className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
@@ -175,6 +199,7 @@ export default function Nav() {
                 </Link>
               </div>
             </li>
+
             <li>
               <Link
                 href="/contact"
@@ -187,7 +212,7 @@ export default function Nav() {
             </li>
           </ul>
 
-          {/* "Get An Estimate" Button (Desktop Only) */}
+          {/* "Get Estimate" Button (Desktop Only) */}
           <div className="hidden lg:flex items-center space-x-2">
             <Link href="/estimate">
               <button className="bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600 transition">
@@ -206,11 +231,7 @@ export default function Nav() {
           </button>
         </div>
 
-        {/* Mobile Overlay */}
-        {/* 
-          Use opacity & pointer-events classes to show/hide the overlay. 
-          Another typical approach is to conditionally render <div> only when open. 
-        */}
+        {/* Mobile Overlay (dims background) */}
         <div
           className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
             menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -319,17 +340,48 @@ export default function Nav() {
               </ul>
             </li>
 
-            {/* Projects (Simple Link) */}
+            {/* Gallery (Accordion) */}
             <li>
-              <Link
-                href="/projects"
-                onClick={toggleMenu}
-                className={`block transition ${
-                  isProjectsActive ? "text-black" : ""
+              <button
+                type="button"
+                onClick={() => setGalleryOpen(!galleryOpen)}
+                className={`flex items-center justify-between w-full text-left transition ${
+                  isGalleryActive ? "text-black" : ""
                 }`}
               >
-                Projects
-              </Link>
+                <span>Gallery</span>
+                <span className="ml-2 text-sm">
+                  {galleryOpen ? "\u25B2" : "\u25BC"}
+                </span>
+              </button>
+              <ul
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
+                  galleryOpen ? "max-h-40" : "max-h-0"
+                }`}
+              >
+                <li>
+                  <Link
+                    href="/gallery/interior"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/gallery/interior" ? "text-black" : ""
+                    }`}
+                  >
+                    Interior
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/gallery/exterior"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/gallery/exterior" ? "text-black" : ""
+                    }`}
+                  >
+                    Exterior
+                  </Link>
+                </li>
+              </ul>
             </li>
 
             {/* About Us (Accordion) */}
@@ -341,7 +393,7 @@ export default function Nav() {
                   isAboutActive ? "text-black" : ""
                 }`}
               >
-                <span>About us</span>
+                <span>About Us</span>
                 <span className="ml-2 text-sm">
                   {aboutOpen ? "\u25B2" : "\u25BC"}
                 </span>
