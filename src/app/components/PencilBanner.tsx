@@ -11,7 +11,7 @@ export default function PencilBanner({ ctaAction }: PencilBannerProps) {
   return (
     <div className="bg-green-700 text-white py-2 px-4 text-sm font-medium">
       {/* Container with responsive horizontal padding */}
-      <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto px-2 lg:px-16">
+      <div className="flex items-center justify-between w-full mx-auto px-2 lg:px-16">
         {/* Left side: different text for mobile vs. desktop */}
         <div className="flex items-center gap-1">
           {/* Only visible on very small screens (mobile) */}
