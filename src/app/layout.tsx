@@ -38,9 +38,7 @@ export default function RootLayout({
           {/* Header */}
           <Header>
             <PencilBanner
-              ctaText="HERE"
               ctaAction="/estimate"
-              description="To inquire please fill out a FREE quote request"
             />
             <Nav />
           </Header>
