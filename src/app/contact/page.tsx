@@ -2,6 +2,7 @@
 import Image from "next/image";
 import ContactForm from "../components/ContactForm";
 import styled from "styled-components";
+import Head from "next/head";
 
 /*  
   The container below still handles layout (max-width, margins, flex-direction, gap)
@@ -85,31 +86,67 @@ const FormContainer = styled.div`
 
 export default function ContactPage() {
   return (
-    <Section>
-      <ContactInfo>
-        <Heading>Portland Painting and Restoration</Heading>
-        <Paragraph>
-          We look forward to collaborating with you on your next project. Please fill out the form to contact us, or reach us using the information below.
-        </Paragraph>
-        <AddressBlock>
-          <p>
-            <a href="tel:5032367003">(503) 236-7003</a>
-          </p>
-          <p>918 SE Stephens St.</p>
-          <p>Portland, OR 97214</p>
-        </AddressBlock>
-        <ImageWrapper>
-          <Image
-            src="/gallery/interior2.jpeg"
-            alt="Portland Painting and Restoration"
-            width={500}
-            height={400}
-          />
-        </ImageWrapper>
-      </ContactInfo>
-      <FormContainer>
-        <ContactForm />
-      </FormContainer>
-    </Section>
+
+    <>
+      <Head>
+        {/* Primary Meta Tags */}
+        <title>Contact Us | Portland Painting & Restoration</title>
+        <meta
+          name="description"
+          content="We look forward to collaborating with you on your next project. Contact Portland Painting & Restoration via our online form, phone, or visit our Portland office for quality painting and restoration services."
+        />
+        <meta
+          name="keywords"
+          content="contact, painting, restoration, Portland, Oregon, Portland Painting & Restoration, professional services"
+        />
+        <link rel="canonical" href="https://www.paintpdx.com/contact" />
+
+        {/* Open Graph / Facebook Meta Tags */}
+        <meta property="og:title" content="Contact Us | Portland Painting & Restoration" />
+        <meta
+          property="og:description"
+          content="Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office."
+        />
+        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
+        <meta property="og:url" content="https://www.paintpdx.com/contact" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Us | Portland Painting & Restoration" />
+        <meta
+          name="twitter:description"
+          content="Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office."
+        />
+        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
+      </Head>
+
+      <Section>
+        <ContactInfo>
+          <Heading>Portland Painting and Restoration</Heading>
+          <Paragraph>
+            We look forward to collaborating with you on your next project. Please fill out the form to contact us, or reach us using the information below.
+          </Paragraph>
+          <AddressBlock>
+            <p>
+              <a href="tel:5032367003">(503) 236-7003</a>
+            </p>
+            <p>918 SE Stephens St.</p>
+            <p>Portland, OR 97214</p>
+          </AddressBlock>
+          <ImageWrapper>
+            <Image
+              src="/gallery/interior2.jpeg"
+              alt="Portland Painting and Restoration"
+              width={500}
+              height={400}
+            />
+          </ImageWrapper>
+        </ContactInfo>
+        <FormContainer>
+          <ContactForm />
+        </FormContainer>
+      </Section>
+    </>
   );
 }

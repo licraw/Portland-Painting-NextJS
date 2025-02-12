@@ -1,7 +1,42 @@
+import Head from "next/head";
 import Image from "next/image";
 
 export default function EmploymentPage() {
   return (
+
+    <>
+     <Head>
+        {/* Primary Meta Tags */}
+        <title>Join Our Team | Portland Painting & Restoration</title>
+        <meta
+          name="description"
+          content="Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon."
+        />
+        <meta
+          name="keywords"
+          content="employment, careers, painting jobs, restoration, Portland Painting & Restoration, diversity, inclusion, job opportunities"
+        />
+        <link rel="canonical" href="https://www.paintpdx.com/employment" />
+
+        {/* Open Graph / Facebook Meta Tags */}
+        <meta property="og:title" content="Join Our Team | Portland Painting & Restoration" />
+        <meta
+          property="og:description"
+          content="Discover career opportunities at Portland Painting & Restoration. Be part of a company that values craftsmanship, excellence, and diversity."
+        />
+        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
+        <meta property="og:url" content="https://www.paintpdx.com/employment" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Join Our Team | Portland Painting & Restoration" />
+        <meta
+          name="twitter:description"
+          content="Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon."
+        />
+        <meta name="twitter:image" content="https://www.paintpdx.com/employment/employment1.jpg" />
+      </Head>
     <div className="bg-gray-50">
       {/* Hero Section */}
       <section className="relative bg-green-900 text-white py-16 text-center px-6">
@@ -76,5 +111,6 @@ export default function EmploymentPage() {
         </p>
       </section>
     </div>
+    </>
   );
 }
