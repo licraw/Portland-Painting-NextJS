@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -8,12 +8,46 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hoverPainting, setHoverPainting] = useState(false);
-  const [hoverAboutUs, setHoverAboutUs] = useState(false);
-  const [hoverGallery, setHoverGallery] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const pathname = usePathname();
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  // Close the mobile menu whenever the route changes.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    // Reset submenus when toggling.
+    if (!menuOpen) {
+      setServicesOpen(false);
+      setAboutOpen(false);
+    }
+  };
+
+  const handleServicesClick = () => {
+    setServicesOpen(!servicesOpen);
+  };
+
+  const handleAboutClick = () => {
+    setAboutOpen(!aboutOpen);
+  };
+
+  // Example: Any of these paths will highlight “Services” as active.
+  const isServicesActive = [
+    "/painting/interior",
+    "/painting/exterior",
+    "/carpentry",
+    "/restoration",
+  ].includes(pathname);
+
+  // Any /about-us path highlights About Us as active.
+  const isAboutActive =
+    pathname === "/about-us" || pathname.startsWith("/about-us/");
+
+  // Example: If you want “Projects” to highlight at /projects:
+  const isProjectsActive = pathname.startsWith("/projects");
 
   return (
     <>
@@ -32,20 +66,17 @@ export default function Nav() {
           color: black;
         }
       `}</style>
-      <nav className="flex flex-col bg-white relative">
-        {/* Main Navigation */}
-        <div className="flex items-center justify-between  px-8 lg:px-20 py-4">
+
+      {/* Top Nav Bar */}
+      <nav className="relative z-50 bg-white">
+        <div className="flex items-center justify-between px-8 lg:px-20 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-4 py-2">
             <Image src="/logo.svg" alt="Company Logo" width={165} height={55} />
           </Link>
 
-          {/* Main Navigation Links */}
-          <ul
-            className={`${
-              menuOpen ? "flex" : "hidden"
-            } lg:flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6 text-base font-medium absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto bg-white lg:bg-transparent px-8 lg:px-0 py-4 lg:py-0 z-10`}
-          >
+          {/* Desktop Nav */}
+          <ul className="hidden lg:flex items-center space-x-6 text-base font-medium">
             <li>
               <Link
                 href="/"
@@ -56,69 +87,93 @@ export default function Nav() {
                 Home
               </Link>
             </li>
-            <li
-              className="relative"
-              onMouseEnter={() => setHoverPainting(true)}
-              onMouseLeave={() => setHoverPainting(false)}
-            >
+            <li className="group relative">
               <Link
                 href="#"
-                className={`transition flex items-center ${
-                  pathname === "/painting/interior" ||
-                  pathname === "/painting/exterior"
-                    ? "text-black"
-                    : ""
+                className={`hover:text-black transition flex items-center ${
+                  isServicesActive ? "text-black" : ""
                 }`}
               >
-                Painting
+                Services
                 <span className="ml-1 text-sm">&#9660;</span>
               </Link>
-              {/* Sub Navigation */}
-              {hoverPainting && (
-                <ul className="absolute left-0 top-full bg-white shadow-md rounded-md p-2 space-y-2 border border-gray-200">
-                  <li>
-                    <Link
-                      href="/painting/interior"
-                      className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition
-                        ${pathname === "/painting/interior" ? "text-black" : ""}
-                        `}
-                    >
-                      Interior
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/painting/exterior"
-                      className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition
-                        ${
-                          pathname === "/painting/exterior" ? "text-black" : ""
-                        }`}
-                    >
-                      Exterior
-                    </Link>
-                  </li>
-                </ul>
-              )}
+              {/* Hover dropdown on desktop */}
+              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-2 border border-gray-200">
+                <Link
+                  href="/painting/interior"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/painting/interior" ? "text-black" : ""
+                  }`}
+                >
+                  Interior Painting
+                </Link>
+                <Link
+                  href="/painting/exterior"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/painting/exterior" ? "text-black" : ""
+                  }`}
+                >
+                  Exterior Painting
+                </Link>
+                <Link
+                  href="/carpentry"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/carpentry" ? "text-black" : ""
+                  }`}
+                >
+                  Carpentry
+                </Link>
+                <Link
+                  href="/restoration"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
+                    pathname === "/restoration" ? "text-black" : ""
+                  }`}
+                >
+                  Restoration
+                </Link>
+              </div>
             </li>
             <li>
               <Link
-                href="/carpentry"
+                href="/projects"
                 className={`hover:text-black transition ${
-                  pathname === "/carpentry" ? "text-black" : ""
+                  isProjectsActive ? "text-black" : ""
                 }`}
               >
-                Carpentry
+                Projects
               </Link>
             </li>
-            <li>
+            <li className="group relative">
               <Link
-                href="/restoration"
-                className={`hover:text-black transition ${
-                  pathname === "/restoration" ? "text-black" : ""
+                href="#"
+                className={`hover:text-black transition flex items-center ${
+                  isAboutActive ? "text-black" : ""
                 }`}
               >
-                Restoration
+                About Us
+                <span className="ml-1 text-sm">&#9660;</span>
               </Link>
+              {/* Hover dropdown on desktop */}
+              <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-2 border border-gray-200">
+                <Link
+                  href="/about-us/employment"
+                  className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
+                >
+                  Employment
+                </Link>
+                <Link
+                  href="/about-us/reviews"
+                  className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
+                >
+                  Reviews
+                </Link>
+                <Link
+                  href="/about-us/green-and-safe"
+                  className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
+                >
+                  Green and Safe
+                </Link>
+              </div>
             </li>
             <li>
               <Link
@@ -130,113 +185,223 @@ export default function Nav() {
                 Contact
               </Link>
             </li>
-            <li
-              className="relative"
-              onMouseEnter={() => setHoverAboutUs(true)}
-              onMouseLeave={() => setHoverAboutUs(false)}
-            >
-              <Link
-                href="#"
-                className={`transition flex items-center ${
-                  pathname === "/about-us" ? "text-black" : ""
-                }`}
-              >
-                About Us
-                <span className="ml-1 text-sm">&#9660;</span>
-              </Link>
-              {/* Sub Navigation */}
-              {hoverAboutUs && (
-                <ul className="absolute left-0 top-full bg-white shadow-md rounded-md p-2 space-y-2 border border-gray-200">
-                  <li>
-                    <Link
-                      href="/about-us/employment"
-                      className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
-                    >
-                      Employment
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about-us/reviews"
-                      className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
-                    >
-                      Reviews
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about-us/green-and-safe"
-                      className="block px-4 py-2 hover:bg-gray-100 rounded-md transition"
-                    >
-                      Green and Safe
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li>
-            <li
-              className="relative"
-              onMouseEnter={() => setHoverGallery(true)}
-              onMouseLeave={() => setHoverGallery(false)}
-            >
-              <Link
-                href="#"
-                className={`transition flex items-center ${
-                  pathname === "/gallery/interior" ||
-                  pathname === "/gallery/exterior"
-                    ? "text-black"
-                    : ""
-                }`}
-              >
-                Gallery
-                <span className="ml-1 text-sm">&#9660;</span>
-              </Link>
-              {/* Sub Navigation */}
-              {hoverGallery && (
-                <ul className="absolute left-0 top-full bg-white shadow-md rounded-md p-2 space-y-2 border border-gray-200">
-                  <li>
-                    <Link
-                      href="/gallery/interior"
-                      className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition
-                        ${
-                          pathname === "/gallery/interior" ? "text-black" : ""
-                        }`}
-                    >
-                      Interior
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/gallery/exterior"
-                      className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition
-                        ${
-                          pathname === "/gallery/exterior" ? "text-black" : ""
-                        }`}
-                    >
-                      Exterior
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li>
           </ul>
+
+          {/* "Get An Estimate" Button (Desktop Only) */}
+          <div className="hidden lg:flex items-center space-x-2">
+            <Link href="/estimate">
+              <button className="bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600 transition">
+                Get Estimate
+              </button>
+            </Link>
+          </div>
 
           {/* Hamburger Icon (Mobile Only) */}
           <button
             onClick={toggleMenu}
-            className="text-green-700 focus:outline-none lg:hidden"
+            className="lg:hidden text-green-700 focus:outline-none"
+            aria-label="Toggle Navigation Menu"
           >
             {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
+        </div>
 
-          {/* Contact (Desktop Only) */}
-          <div className="hidden lg:flex items-center space-x-2">
-            <Link href="/estimate">
-              <button className="bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600 transition">
-                Get An Estimate
+        {/* Mobile Overlay */}
+        {/* 
+          Use opacity & pointer-events classes to show/hide the overlay. 
+          Another typical approach is to conditionally render <div> only when open. 
+        */}
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+            menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          } lg:hidden`}
+          onClick={toggleMenu}
+          aria-hidden={!menuOpen}
+        />
+
+        {/* Mobile Side Menu */}
+        <div
+          className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white z-50 transform transition-transform duration-300 lg:hidden flex flex-col ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          {/* Close Button / Header */}
+          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+            <Link href="/" className="flex items-center space-x-4">
+              <Image src="/logo.svg" alt="Logo" width={120} height={45} />
+            </Link>
+            <button
+              onClick={toggleMenu}
+              className="text-green-700 focus:outline-none"
+              aria-label="Close Menu"
+            >
+              <FiX size={24} />
+            </button>
+          </div>
+
+          {/* Mobile Nav Items */}
+          <ul className="flex-1 overflow-y-auto px-4 py-6 space-y-4 text-lg">
+            <li>
+              <Link
+                href="/"
+                onClick={toggleMenu}
+                className={`block transition ${
+                  pathname === "/" ? "text-black" : ""
+                }`}
+              >
+                Home
+              </Link>
+            </li>
+
+            {/* Services (Accordion) */}
+            <li>
+              <button
+                type="button"
+                onClick={() => setServicesOpen(!servicesOpen)}
+                className={`flex items-center justify-between w-full text-left transition ${
+                  isServicesActive ? "text-black" : ""
+                }`}
+              >
+                <span>Services</span>
+                <span className="ml-2 text-sm">
+                  {servicesOpen ? "\u25B2" : "\u25BC"}
+                </span>
+              </button>
+              <ul
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
+                  servicesOpen ? "max-h-40" : "max-h-0"
+                }`}
+              >
+                <li>
+                  <Link
+                    href="/painting/interior"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/painting/interior" ? "text-black" : ""
+                    }`}
+                  >
+                    Interior Painting
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/painting/exterior"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/painting/exterior" ? "text-black" : ""
+                    }`}
+                  >
+                    Exterior Painting
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/carpentry"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/carpentry" ? "text-black" : ""
+                    }`}
+                  >
+                    Carpentry
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/restoration"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
+                      pathname === "/restoration" ? "text-black" : ""
+                    }`}
+                  >
+                    Restoration
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {/* Projects (Simple Link) */}
+            <li>
+              <Link
+                href="/projects"
+                onClick={toggleMenu}
+                className={`block transition ${
+                  isProjectsActive ? "text-black" : ""
+                }`}
+              >
+                Projects
+              </Link>
+            </li>
+
+            {/* About Us (Accordion) */}
+            <li>
+              <button
+                type="button"
+                onClick={() => setAboutOpen(!aboutOpen)}
+                className={`flex items-center justify-between w-full text-left transition ${
+                  isAboutActive ? "text-black" : ""
+                }`}
+              >
+                <span>About us</span>
+                <span className="ml-2 text-sm">
+                  {aboutOpen ? "\u25B2" : "\u25BC"}
+                </span>
+              </button>
+              <ul
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
+                  aboutOpen ? "max-h-40" : "max-h-0"
+                }`}
+              >
+                <li>
+                  <Link
+                    href="/about-us/employment"
+                    onClick={toggleMenu}
+                    className="block px-2 py-1 rounded-md hover:bg-gray-100"
+                  >
+                    Employment
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about-us/reviews"
+                    onClick={toggleMenu}
+                    className="block px-2 py-1 rounded-md hover:bg-gray-100"
+                  >
+                    Reviews
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about-us/green-and-safe"
+                    onClick={toggleMenu}
+                    className="block px-2 py-1 rounded-md hover:bg-gray-100"
+                  >
+                    Green and Safe
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <Link
+                href="/contact"
+                onClick={toggleMenu}
+                className={`block transition ${
+                  pathname === "/contact" ? "text-black" : ""
+                }`}
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
+
+          {/* "Get Estimate" - pinned at bottom */}
+          <div className="p-4 border-t border-gray-200">
+            <Link href="/estimate" onClick={toggleMenu}>
+              <button className="w-full bg-green-700 text-white py-3 rounded-full hover:bg-green-600 transition">
+                Get Estimate
               </button>
             </Link>
-            </div>
+          </div>
         </div>
       </nav>
     </>
