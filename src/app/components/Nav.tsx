@@ -43,10 +43,9 @@ export default function Nav() {
   const isAboutActive =
     pathname === "/about-us" || pathname.startsWith("/about-us/");
 
-  const isGalleryActive = [
-    "/gallery/interior",
-    "/gallery/exterior",
-  ].includes(pathname);
+  const isGalleryActive = ["/gallery/interior", "/gallery/exterior"].includes(
+    pathname
+  );
 
   return (
     <>
@@ -96,7 +95,15 @@ export default function Nav() {
                 }`}
               >
                 Services
-                <span className="ml-1 text-sm">&#9660;</span>
+                <span className="ml-1 text-sm">
+                  <Image
+                    src="/smallArrow.svg"
+                    width={16}
+                    alt="Portland Painting and Restoration Logo"
+                    height={16}
+                    unoptimized
+                  />
+                </span>
               </Link>
               {/* Hover dropdown */}
               <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
@@ -144,7 +151,15 @@ export default function Nav() {
                 }`}
               >
                 Gallery
-                <span className="ml-1 text-sm">&#9660;</span>
+                <span className="ml-1 text-sm">
+                  <Image
+                    src="/smallArrow.svg"
+                    width={16}
+                    alt="Portland Painting and Restoration Logo"
+                    height={16}
+                    unoptimized
+                  />
+                </span>
               </Link>
               {/* Hover dropdown */}
               <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
@@ -176,7 +191,15 @@ export default function Nav() {
                 }`}
               >
                 About Us
-                <span className="ml-1 text-sm">&#9660;</span>
+                <span className="ml-1 text-sm">
+                  <Image
+                    src="/smallArrow.svg"
+                    width={16}
+                    alt="Portland Painting and Restoration Logo"
+                    height={16}
+                    unoptimized
+                  />
+                </span>
               </Link>
               <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
                 <Link
@@ -234,7 +257,9 @@ export default function Nav() {
         {/* Mobile Overlay (dims background) */}
         <div
           className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-            menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            menuOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
           } lg:hidden`}
           onClick={toggleMenu}
           aria-hidden={!menuOpen}
@@ -285,7 +310,24 @@ export default function Nav() {
               >
                 <span>Services</span>
                 <span className="ml-2 text-sm">
-                  {servicesOpen ? "\u25B2" : "\u25BC"}
+                  {servicesOpen ? (
+                    <Image
+                      className="rotate-180"
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  )}
                 </span>
               </button>
               <ul
@@ -351,7 +393,24 @@ export default function Nav() {
               >
                 <span>Gallery</span>
                 <span className="ml-2 text-sm">
-                  {galleryOpen ? "\u25B2" : "\u25BC"}
+                  {galleryOpen ? (
+                    <Image
+                      className="rotate-180"
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  )}
                 </span>
               </button>
               <ul
@@ -395,7 +454,24 @@ export default function Nav() {
               >
                 <span>About Us</span>
                 <span className="ml-2 text-sm">
-                  {aboutOpen ? "\u25B2" : "\u25BC"}
+                  {aboutOpen ? (
+                    <Image
+                      className="rotate-180"
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src="/smallArrow.svg"
+                      width={16}
+                      height={16}
+                      unoptimized
+                      alt=""
+                    />
+                  )}
                 </span>
               </button>
               <ul
