@@ -23,6 +23,7 @@ export default function ContactForm() {
   });
   const [status, setStatus] = useState("");
 
+  // @ts-expect-error - no types for event
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === "file") {
@@ -38,7 +39,7 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setStatus("Sending...");
 

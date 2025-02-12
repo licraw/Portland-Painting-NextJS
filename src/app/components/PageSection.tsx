@@ -10,7 +10,7 @@ interface PageSectionProps {
 const Section = styled.section<PageSectionProps>`
   background-color: ${(props) => props.bgcolor};
   display: flex;
-  padding: 40px 16px;
+  padding: 40px 32px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
