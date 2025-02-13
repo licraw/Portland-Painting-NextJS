@@ -1,3 +1,4 @@
+"use client";
 import React, { forwardRef } from 'react';
 import * as S from './Styles';
 
@@ -10,7 +11,7 @@ interface ThumbnailListProps {
 
 const ThumbnailList = forwardRef<HTMLDivElement, ThumbnailListProps>(
   ({ mediaItems, onThumbnailClick, activeIndex, mediaItemsLength }, ref) => {
-    // Process the array of URLs into objects with index information.
+    // Process the URLs into objects with index info.
     const itemList = mediaItems.map((url, index) => ({
       url,
       originalIndex: index,
@@ -42,5 +43,7 @@ const ThumbnailList = forwardRef<HTMLDivElement, ThumbnailListProps>(
     );
   }
 );
+
+ThumbnailList.displayName = 'ThumbnailList';
 
 export default ThumbnailList;

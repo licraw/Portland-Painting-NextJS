@@ -18,7 +18,7 @@ import DirectionalArrow from "../Icons/DirectionalArrow";
 import { StyleSheetManager } from "styled-components";
 
 interface GalleryProps {
-  images: string[]; // Changed from MediaItem[] to string[]
+  images: string[];
 }
 
 const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
@@ -43,8 +43,6 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
     modalSelectedImageIndex,
     mediaItems,
     modalVisible,
-    modalImageMaxHeight,
-    iframeDimensions,
     showUpArrow,
     showDownArrow,
     handleThumbnailClick,
@@ -69,8 +67,6 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
               mediaItems={mediaItems}
               selectedImageIndex={modalSelectedImageIndex}
               setSelectedIndex={handleModalThumbnailClick}
-              modalImageMaxHeight={modalImageMaxHeight}
-              iframeDimensions={iframeDimensions}
             />
           </ExpandedModal>
           <ModalThumbnailList
