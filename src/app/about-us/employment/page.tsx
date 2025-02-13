@@ -1,42 +1,49 @@
-import Head from "next/head";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Join Our Team | Portland Painting & Restoration",
+  description:
+    "Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon.",
+  keywords: [
+    "employment",
+    "careers",
+    "painting jobs",
+    "restoration",
+    "Portland Painting & Restoration",
+    "diversity",
+    "inclusion",
+    "job opportunities",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/employment",
+  },
+  openGraph: {
+    title: "Join Our Team | Portland Painting & Restoration",
+    description:
+      "Discover career opportunities at Portland Painting & Restoration. Be part of a company that values craftsmanship, excellence, and diversity.",
+    url: "https://www.paintpdx.com/employment",
+    type: "website",
+    images: [
+      {
+        url: "https://www.paintpdx.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Portland Painting & Restoration Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Join Our Team | Portland Painting & Restoration",
+    description:
+      "Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon.",
+    images: ["https://www.paintpdx.com/employment/employment1.jpg"],
+  },
+};
 
 export default function EmploymentPage() {
   return (
-
-    <>
-     <Head>
-        {/* Primary Meta Tags */}
-        <title>Join Our Team | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon."
-        />
-        <meta
-          name="keywords"
-          content="employment, careers, painting jobs, restoration, Portland Painting & Restoration, diversity, inclusion, job opportunities"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/employment" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Join Our Team | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Discover career opportunities at Portland Painting & Restoration. Be part of a company that values craftsmanship, excellence, and diversity."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/employment" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Join Our Team | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Explore employment opportunities at Portland Painting & Restoration. Join our team and help us deliver exceptional painting and restoration services in Oregon."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/employment/employment1.jpg" />
-      </Head>
     <div className="bg-gray-50">
       {/* Hero Section */}
       <section className="relative bg-green-900 text-white py-16 text-center px-6">
@@ -71,30 +78,13 @@ export default function EmploymentPage() {
       <section className="max-w-5xl mx-auto my-16">
         <h2 className="text-3xl font-semibold text-center mb-6 text-green-900">Our Work Environment</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg">
-              <Image
-                src="/employment/employment1.jpg"
-                alt={`Gallery Image`}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg">
-              <Image
-                src="/employment/employment2.jpg"
-                alt={`Gallery Image`}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg">
-              <Image
-                src="/employment/employment3.jpg"
-                alt={`Gallery Image`}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
+          {["/employment/employment1.jpg", "/employment/employment2.jpg", "/employment/employment3.jpg"].map(
+            (src, index) => (
+              <div key={index} className="relative w-full h-64 rounded-lg overflow-hidden shadow-lg">
+                <Image src={src} alt="Gallery Image" layout="fill" objectFit="cover" />
+              </div>
+            )
+          )}
         </div>
       </section>
 
@@ -111,6 +101,5 @@ export default function EmploymentPage() {
         </p>
       </section>
     </div>
-    </>
   );
 }

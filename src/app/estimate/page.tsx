@@ -1,45 +1,54 @@
+import { Metadata } from "next";
 import EstimateForm from "../components/EstimateForm";
-import Head from "next/head";
+
+export const metadata: Metadata = {
+  title: "Get an Estimate | Portland Painting & Restoration",
+  description:
+    "Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs.",
+  keywords: [
+    "estimate",
+    "free quote",
+    "painting estimate",
+    "restoration estimate",
+    "Portland Painting",
+    "home improvement",
+  ],
+  authors: [{ name: "Portland Painting & Restoration" }],
+  robots: "index, follow",
+  alternates: {
+    canonical: "https://www.paintpdx.com/estimate",
+  },
+  openGraph: {
+    title: "Get an Estimate | Portland Painting & Restoration",
+    description:
+      "Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs.",
+    url: "https://www.paintpdx.com/estimate",
+    siteName: "Portland Painting & Restoration",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "https://www.paintpdx.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Portland Painting & Restoration logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Get an Estimate | Portland Painting & Restoration",
+    description:
+      "Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs.",
+    images: ["https://www.paintpdx.com/logo.png"],
+    site: "@yourtwitterhandle",
+  },
+};
 
 export default function Estimate() {
   return (
-    <>
-      <Head>
-        {/* Primary Meta Tags */}
-        <title>Get an Estimate | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs."
-        />
-        <meta
-          name="keywords"
-          content="estimate, free quote, painting estimate, restoration estimate, Portland Painting, home improvement"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/estimate" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Get an Estimate | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/estimate" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Get an Estimate | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Request a free estimate for your painting and restoration project. Contact Portland Painting & Restoration today for a personalized quote tailored to your needs."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-      </Head>
-
-      <div className="min-h-screen flex flex-col items-center">
-        <EstimateForm />
-      </div>
-    </>
+    <div className="min-h-screen flex flex-col items-center">
+      <EstimateForm />
+    </div>
   );
 }
