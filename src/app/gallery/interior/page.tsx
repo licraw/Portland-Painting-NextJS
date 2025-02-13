@@ -1,6 +1,7 @@
-import imageFiles from './galleryFiles';
-import ImageGallery from '../../components/ImageGallery/ImageGallery';
-import Image from 'next/image';
+import imageFiles from "./galleryFiles";
+import MasonryGallery from "../../components/ImageGallery/MasonryGallery";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata = {
   title: "Interior Gallery | Portland Painting & Restoration",
@@ -36,13 +37,11 @@ export const metadata = {
   },
 };
 
-
 export default async function InteriorGalleryPage() {
-
   return (
-   <>
-        <div>
-        <div className='p-8 pl-6 lg:pl-20 lg:pr-20'>
+    <>
+      <div>
+        <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
           <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
             <div className="flex items-center justify-center w-8 h-6 bg-white rounded-full">
               <Image
@@ -53,7 +52,13 @@ export default async function InteriorGalleryPage() {
               />
             </div>
             <p className="text-sm font-medium text-gray-600">
-              Portland and Vancouver’s premier repair
+              Get a free estimate today
+              <Link
+                href="/estimate"
+                className="underline hover:no-underline hover:text-gray-800 transition ml-1"
+              >
+                 here!
+              </Link>
             </p>
           </div>
           <h1
@@ -66,9 +71,10 @@ export default async function InteriorGalleryPage() {
           >
             Interior Painting Gallery
           </h1>
+          <p className="pb-4 pt-4"> At Portland Painting and Restoration, we excel in both exterior painting and carpentry services to protect and beautify your property. Our professional painters deliver a flawless, durable finish that withstands the Pacific Northwest’s challenging weather. Simultaneously, our skilled carpenters address any structural issues, ensuring your exterior is not only visually stunning but also robust and secure. </p>
         </div>
       </div>
-        <ImageGallery images={imageFiles} />
+      <MasonryGallery images={imageFiles} />
     </>
   );
 }

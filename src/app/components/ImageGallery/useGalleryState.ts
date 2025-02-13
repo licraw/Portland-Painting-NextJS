@@ -43,12 +43,22 @@ const useGalleryState = (
     }
   }, [modalVisible]);
 
-  // Toggle modal visibility. When opening, sync the modal's selected index.
+  // Toggle modal visibility.
+  // For the carousel view: when opening, sync the modal's selected index.
   const handleGalleryClick = () => {
     setModalVisible(!modalVisible);
     if (!modalVisible) {
       setModalSelectedImageIndex(selectedImageIndex);
     }
+  };
+
+  // NEW: Open modal at a given index.
+  // This function is used in the masonry view so that clicking an image
+  // sets the active index and opens the modal.
+  const openModalAtIndex = (index: number) => {
+    setSelectedImageIndex(index);
+    setModalSelectedImageIndex(index);
+    setModalVisible(true);
   };
 
   // Navigation for main gallery.
@@ -135,6 +145,7 @@ const useGalleryState = (
     handleGalleryClick,
     handleModalThumbnailClick,
     handleModalGalleryScroll,
+    openModalAtIndex, // <-- new method returned here
   };
 };
 
