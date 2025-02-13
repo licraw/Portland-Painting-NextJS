@@ -1,43 +1,51 @@
 import Image from "next/image";
-import Head from "next/head";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Green and Safe Practices | Portland Painting & Restoration",
+  description:
+    "Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and the use of low-VOC/zero-VOC paints for a healthier home and planet.",
+  keywords: [
+    "green practices",
+    "safe painting",
+    "eco-friendly",
+    "sustainable painting",
+    "lead safety",
+    "low VOC",
+    "zero VOC",
+    "environmentally friendly",
+    "Portland Painting",
+    "restoration",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/green-safe",
+  },
+  openGraph: {
+    title: "Green and Safe Practices | Portland Painting & Restoration",
+    description:
+      "Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and low-VOC/zero-VOC paints for a healthier home and planet.",
+    url: "https://www.paintpdx.com/green-safe",
+    type: "website",
+    images: [
+      {
+        url: "https://www.paintpdx.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Portland Painting & Restoration Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Green and Safe Practices | Portland Painting & Restoration",
+    description:
+      "Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and low-VOC/zero-VOC paints for a healthier home and planet.",
+    images: ["https://www.paintpdx.com/logo.png"],
+  },
+};
 
 export default function GreenAndSafePage() {
   return (
-
-    <>
-    <Head>
-  {/* Primary Meta Tags */}
-  <title>Green and Safe Practices | Portland Painting & Restoration</title>
-  <meta
-    name="description"
-    content="Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and the use of low-VOC/zero-VOC paints for a healthier home and planet."
-  />
-  <meta
-    name="keywords"
-    content="green practices, safe painting, eco-friendly, sustainable painting, lead safety, low VOC, zero VOC, environmentally friendly, Portland Painting, restoration"
-  />
-  <link rel="canonical" href="https://www.paintpdx.com/green-safe" />
-
-  {/* Open Graph / Facebook Meta Tags */}
-  <meta property="og:title" content="Green and Safe Practices | Portland Painting & Restoration" />
-  <meta
-    property="og:description"
-    content="Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and low-VOC/zero-VOC paints for a healthier home and planet."
-  />
-  <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-  <meta property="og:url" content="https://www.paintpdx.com/green-safe" />
-  <meta property="og:type" content="website" />
-
-  {/* Twitter Meta Tags */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Green and Safe Practices | Portland Painting & Restoration" />
-  <meta
-    name="twitter:description"
-    content="Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and low-VOC/zero-VOC paints for a healthier home and planet."
-  />
-  <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-</Head>
-
     <div className="bg-gray-50">
       {/* Hero Section */}
       <section className="relative bg-green-900 text-white py-16 text-center px-6">
@@ -103,6 +111,5 @@ export default function GreenAndSafePage() {
         </div>
       </section>
     </div>
-    </>
   );
 }

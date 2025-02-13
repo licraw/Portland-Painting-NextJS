@@ -1,8 +1,51 @@
 import Image from "next/image";
 import Review from "./Review";
-import Head from "next/head";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Customer Reviews | Portland Painting & Restoration",
+  description:
+    "Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service.",
+  keywords: [
+    "customer reviews",
+    "testimonials",
+    "Portland Painting & Restoration",
+    "painting reviews",
+    "restoration reviews",
+    "quality painting",
+    "professional painters",
+    "customer satisfaction",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/reviews",
+  },
+  openGraph: {
+    title: "Customer Reviews | Portland Painting & Restoration",
+    description:
+      "Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service.",
+    url: "https://www.paintpdx.com/reviews",
+    type: "website",
+    images: [
+      {
+        url: "https://www.paintpdx.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Portland Painting & Restoration Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Customer Reviews | Portland Painting & Restoration",
+    description:
+      "Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service.",
+    images: ["https://www.paintpdx.com/logo.png"],
+  },
+};
+
 
 export default function ReviewsPage() {
+  
   const reviews =
     [
       {
@@ -170,39 +213,6 @@ export default function ReviewsPage() {
   return (
 
     <>
-      <Head>
-        {/* Primary Meta Tags */}
-        <title>Customer Reviews | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service."
-        />
-        <meta
-          name="keywords"
-          content="customer reviews, testimonials, Portland Painting & Restoration, painting reviews, restoration reviews, quality painting, professional painters, customer satisfaction"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/reviews" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Customer Reviews | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/reviews" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Customer Reviews | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-      </Head>
-
       <section className="max-w-5xl mx-auto my-12 p-10 bg-gray-50 border border-gray-200 rounded-lg shadow-xl">
         <h1 className="text-4xl font-bold text-center text-green-900">Customer Reviews</h1>
         <p className="text-center text-gray-700 mb-6">

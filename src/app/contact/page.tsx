@@ -1,152 +1,46 @@
-"use client";
-import Image from "next/image";
-import ContactForm from "../components/ContactForm";
-import styled from "styled-components";
-import Head from "next/head";
+import { Metadata } from "next";
+import ContactContainer from "../components/contact/contactContainer";
 
-/*  
-  The container below still handles layout (max-width, margins, flex-direction, gap)
-  but the colors, typography, and “cosmetic” details (background, border, box-shadow) 
-  are set using our theme values.
-*/
-const Section = styled.section`
-  max-width: 1200px;
-  margin: 32px auto;
-  padding: 24px;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-`;
-
-/* Contact Information Styles */
-const ContactInfo = styled.div`
-  flex: 1;
-  text-align: center;
-
-  @media (min-width: 768px) {
-    text-align: left;
-  }
-`;
-
-const Heading = styled.h1`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
-
-  @media (min-width: 1024px) {
-    font-size: 28px;
-  }
-`;
-
-const Paragraph = styled.p`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #4a5568; /* Similar to Tailwind's text-gray-700 */
-  margin-bottom: 24px;
-`;
-
-const AddressBlock = styled.div`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: #4a5568;
-  margin-bottom: 24px;
-
-  a {
-    color: #167f3f;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
-
-const ImageWrapper = styled.div`
-  img {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-  }
-`;
-
-/* Container for the contact form (layout only) */
-const FormContainer = styled.div`
-  flex: 1;
-`;
+export const metadata: Metadata = {
+  title: "Contact Us | Portland Painting & Restoration",
+  description:
+    "We look forward to collaborating with you on your next project. Contact Portland Painting & Restoration via our online form, phone, or visit our Portland office for quality painting and restoration services.",
+  keywords: [
+    "contact",
+    "painting",
+    "restoration",
+    "Portland",
+    "Oregon",
+    "Portland Painting & Restoration",
+    "professional services",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Portland Painting & Restoration",
+    description:
+      "Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office.",
+    url: "https://www.paintpdx.com/contact",
+    type: "website",
+    images: [
+      {
+        url: "https://www.paintpdx.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Portland Painting & Restoration Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Portland Painting & Restoration",
+    description:
+      "Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office.",
+    images: ["https://www.paintpdx.com/logo.png"],
+  },
+};
 
 export default function ContactPage() {
-  return (
-
-    <>
-      <Head>
-        {/* Primary Meta Tags */}
-        <title>Contact Us | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="We look forward to collaborating with you on your next project. Contact Portland Painting & Restoration via our online form, phone, or visit our Portland office for quality painting and restoration services."
-        />
-        <meta
-          name="keywords"
-          content="contact, painting, restoration, Portland, Oregon, Portland Painting & Restoration, professional services"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/contact" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Contact Us | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/contact" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Contact Us | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-      </Head>
-
-      <Section>
-        <ContactInfo>
-          <Heading>Portland Painting and Restoration</Heading>
-          <Paragraph>
-            We look forward to collaborating with you on your next project. Please fill out the form to contact us, or reach us using the information below.
-          </Paragraph>
-          <AddressBlock>
-            <p>
-              <a href="tel:5032367003">(503) 236-7003</a>
-            </p>
-            <p>918 SE Stephens St.</p>
-            <p>Portland, OR 97214</p>
-          </AddressBlock>
-          <ImageWrapper>
-            <Image
-              src="/gallery/interior2.jpeg"
-              alt="Portland Painting and Restoration"
-              width={500}
-              height={400}
-            />
-          </ImageWrapper>
-        </ContactInfo>
-        <FormContainer>
-          <ContactForm />
-        </FormContainer>
-      </Section>
-    </>
-  );
+  return <ContactContainer />;
 }
