@@ -1,0 +1,89 @@
+"use client";
+import React, { useState } from 'react';
+import ArrowIcon from '../../Icons/CircleArrow';
+import GalleryCarousel from '../Carousel/GalleryCarousel';
+import * as S from '../Styles';
+import { ScrollModalRightWrapper, ScrollModalLeftWrapper } from './Styles';
+
+interface ImageItem {
+  url: string;
+}
+
+interface ModalContentProps {
+  mediaItems: { url: string }[]; // Array of image objects
+  onGalleryScroll: (direction: 'left' | 'right') => void;
+  selectedImageIndex: number;
+  setSelectedIndex: (index: number) => void;
+  modalImageMaxHeight: number;
+}
+
+const ModalContent: React.FC<ModalContentProps> = ({
+  mediaItems,
+  onGalleryScroll,
+  selectedImageIndex,
+  setSelectedIndex,
+  modalImageMaxHeight,
+}) => {
+  // Minimal zoom: double-click toggles a 'zoomed' class.
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const handleDoubleClick = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    index: number
+  ) => {
+    setIsZoomed(prev => !prev);
+  };
+
+  const renderCarouselItem = (item: { url: string }, index: number) => {
+    return (
+      <S.HeroImage
+        id={`modal-hero-image-${index}`}
+        key={`modal-hero-image-${index}`}
+        src={item.url}
+        alt={`Gallery image ${index + 1} of ${mediaItems.length}`}
+        onClick={() => setSelectedIndex(index)}
+        onDoubleClick={(e) => handleDoubleClick(e, index)}
+        className={isZoomed ? 'zoomed modal-hero-image' : 'modal-hero-image'}
+      />
+    );
+  };
+
+  const carouselItems = mediaItems.map((item, index) =>
+    renderCarouselItem(item, index)
+  );
+
+  return (
+    <S.CarouselItemsContainer modalImageMaxHeight={modalImageMaxHeight}>
+      <ScrollModalLeftWrapper>
+        <S.ArrowScrollButton
+          className="gallery-button"
+          tabIndex={-1}
+          onClick={() => onGalleryScroll('left')}
+        >
+          <ArrowIcon direction="left" />
+        </S.ArrowScrollButton>
+      </ScrollModalLeftWrapper>
+      <S.GalleryMainContent isModal>
+        <GalleryCarousel
+          toggleShowModal={() => {}}
+          isZoomed={isZoomed}
+          selectedIndex={selectedImageIndex}
+          setSelectedIndex={setSelectedIndex}
+        >
+          {carouselItems}
+        </GalleryCarousel>
+      </S.GalleryMainContent>
+      <ScrollModalRightWrapper>
+        <S.ArrowScrollButton
+          className="gallery-button"
+          tabIndex={-1}
+          onClick={() => onGalleryScroll('right')}
+        >
+          <ArrowIcon direction="right" />
+        </S.ArrowScrollButton>
+      </ScrollModalRightWrapper>
+    </S.CarouselItemsContainer>
+  );
+};
+
+export default ModalContent;

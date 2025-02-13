@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface PageSectionProps {
   bgcolor: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 const Section = styled.section<PageSectionProps>`
@@ -22,8 +23,8 @@ const Section = styled.section<PageSectionProps>`
   }
 `;
 
-const PageSection: React.FC<PageSectionProps> = ({ bgcolor, children }) => {
-  return <Section bgcolor={bgcolor}>{children}</Section>;
+const PageSection: React.FC<PageSectionProps> = ({ bgcolor, children, className }) => {
+  return <Section className={className}  bgcolor={bgcolor}>{children}</Section>;
 };
 
 export default PageSection;
