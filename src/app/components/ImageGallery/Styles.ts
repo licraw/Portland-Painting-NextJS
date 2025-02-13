@@ -185,7 +185,7 @@ const modalThumbListStyle = css`
   z-index: 99999;
   margin: 0 2rem;
   @media screen and (min-width: 992px) {
-    justify-content: center;
+    justify-content: start;
   }
 `;
 
@@ -529,14 +529,14 @@ export const ModalGalleryMainContent = styled.div`
 export const RightArrowButton = styled.div`
   position: fixed;
   right: 0;
-  bottom: 0.75rem;
+  bottom: 1.5rem;
   cursor: pointer;
   z-index: 9999;
 `;
 
 export const LeftArrowButton = styled.div`
   position: fixed;
-  bottom: 0.75rem;
+  bottom: 1.5rem;
   left: 0;
   cursor: pointer;
   z-index: 9999;

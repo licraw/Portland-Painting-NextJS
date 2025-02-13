@@ -179,7 +179,10 @@ const MasonryGallery: React.FC<MasonryGalleryProps> = ({ images }) => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       {modalVisible ? (
         <div onClick={(e) => e.stopPropagation()}>
-          <ExpandedModal toggleShowModal={handleGalleryClick} modalVisible={modalVisible}>
+          <ExpandedModal
+            toggleShowModal={handleGalleryClick}
+            modalVisible={modalVisible}
+          >
             <ModalContent
               onGalleryScroll={handleModalGalleryScroll}
               mediaItems={mediaItems.map((url) => ({ url }))}
@@ -196,10 +199,8 @@ const MasonryGallery: React.FC<MasonryGalleryProps> = ({ images }) => {
           />
         </div>
       ) : (
-        <PageSection bgcolor="white"
-          ref={masonryRef}
-          style={{ position: "relative", maxWidth: "", margin: "0 auto" }}
-        >
+        // padding-top 0 tailwind class
+        <PageSection className="!pt-0" bgcolor="white">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {mediaItems.map((src, index) => (
               <div
@@ -210,7 +211,7 @@ const MasonryGallery: React.FC<MasonryGalleryProps> = ({ images }) => {
                 <img
                   src={src}
                   alt={`Exterior Project ${index + 1}`}
-                  className="object-cover"
+                  className="object-cover w-full h-full cursor-zoom-in"
                 />
               </div>
             ))}
