@@ -1,43 +1,44 @@
 import ServiceHero from "../../components/ServiceHero";
 import ServiceIntro from "../../components/ServiceIntro";
-import Head from "next/head";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Exterior Painting Services | Portland Painting & Restoration",
+  description:
+    "Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home. Contact us today for a free estimate.",
+  keywords: [
+    "exterior painting",
+    "painting services",
+    "home improvement",
+    "weather-resistant paint",
+    "curb appeal",
+    "Portland Painting",
+    "restoration",
+    "free estimate",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/exterior-painting",
+  },
+  openGraph: {
+    title: "Exterior Painting Services | Portland Painting & Restoration",
+    description:
+      "Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home.",
+    url: "https://www.paintpdx.com/exterior-painting",
+    type: "website",
+    images: "https://www.paintpdx.com/logo.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Exterior Painting Services | Portland Painting & Restoration",
+    description:
+      "Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home.",
+    images: "https://www.paintpdx.com/logo.png",
+  },
+};
 
 export default function ExteriorPaintingPage() {
   return (
     <>
-      <Head>
-        {/* Primary Meta Tags */}
-        <title>Exterior Painting Services | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home. Contact us today for a free estimate."
-        />
-        <meta
-          name="keywords"
-          content="exterior painting, painting services, home improvement, weather-resistant paint, curb appeal, Portland Painting, restoration, free estimate"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/exterior-painting" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Exterior Painting Services | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/exterior-painting" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Exterior Painting Services | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-      </Head>
-
       <div>
         {/* Hero Section */}
         <ServiceHero

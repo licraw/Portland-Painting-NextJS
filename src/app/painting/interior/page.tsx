@@ -1,44 +1,44 @@
 import ServiceHero from "../../components/ServiceHero";
 import ServiceIntro from "../../components/ServiceIntro";
-import Head from "next/head";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Interior Painting Services | Portland Painting & Restoration",
+  description:
+    "Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces. Contact us today to schedule a consultation.",
+  keywords: [
+    "interior painting",
+    "painting services",
+    "home makeover",
+    "vibrant colors",
+    "professional painters",
+    "Portland Painting",
+    "restoration",
+  ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/interior-painting",
+  },
+  openGraph: {
+    title: "Interior Painting Services | Portland Painting & Restoration",
+    description:
+      "Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces.",
+    url: "https://www.paintpdx.com/interior-painting",
+    type: "website",
+    images: "https://www.paintpdx.com/logo.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Interior Painting Services | Portland Painting & Restoration",
+    description:
+      "Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces.",
+    images: "https://www.paintpdx.com/logo.png",
+  },
+};
 
 export default function InteriorPaintingPage() {
   return (
 
     <>
-      <Head>
-        {/* Primary Meta Tags */}
-        <title>Interior Painting Services | Portland Painting & Restoration</title>
-        <meta
-          name="description"
-          content="Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces. Contact us today to schedule a consultation."
-        />
-        <meta
-          name="keywords"
-          content="interior painting, painting services, home makeover, vibrant colors, professional painters, Portland Painting, restoration"
-        />
-        <link rel="canonical" href="https://www.paintpdx.com/interior-painting" />
-
-        {/* Open Graph / Facebook Meta Tags */}
-        <meta property="og:title" content="Interior Painting Services | Portland Painting & Restoration" />
-        <meta
-          property="og:description"
-          content="Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces."
-        />
-        <meta property="og:image" content="https://www.paintpdx.com/logo.png" />
-        <meta property="og:url" content="https://www.paintpdx.com/interior-painting" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Interior Painting Services | Portland Painting & Restoration" />
-        <meta
-          name="twitter:description"
-          content="Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces."
-        />
-        <meta name="twitter:image" content="https://www.paintpdx.com/logo.png" />
-      </Head>
-
       <div>
         {/* Hero Section */}
         <ServiceHero
