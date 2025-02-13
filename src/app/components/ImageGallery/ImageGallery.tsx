@@ -8,7 +8,6 @@ import {
   ScrollThumbsDownButton,
   ScrollThumbsUpButton,
   ModalContainer,
-  ThumbnailListBackground,
 } from "./Styles";
 import ModalThumbnailList from "./ExpandedModal/ModalThumbnailList";
 import ModalContent from "./ExpandedModal/ModalContent";
@@ -64,7 +63,7 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
           <ExpandedModal toggleShowModal={handleGalleryClick} modalVisible={modalVisible}>
             <ModalContent
               onGalleryScroll={handleModalGalleryScroll}
-              mediaItems={mediaItems}
+              mediaItems={mediaItems.map(url => ({ url }))}
               selectedImageIndex={modalSelectedImageIndex}
               setSelectedIndex={handleModalThumbnailClick}
             />
@@ -79,7 +78,6 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
       ) : (
         <div style={{ position: "relative", maxWidth: "850px", margin: "0 auto" }}>
           <GalleryContainer onClick={(e) => e.stopPropagation()}>
-            <ThumbnailListBackground />
             <ThumbnailList
               mediaItems={mediaItems}
               ref={thumbnailListRef}
