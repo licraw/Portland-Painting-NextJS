@@ -1,15 +1,20 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import ArrowIcon from '../../Icons/CircleArrow';
 import GalleryCarousel from '../Carousel/GalleryCarousel';
 import * as S from '../Styles';
 import { ScrollModalRightWrapper, ScrollModalLeftWrapper } from './Styles';
+
+interface ImageItem {
+  url: string;
+}
 
 interface ModalContentProps {
   mediaItems: { url: string }[]; // Array of image objects
   onGalleryScroll: (direction: 'left' | 'right') => void;
   selectedImageIndex: number;
   setSelectedIndex: (index: number) => void;
+  modalImageMaxHeight: number;
 }
 
 const ModalContent: React.FC<ModalContentProps> = ({
@@ -17,7 +22,18 @@ const ModalContent: React.FC<ModalContentProps> = ({
   onGalleryScroll,
   selectedImageIndex,
   setSelectedIndex,
+  modalImageMaxHeight,
 }) => {
+  // Minimal zoom: double-click toggles a 'zoomed' class.
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const handleDoubleClick = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    index: number
+  ) => {
+    setIsZoomed(prev => !prev);
+  };
+
   const renderCarouselItem = (item: { url: string }, index: number) => {
     return (
       <S.HeroImage
@@ -26,6 +42,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
         src={item.url}
         alt={`Gallery image ${index + 1} of ${mediaItems.length}`}
         onClick={() => setSelectedIndex(index)}
+        onDoubleClick={(e) => handleDoubleClick(e, index)}
+        className={isZoomed ? 'zoomed modal-hero-image' : 'modal-hero-image'}
       />
     );
   };
@@ -35,7 +53,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   );
 
   return (
-    <S.CarouselItemsContainer>
+    <S.CarouselItemsContainer modalImageMaxHeight={modalImageMaxHeight}>
       <ScrollModalLeftWrapper>
         <S.ArrowScrollButton
           className="gallery-button"
@@ -47,8 +65,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
       </ScrollModalLeftWrapper>
       <S.GalleryMainContent isModal>
         <GalleryCarousel
-          toggleShowModal={() => {}}  // Dummy function
-          isZoomed={false}            // Default value
+          toggleShowModal={() => {}}
+          isZoomed={isZoomed}
           selectedIndex={selectedImageIndex}
           setSelectedIndex={setSelectedIndex}
         >

@@ -8,6 +8,7 @@ import {
   ScrollThumbsDownButton,
   ScrollThumbsUpButton,
   ModalContainer,
+  ThumbnailListBackground,
 } from "./Styles";
 import ModalThumbnailList from "./ExpandedModal/ModalThumbnailList";
 import ModalContent from "./ExpandedModal/ModalContent";
@@ -31,6 +32,7 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
       "mobileMaxHeight",
       "isModal",
       "mobileDisplay",
+      "siteId",
       "mobileZoomRate",
       "zoomRate",
       "mediaItemsLength",
@@ -42,6 +44,7 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
     modalSelectedImageIndex,
     mediaItems,
     modalVisible,
+    modalImageMaxHeight,
     showUpArrow,
     showDownArrow,
     handleThumbnailClick,
@@ -66,6 +69,7 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
               mediaItems={mediaItems.map(url => ({ url }))}
               selectedImageIndex={modalSelectedImageIndex}
               setSelectedIndex={handleModalThumbnailClick}
+              modalImageMaxHeight={modalImageMaxHeight}
             />
           </ExpandedModal>
           <ModalThumbnailList
@@ -78,6 +82,7 @@ const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
       ) : (
         <div style={{ position: "relative", maxWidth: "850px", margin: "0 auto" }}>
           <GalleryContainer onClick={(e) => e.stopPropagation()}>
+            <ThumbnailListBackground />
             <ThumbnailList
               mediaItems={mediaItems}
               ref={thumbnailListRef}

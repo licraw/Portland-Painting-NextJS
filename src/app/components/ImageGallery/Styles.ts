@@ -61,7 +61,7 @@ export const GalleryContainer = styled.div`
 export const GalleryMainContent = styled.div<StyleProps>`
   position: relative;
   width: 100%;
-  background-color: ${props => (props.isModal ? 'white' : '#f5f5f5')};
+  background-color: ${props => (props.isModal ? 'white' : 'white')};
   padding-top: 0;
   overflow: ${props => (props.isModal ? '' : 'hidden')};
   @media screen and (min-width: 992px) {
@@ -96,13 +96,13 @@ export const HeroImage = styled.img<StyleProps>`
     max-width: 95%;
     position: absolute;
     z-index: 9999;
-    cursor: zoom-in;
+    cursor: default;
     transition: transform 0.3s ease;
   }
 
   &.modal-hero-image.zoomed {
     transform: ${props => (props.mobileZoomRate ? `scale(${props.mobileZoomRate})` : '')};
-    cursor: zoom-out;
+    cursor: default;
     @media screen and (min-width: 992px) {
       transform: ${props => (props.zoomRate ? `scale(${props.zoomRate})` : '')};
     }
@@ -157,7 +157,7 @@ export const ThumbnailListBackground = styled.div`
   right: 0;
   height: 128px;
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: white;
 
   &::before {
     content: ' ';
@@ -196,59 +196,6 @@ export const ThumbnailList = styled.div<StyleProps>`
   }
 `;
 
-export const VideoThumbnailContainer = styled.div<StyleProps>`
-  min-width: ${props => (props.isModal ? '60px' : '50px')};
-  height: ${props => (props.isModal ? '60px' : '50px')};
-  width: ${props => (props.isModal ? '60px' : '50px')};
-  min-height: 50px;
-  margin-right: 8px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  margin-bottom: 10px;
-  background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
-  border-radius: 4px;
-  border: solid rgba(26, 27, 27, 0.2) 1px;
-
-  &:hover {
-    border: solid black 1.2px;
-  }
-
-  &.activeStyle {
-    border-color: black;
-    @media screen and (min-width: 992px) {
-      background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
-    }
-  }
-
-  @media screen and (min-width: 992px) {
-    /* min-height: 75px;
-    min-width: 75px;
-    height: 75px;
-    width: 75px; */
-    border-radius: 4px;
-    margin-right: 0;
-    background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
-  }
-`;
-
-export const VideoThumbnail = styled.img<StyleProps>`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 4px;
-  border-radius: 8px;
-  cursor: pointer;
-  @media screen and (min-width: 992px) {
-    padding: 4px;
-    border-radius: 8px;
-  }
-`;
-
 export const ImageThumbnailContainer = styled.div<StyleProps>`
   min-width: ${props => (props.isModal ? '60px' : '50px')};
   width: ${props => (props.isModal ? '60px' : '50px')};
@@ -260,7 +207,7 @@ export const ImageThumbnailContainer = styled.div<StyleProps>`
   justify-content: center;
   align-items: center;
   mix-blend-mode: darken;
-  background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
+  background-color: ${props => (props.isModal ? '#f9f9f9' : 'white')};
   border-radius: 4px;
   border: solid rgba(26, 27, 27, 0.2) 1px;
 
@@ -268,7 +215,7 @@ export const ImageThumbnailContainer = styled.div<StyleProps>`
     border: ${props => (props.isModal ? 'solid black 1px' : '')};
     border: solid black 1.2px;
     @media screen and (min-width: 992px) {
-      background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
+      background-color: ${props => (props.isModal ? '#f9f9f9' : 'white')};
     }
   }
 
@@ -286,10 +233,8 @@ export const ImageThumbnailContainer = styled.div<StyleProps>`
   }
 
   @media screen and (min-width: 992px) {
-    /* min-height: 75px;
-    min-width: 75px; */
     margin-right: 0;
-    background-color: ${props => (props.isModal ? '#f9f9f9' : '#f5f5f5')};
+    background-color: ${props => (props.isModal ? '#f9f9f9' : 'white')};
     border-radius: 4px;
     border-width: 1.2px;
   }
@@ -313,7 +258,7 @@ export const ScrollThumbsDownButton = styled.button`
   padding: 0;
   height: 2rem;
   flex-shrink: 0;
-  background-color: #f5f5f5;
+  background-color: transparent;
   position: absolute;
   bottom: calc(50% - 202px);
   border: none;
@@ -343,7 +288,7 @@ export const ScrollThumbsUpButton = styled.button`
   padding: 0;
   height: 2rem;
   flex-shrink: 0;
-  background-color: #f5f5f5;
+  background-color: transparent;
   position: absolute;
   top: calc(50% - 216px);
   border: none;
@@ -408,7 +353,7 @@ export const LeftScrollButtonWrapper = styled.div`
     cursor: pointer;
   }
   &:hover {
-    background-color: #e7e7e7;
+    background-color: #e8f2ec;
     border-radius: 50%;
   }
   @media screen and (min-width: 992px) {
@@ -435,7 +380,7 @@ export const RightScrollButtonWrapper = styled.div`
     cursor: pointer;
   }
   &:hover {
-    background-color: #e7e7e7;
+    background-color: #e8f2ec;
     border-radius: 50%;
   }
   @media screen and (min-width: 992px) {
@@ -454,7 +399,7 @@ export const ArrowScrollButton = styled.button`
   border: none;
   padding: 0;
   &:hover {
-    background-color: #e7e7e7;
+    background-color: #e8f2ec;
     border-radius: 50%;
   }
 `;
@@ -578,57 +523,6 @@ export const ModalGalleryMainContent = styled.div`
   align-items: center;
   &:hover .video-controls {
     visibility: visible;
-  }
-`;
-
-export const ThreeSixtyOverlay = styled.div`
-  position: absolute;
-  background-color: #f9f9f9;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-`;
-
-export const Toggle360 = styled.button`
-  position: relative;
-  height: 44px;
-  width: 44px;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px #eee;
-  border-radius: 50%;
-  background-color: #fff;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-  margin-right: 0.5rem;
-  margin-left: auto;
-  cursor: pointer;
-  z-index: 1;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline-width: 0px;
-    box-shadow: rgb(185, 205, 241) 0px 0px 0px 3px;
-    transition: box-shadow 0.15s ease 0s;
-  }
-
-  img {
-    max-width: 40px;
-    max-height: 40px;
-  }
-
-  @media screen and (min-width: 992px) {
-    margin: 0;
-    position: absolute;
-    left: 1rem;
-    bottom: 1rem;
-    right: auto;
   }
 `;
 

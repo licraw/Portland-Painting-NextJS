@@ -55,16 +55,9 @@ const ModalThumbnailList: React.FC<ModalThumbnailListProps> = ({
     };
   }, []);
 
-  // Optionally, append a query parameter to resize the thumbnail if needed.
-  // (If you want no resizing at all, you can simply return the URL.)
-  const isFmicAssetsImage = (url: string): boolean => {
-    return url.includes('www.fmicassets.com');
-  };
-
+  // No extra resizing – simply use the URL.
   const getResizedThumbnailUrl = (url: string): string => {
-    return isFmicAssetsImage(url)
-      ? `https://www.fender.com/cdn-cgi/image/format=png,resize=height=auto,width=100/${url}`
-      : `${url}?width=100`;
+    return url;
   };
 
   return (
