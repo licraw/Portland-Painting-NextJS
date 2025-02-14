@@ -47,7 +47,6 @@ export const metadata: Metadata = {
 export default function CarpentryPage() {
   const imageSet1 = imageFiles.slice(0, 8);
   const imageSet2 = imageFiles.slice(8, 16);
-  console.log(imageFiles);
   return (
     <div>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">

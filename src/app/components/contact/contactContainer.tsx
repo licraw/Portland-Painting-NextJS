@@ -1,81 +1,81 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 import ContactForm from "../ContactForm";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 /* Styled Components */
-const Section = styled.section`
-  max-width: 1200px;
-  margin: 32px auto;
-  padding: 24px;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+// const Section = styled.section`
+//   max-width: 1200px;
+//   margin: 32px auto;
+//   padding: 24px;
+//   background-color: #ffffff;
+//   border: 1px solid #e2e8f0;
+//   border-radius: 8px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//   display: flex;
+//   flex-direction: column;
+//   gap: 32px;
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-`;
+//   @media (min-width: 768px) {
+//     flex-direction: row;
+//   }
+// `;
 
-const ContactInfo = styled.div`
-  flex: 1;
-  text-align: center;
+// const ContactInfo = styled.div`
+//   flex: 1;
+//   text-align: center;
 
-  @media (min-width: 768px) {
-    text-align: left;
-  }
-`;
+//   @media (min-width: 768px) {
+//     text-align: left;
+//   }
+// `;
 
-const Heading = styled.h1`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
+// const Heading = styled.h1`
+//   font-family: "Helvetica Neue", sans-serif;
+//   font-size: 24px;
+//   font-weight: bold;
+//   margin-bottom: 16px;
 
-  @media (min-width: 1024px) {
-    font-size: 28px;
-  }
-`;
+//   @media (min-width: 1024px) {
+//     font-size: 28px;
+//   }
+// `;
 
-const Paragraph = styled.p`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #4a5568;
-  margin-bottom: 24px;
-`;
+// const Paragraph = styled.p`
+//   font-family: "Helvetica Neue", sans-serif;
+//   font-size: 16px;
+//   line-height: 1.5;
+//   color: #4a5568;
+//   margin-bottom: 24px;
+// `;
 
-const AddressBlock = styled.div`
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: #4a5568;
-  margin-bottom: 24px;
+// const AddressBlock = styled.div`
+//   font-family: "Helvetica Neue", sans-serif;
+//   font-size: 18px;
+//   font-weight: 500;
+//   color: #4a5568;
+//   margin-bottom: 24px;
 
-  a {
-    color: #167f3f;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
+//   a {
+//     color: #167f3f;
+//     text-decoration: none;
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// `;
 
-const ImageWrapper = styled.div`
-  img {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-  }
-`;
+// const ImageWrapper = styled.div`
+//   img {
+//     border-radius: 8px;
+//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//     width: 100%;
+//   }
+// `;
 
-const FormContainer = styled.div`
-  flex: 1;
-`;
+// const FormContainer = styled.div`
+//   flex: 1;
+// `;
 
 export default function ContactContainer() {
   return (
