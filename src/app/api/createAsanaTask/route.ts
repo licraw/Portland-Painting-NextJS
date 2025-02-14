@@ -68,7 +68,6 @@ Message: ${overview}
         name: asanaTaskName,
         notes: asanaTaskNotes,
         due_on: dueDate,
-        assignee: "",
         projects: ["9865446660987"],
         custom_fields: {
           "1208441371887522": "1208441371887523",
