@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import CarouselGallery from "../components/ImageGallery/CarouselGallery";
-import imageFiles from "@/app/gallery/interior/galleryFiles";
+import BeforeAndAfterGallery from "../components/ImageGallery/BeforeAndAfterGallery";
 
 export const metadata: Metadata = {
   title: "Restoration Services | Portland Painting & Restoration",
@@ -73,7 +72,7 @@ export default function RestorationPage() {
             fontWeight: 500,
             lineHeight: "1.2",
           }}
-          className="font-sans font-medium text-4xl lg:text-7xl leading-[1.2]"
+          className="font-sans font-medium text-4xl lg:text-7xl leading-[1.2] pb-8"
         >
           Restorations Services
         </h1>
@@ -90,22 +89,6 @@ export default function RestorationPage() {
           a sound substrate, of which usually incorporates the removal of the
           paint.
         </p>
-        <p className="pb-4 pt-4">
-          The key to a successful restoration is first understanding the root of
-          the problem. This could be the integrity of the initial prime coat
-          itself as a 100 year old layer is very fragile, the level of adhesion
-          between the various coats of paint, an inferior product at some layer,
-          or most often condensation build up as the previous painter caulked
-          and sealed up the whole wall of which is suppose to breath. Selecting
-          the proper materials and procedures is imperative to select the proper
-          solution to the root issue, rather than just treating the symptoms, of
-          which never covers the liability adjacent to the visible issues. If
-          your building or deck is in need of repairs in order to protect its
-          value- We can help. Each solution will be tailored to the specific
-          needs of each individual project.
-        </p>
-      </div>
-      <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Interior Column */}
@@ -117,7 +100,7 @@ export default function RestorationPage() {
               </ul>
             </div>
             {/* Exterior Column */}
-            <div className="w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+            <div className="w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full pb-2">
               <h2 className="font-sans font-medium text-2xl pb-4">Exterior</h2>
               <ul className="list-disc list-inside text-left space-y-2">
                 <li>Lead Paint Removal</li>
@@ -140,6 +123,34 @@ export default function RestorationPage() {
           </div>
         </div>
       </div>
+      <BeforeAndAfterGallery
+        images={[
+          "/restoration-gallery/before1.jpg",
+          "/restoration-gallery/after1.jpg",
+        ]}
+      />
+      <div className="p-8 pl-6 lg:pl-20 lg:pr-20 pt-0">
+        <p className="pb-4 pt-0" style={{ marginTop: "-16px" }}>
+          The key to a successful restoration is first understanding the root of
+          the problem. This could be the integrity of the initial prime coat
+          itself as a 100 year old layer is very fragile, the level of adhesion
+          between the various coats of paint, an inferior product at some layer,
+          or most often condensation build up as the previous painter caulked
+          and sealed up the whole wall of which is suppose to breath. Selecting
+          the proper materials and procedures is imperative to select the proper
+          solution to the root issue, rather than just treating the symptoms, of
+          which never covers the liability adjacent to the visible issues. If
+          your building or deck is in need of repairs in order to protect its
+          value- We can help. Each solution will be tailored to the specific
+          needs of each individual project.
+        </p>
+      </div>
+      <BeforeAndAfterGallery
+        images={[
+          "/restoration-gallery/before2.jpg",
+          "/restoration-gallery/after2.jpg",
+        ]}
+      />
     </div>
   );
 }

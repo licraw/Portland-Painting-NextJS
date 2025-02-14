@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import imageFiles from "@/app/gallery/interior/galleryFiles";
+import imageFiles from "@/app/carpentry/galleryFiles";
 import CarouselGallery from "../components/ImageGallery/CarouselGallery";
 
 export const metadata: Metadata = {
@@ -45,6 +45,9 @@ export const metadata: Metadata = {
 };
 
 export default function CarpentryPage() {
+  const imageSet1 = imageFiles.slice(0, 8);
+  const imageSet2 = imageFiles.slice(8, 16);
+  console.log(imageFiles);
   return (
     <div>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
@@ -107,7 +110,7 @@ export default function CarpentryPage() {
           comprehensive restoration strategy.
         </p>
       </div>
-      <CarouselGallery images={imageFiles} bgcolor="white" />
+      <CarouselGallery images={imageSet1} bgcolor="white" />
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 pt-0">
         {" "}
         <p className="pt-4 pb-4">
@@ -120,7 +123,7 @@ export default function CarpentryPage() {
         </p>
       </div>
       <div className="pt-12 light-green-bg">
-        <CarouselGallery images={imageFiles} bgcolor="#e8f2ec" />
+        <CarouselGallery images={imageSet2} bgcolor="#e8f2ec" />
       </div>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 light-green-bg pt-0">
         <p className="pt-0 pb-4">
