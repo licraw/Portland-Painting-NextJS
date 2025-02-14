@@ -3,6 +3,7 @@ import Image from "next/image";
 import About from "./components/home/About";
 import Services from "./components/home/Services";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Transform Your Space with Painting and Restoration Experts | Portland Painting & Restoration",
@@ -60,8 +61,14 @@ export default function HomePage() {
               />
             </div>
             <p className="text-sm font-medium text-gray-600">
-              Portland and Vancouver’s premier repair
-            </p>
+            Get a free estimate today
+            <Link
+              href="/estimate"
+              className="underline hover:no-underline hover:text-gray-800 transition ml-1"
+            >
+              here!
+            </Link>
+          </p>
           </div>
           <h1
             style={{
