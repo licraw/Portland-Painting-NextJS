@@ -80,6 +80,13 @@ const BottomRow = styled.div`
   width: 100%;
   margin-top: 16px;
   align-items: center;
+
+  /* Stack vertically on mobile */
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 `;
 
 const ToggleGroup = styled.div`
@@ -90,6 +97,12 @@ const ToggleGroup = styled.div`
   padding: 4px;
   position: relative;
   height: 40px;
+
+  /* Stretch full width on mobile */
+  @media (max-width: 1023px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 const ToggleButton = styled.button<{ selected: boolean }>`
@@ -134,6 +147,12 @@ const ViewServiceLink = styled(Link)`
     background: rgba(255, 255, 255, 0.2);
     color: white;
   }
+
+  /* Stretch full width on mobile */
+  @media (max-width: 1023px) {
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const ArrowButtonWrapper = styled.div`
@@ -165,7 +184,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     <Card
       isactive={isactive}
       title={title}
-      image={title !== "Painting" ? image : (paintingOption === "interior" ? image : secondImage)}
+      image={
+        title !== "Painting"
+          ? image
+          : paintingOption === "interior"
+          ? image
+          : secondImage
+      }
       onClick={handleCardClick}
     >
       <ContentWrapper>
@@ -180,7 +205,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                     activeindex={paintingOption === "interior" ? 0 : 1}
                   />
                   <ToggleButton
-                    className={paintingOption === "interior" ? "interiorActive" : "exteriorActive"}
+                    className={
+                      paintingOption === "interior"
+                        ? "interiorActive"
+                        : "exteriorActive"
+                    }
                     selected={paintingOption === "interior"}
                     onClick={(e) => {
                       e.stopPropagation();

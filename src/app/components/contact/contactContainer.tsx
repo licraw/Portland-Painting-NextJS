@@ -79,32 +79,35 @@ const FormContainer = styled.div`
 
 export default function ContactContainer() {
   return (
-    <Section>
-      <ContactInfo>
-        <Heading>Portland Painting and Restoration</Heading>
-        <Paragraph>
-          We look forward to collaborating with you on your next project. Please fill out the form
-          to contact us, or reach us using the information below.
-        </Paragraph>
-        <AddressBlock>
-          <p>
-            <a href="tel:5032367003">(503) 236-7003</a>
-          </p>
-          <p>918 SE Stephens St.</p>
-          <p>Portland, OR 97214</p>
-        </AddressBlock>
-        <ImageWrapper>
-          <Image
-            src="/gallery/interior2.jpeg"
-            alt="Portland Painting and Restoration"
-            width={500}
-            height={400}
-          />
-        </ImageWrapper>
-      </ContactInfo>
-      <FormContainer>
-        <ContactForm />
-      </FormContainer>
-    </Section>
+    // <Section>
+    //   <ContactInfo>
+    //     <Heading>Portland Painting and Restoration</Heading>
+    //     <Paragraph>
+    //       We look forward to collaborating with you on your next project. Please fill out the form
+    //       to contact us, or reach us using the information below.
+    //     </Paragraph>
+    //     <AddressBlock>
+    //       <p>
+    //         <a href="tel:5032367003">(503) 236-7003</a>
+    //       </p>
+    //       <p>918 SE Stephens St.</p>
+    //       <p>Portland, OR 97214</p>
+    //     </AddressBlock>
+    //     <ImageWrapper>
+    //       <Image
+    //         src="/gallery/interior2.jpeg"
+    //         alt="Portland Painting and Restoration"
+    //         width={500}
+    //         height={400}
+    //       />
+    //     </ImageWrapper>
+    //   </ContactInfo>
+    //   <FormContainer>
+    //     <ContactForm />
+    //   </FormContainer>
+    // </Section>
+    <div className="min-h-screen flex flex-col items-center pt-12">
+      <ContactForm />
+    </div>
   );
 }
