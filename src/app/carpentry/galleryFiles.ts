@@ -14,7 +14,7 @@ const imageFiles = [
     "/carpentry-gallery/carpentry13.jpg",
     "/carpentry-gallery/carpentry14.jpg",
     "/carpentry-gallery/carpentry15.jpg",
-    "/carpentry-gallery/fashing-.jpg",
+    "/carpentry-gallery/flashing-.jpg",
 ]
 
 export default imageFiles;

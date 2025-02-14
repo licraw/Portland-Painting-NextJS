@@ -8,6 +8,7 @@ import useGalleryState from "./useGalleryState";
 import SkeletonLoader from "./SkeletonLoader/SkeletonLoader";
 import { StyleSheetManager } from "styled-components";
 import PageSection from "../PageSection";
+import Image from "next/image";
 
 interface BeforeAfterGalleryProps {
   images: string[];
@@ -92,11 +93,15 @@ const BeforeAndAfterGallery: React.FC<BeforeAfterGalleryProps> = ({
               >
                 <div className="relative w-full aspect-[4/3]">
                   {/* Image without absolute positioning */}
-                  <img
-                    src={src}
-                    alt={`Before and After image ${index + 1}`}
-                    className="object-cover w-full h-full"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={src}
+                      alt={`Before and After image ${index + 1}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                  </div>
                   {/* Overlay label for before and after */}
                   {mediaItems.length === 2 && (
                     <div className="absolute bottom-2 left-2 bg-white bg-opacity-75 px-2 py-1 text-sm font-bold rounded">

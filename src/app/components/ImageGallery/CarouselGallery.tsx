@@ -10,6 +10,7 @@ import { StyleSheetManager } from "styled-components";
 import PageSection from "../PageSection";
 import ArrowIcon from "../Icons/CircleArrow";
 import * as S from "./Styles";
+import Image from "next/image";
 
 interface CarouselGalleryProps {
   images: string[];
@@ -117,11 +118,17 @@ const CarouselGallery: React.FC<CarouselGalleryProps> = ({
                 >
                   {/* Fixed aspect ratio card */}
                   <div className="relative w-full aspect-[4/3]">
-                    <img
-                      src={src}
-                      alt={`Gallery image ${index + 1} of ${mediaItems.length}`}
-                      className="object-cover absolute inset-0 w-full h-full cursor-zoom-in"
-                    />
+                    <div className="relative w-full aspect-[4/3]">
+                      <Image
+                        src={src}
+                        alt={`Gallery image ${index + 1} of ${
+                          mediaItems.length
+                        }`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover cursor-zoom-in"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

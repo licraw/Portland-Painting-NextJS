@@ -141,13 +141,14 @@ const About = () => {
           <SectionSubHeader>Reviving Homes, Restoring Trust</SectionSubHeader>
           <SectionContent>
             <p>
-              Portland Painting and Restoration is one of Portland and Vancouver’s
-              premier repair, light remodel, and finish contractors. Our team of
-              professional Carpenters and Painters, along with dedicated Estimators,
-              Project Managers, and Office Staff, work together to deliver top-tier
-              results with a focus on client satisfaction and quality workmanship.
-              We specialize in providing thoughtful, era-appropriate solutions that enhance
-              and protect your property, whether through carpentry repairs, remodeling,
+              Portland Painting and Restoration is one of Portland and
+              Vancouver’s premier repair, light remodel, and finish contractors.
+              Our team of professional Carpenters and Painters, along with
+              dedicated Estimators, Project Managers, and Office Staff, work
+              together to deliver top-tier results with a focus on client
+              satisfaction and quality workmanship. We specialize in providing
+              thoughtful, era-appropriate solutions that enhance and protect
+              your property, whether through carpentry repairs, remodeling,
               cabinet modifications, or painting services.
             </p>
             <AboutLink href="/about-us/green-and-safe">About Us</AboutLink>
@@ -157,26 +158,26 @@ const About = () => {
         {/* Stats Section */}
         <StatsContainer>
           <StatCard>
-            <h4>$200M+</h4>
+            <h4>15+ Years</h4>
             <p>
-              <strong>Total Revenue</strong> we get from various projects
-              or clients that we complete
+              <strong>Serving the Portland Area</strong> with quality
+              restoration since 2009.
             </p>
           </StatCard>
 
           <StatCard>
-            <h4>400+</h4>
+            <h4>62 Reviews</h4>
             <p>
-              <strong>Total clients</strong> or companies who entrust their
-              home restoration ideas to us
+              <strong>Google Rated 4.9 Stars</strong> by our satisfied
+              customers.
             </p>
           </StatCard>
 
           <StatCard>
-            <h4>350+</h4>
+            <h4>300+ Projects</h4>
             <p>
-              <strong>Total testimonials</strong> they provide after experiencing
-              our services
+              <strong>Completed Renovations</strong> that transform homes and
+              businesses.
             </p>
           </StatCard>
         </StatsContainer>
@@ -186,8 +187,6 @@ const About = () => {
 };
 
 export default About;
-
-
 
 // <br />
 // <p>
