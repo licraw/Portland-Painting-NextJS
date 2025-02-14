@@ -172,7 +172,7 @@ export const ThumbnailListBackground = styled.div`
   }
 `;
 
-const modalThumbListStyle = css`
+const modalThumbListStyle = css<StyleProps>`
   position: fixed;
   bottom: 0;
   left: 0;

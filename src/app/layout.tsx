@@ -44,7 +44,7 @@ export default function RootLayout({
           </Header>
 
           {/* Main content */}
-          <main className="pb-20">{children}</main>
+          <main>{children}</main>
 
           {/* Footer */}
           <Footer />
