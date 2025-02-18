@@ -84,8 +84,7 @@ export default function InteriorPaintingPage() {
             At Portland Painting and Restoration, we understand that the
             interior of your property is a reflection of your style and
             personality. Whether you’re looking to refresh the walls with a new
-            coat of paint or completely revamp the color scheme, our expert
-            painters are here to bring your vision to life. In addition to our
+            coat of paint or completely revamp the color scheme. In addition to our
             exceptional painting services, we also offer comprehensive carpentry
             services to enhance your interior further, ensuring that every
             detail of your space is crafted to perfection.
@@ -121,13 +120,13 @@ export default function InteriorPaintingPage() {
               <li>Multiple Color Applications</li>
               <li>Cabinets &amp; Doors</li>
               <li>High-end Mill pack finishing</li>
-              <li>No “VOC” Paints</li>
+              <li>No and Low VOC Paints</li>
             </ul>
           </div>
         </div>
         <p className="pb-4 pt-4">
           Our interior painting process begins with thorough preparation to
-          ensure a flawless finish. We start by carefully inspecting the
+          ensure a consistent finish. We start by carefully inspecting the
           surfaces, repairing any imperfections such as cracks or holes, and
           applying a high-quality primer. This step is vital as it creates a
           smooth and even base for the paint, resulting in a
@@ -155,18 +154,14 @@ export default function InteriorPaintingPage() {
           throughout the process, from the initial consultation to the final
           walk-through, to ensure that your expectations are not only met but
           exceeded. Our team is dedicated to providing exceptional service,
-          clear communication, and completing the project within the agreed-upon
-          timeline.
+          clear communication, and completing the project in a timely manor.
         </p>
         <p className="pt-4 pb-4">
           In addition to interior painting, we offer a comprehensive range of
-          services to transform your space fully. Whether you’re looking to
-          update the trim, refresh the cabinets, or add a decorative finish, our
-          experienced professionals have the expertise to handle all your
-          interior painting needs.
+          services to transform your space fully. Whether you&rsquo;re looking to simply add fresh paint, modernize your trim, install LVP flooring, repaint or update your cabinets, our experienced professionals have the expertise to help. 
         </p>
         <p className="pt-4 pb-4">
-          Don’t settle for anything less than the best for your interior
+          Don&rsquo;t settle for anything less than the best for your interior
           painting project. Contact Portland Painting and Restoration today for
           a consultation and let us show you why we are the preferred choice for
           interior painting services in Portland, Oregon. Transform your space

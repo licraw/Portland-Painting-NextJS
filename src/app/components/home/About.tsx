@@ -158,15 +158,15 @@ const About = () => {
         {/* Stats Section */}
         <StatsContainer>
           <StatCard>
-            <h4>15+ Years</h4>
+            <h4>20+ Years</h4>
             <p>
               <strong>Serving the Portland Area</strong> with quality
-              restoration since 2009.
+              restoration since 2004.
             </p>
           </StatCard>
 
           <StatCard>
-            <h4>62 Reviews</h4>
+            <h4>Many Reviews</h4>
             <p>
               <strong>Google Rated 4.9 Stars</strong> by our satisfied
               customers.
@@ -174,7 +174,7 @@ const About = () => {
           </StatCard>
 
           <StatCard>
-            <h4>300+ Projects</h4>
+            <h4>2500+ Projects</h4>
             <p>
               <strong>Completed Renovations</strong> that transform homes and
               businesses.

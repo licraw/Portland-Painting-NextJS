@@ -78,7 +78,7 @@ export default function HomePage() {
             }}
             className="font-sans font-medium text-4xl lg:text-7xl leading-[1.2]"
           >
-            Transform Your Space with Painting and Restoration Experts
+            Transform or Restore your space with our painting and carpentry experts.
           </h1>
         </div>
 

@@ -72,7 +72,7 @@ export default async function ExteriorGalleryPage() {
           >
             Exterior Painting Gallery
           </h1>
-          <p className="pb-4 pt-4">At Portland Painting and Restoration, we excel in both exterior painting and carpentry services to protect and beautify your property. Our professional painters deliver a flawless, durable finish that withstands the Pacific Northwest’s challenging weather. Simultaneously, our skilled carpenters address any structural issues, ensuring your exterior is not only visually stunning but also robust and secure.</p>
+          <p className="pb-4 pt-4">At Portland Painting and Restoration, we excel in both exterior painting and carpentry services to protect and beautify your property. Our professional painters deliver a consistent, durable finish that withstands the Pacific Northwest’s challenging weather. Simultaneously, our skilled carpenters address any structural issues, ensuring your exterior is not only visually stunning but also robust and secure.</p>
         </div>
       </div>
       <MasonryGallery images={imageFiles} />

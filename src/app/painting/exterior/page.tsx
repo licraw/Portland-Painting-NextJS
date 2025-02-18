@@ -95,7 +95,7 @@ export default function ExteriorPaintingPage() {
             meticulous process starts with pressure washing, removing dirt and
             mildew to ensure a clean canvas for the new paint. This step is
             crucial as it allows the paint to bond effectively, resulting in a
-            durable and flawless finish. Additionally, we offer comprehensive
+            durable and consistent finish. Additionally, we offer comprehensive
             carpentry services to address any structural issues before painting,
             ensuring that your property’s exterior is not only beautiful but
             also sound and secure. Our expert carpenters are skilled in repairs
@@ -182,22 +182,7 @@ export default function ExteriorPaintingPage() {
           throughout the process, from the initial consultation to the final
           walk-through, to ensure that your expectations are not only met but
           exceeded. Our team is dedicated to providing exceptional service,
-          clear communication, and completing the project within the agreed-upon
-          timeline.
-        </p>
-        <p className="pt-4 pb-4">
-          In addition to interior painting, we offer a comprehensive range of
-          services to transform your space fully. Whether you’re looking to
-          update the trim, refresh the cabinets, or add a decorative finish, our
-          experienced professionals have the expertise to handle all your
-          interior painting needs.
-        </p>
-        <p className="pt-4 pb-4">
-          Don’t settle for anything less than the best for your interior
-          painting project. Contact Portland Painting and Restoration today for
-          a consultation and let us show you why we are the preferred choice for
-          interior painting services in Portland, Oregon. Transform your space
-          with our expert craftsmanship and exceptional service.
+          clear communication, and completing the project in a timely manor.
         </p>
       </div>
     </>
