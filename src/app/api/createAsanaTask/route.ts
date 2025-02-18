@@ -3,7 +3,6 @@ import { NextRequest } from "next/server";
 import { writeFile } from "fs/promises";
 import fs from "fs";
 import path from "path";
-import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -16,42 +15,18 @@ export async function POST(request: NextRequest) {
   const promoCode = data.get("promoCode") as string;
   const formType = data.get("formType") as string;
 
-  // if (!photoFiles || photoFiles.length === 0) {
-  //   throw new Error("No photos uploaded.");
-  // }
-
   let asanaTaskName = "";
   let asanaTaskNotes = "";
   let emailMessage = "";
 
   if (formType === "estimate") {
     asanaTaskName = `New Estimate Request from ${name}`;
-    asanaTaskNotes = `**Email**: ${email}
-**Phone**: ${phone}
-**Address**: ${address}
-**Project Overview**: ${overview}
-**Promo Code**: ${promoCode || "None"}`;
-
-    emailMessage = `
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Address: ${address}
-Project Overview: ${overview}
-Promo Code: ${promoCode || "None"}
-`;
+    asanaTaskNotes = `**Email**: ${email}\n**Phone**: ${phone}\n**Address**: ${address}\n**Project Overview**: ${overview}\n**Promo Code**: ${promoCode || "None"}`;
+    emailMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress: ${address}\nProject Overview: ${overview}\nPromo Code: ${promoCode || "None"}`;
   } else if (formType === "contact") {
     asanaTaskName = `New Contact Request from ${name}`;
-    asanaTaskNotes = `**Email**: ${email}
-**Phone**: ${phone}
-**Message**: ${overview}`;
-
-    emailMessage = `
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Message: ${overview}
-`;
+    asanaTaskNotes = `**Email**: ${email}\n**Phone**: ${phone}\n**Message**: ${overview}`;
+    emailMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${overview}`;
   }
 
   try {
@@ -69,92 +44,63 @@ Message: ${overview}
         notes: asanaTaskNotes,
         due_on: dueDate,
         projects: ["9865446660987"],
-        custom_fields: {
-          "1208441371887522": "1208441371887523",
-          "1208441371887529": "1208441371887530",
-          "1208441371887534": name,
-          "1209143077541096": promoCode,
-        },
       },
     };
 
     const result = await tasksApiInstance.createTask(body, {});
     console.log("Task created successfully:", result);
 
+    // Upload attachments in parallel
     const attachmentsApiInstance = new Asana.AttachmentsApi();
+    const tempDir = path.resolve("/tmp");
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir);
+    }
 
-    for (const photoFile of photoFiles) {
-      const tempDir = path.resolve("/tmp");
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir);
-      }
+    await Promise.all(
+      photoFiles.map(async (photoFile) => {
+        const tempFilePath = path.join(tempDir, photoFile.name);
+        await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
 
-      const tempFilePath = path.join(tempDir, photoFile.name);
-
-      await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
-
-      try {
-        const attachmentResult =
+        try {
           await attachmentsApiInstance.createAttachmentForObject({
             parent: result.data.gid,
             file: fs.createReadStream(tempFilePath),
           });
+          console.log(`Attachment uploaded: ${photoFile.name}`);
+        } catch (error) {
+          console.error(`Error uploading attachment: ${photoFile.name}`, error);
+        } finally {
+          fs.unlink(tempFilePath, (err) => {
+            if (err) console.error("Failed to delete temp file:", err.message);
+          });
+        }
+      })
+    );
 
-        console.log(
-          `Attachment uploaded successfully: ${photoFile.name}`,
-          JSON.stringify(attachmentResult.data, null, 2)
-        );
-
-        fs.unlink(tempFilePath, (err) => {
-          if (err) {
-            console.error("Failed to delete temporary file:", err.message);
-          }
-        });
-      } catch (error) {
-        console.error(`Error uploading attachment: ${photoFile.name}`, error);
-      }
-    }
-
-    // GMAIL Integration
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
+    // Send email request to another API route
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sendEmail`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        formType,
+        emailMessage,
+        photoFiles: await Promise.all(photoFiles.map(async (photo) => ({
+                  name: photo.name,
+                  content: Buffer.from(await photo.arrayBuffer()).toString("base64"), // Convert to Base64 for safe transport
+                }))),
+      }),
     });
 
-    const mailOptions = {
-      from: `"${name}" <${email}>`,
-      to: process.env.RECIPIENT_EMAIL,
-      subject: `New ${formType === "estimate" ? "Estimate" : "Contact"} Request from ${name}`,
-      text: emailMessage,
-      attachments: await Promise.all(
-        photoFiles.map(async (photoFile) => ({
-          filename: photoFile.name,
-          content: Buffer.from(await photoFile.arrayBuffer()),
-        }))
-      ),
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
-
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Task created and email sent successfully",
-        task: result.data,
-      }),
+      JSON.stringify({ success: true, message: "Task created and email request sent." }),
       { status: 200 }
     );
   } catch (error) {
     console.error("Error:", error);
-    return new Response(
-      JSON.stringify({
-        error: "An error occurred while processing the request",
-      }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: "Failed to process request" }), { status: 500 });
   }
 }
