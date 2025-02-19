@@ -7,6 +7,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <GoogleCaptchaWrapper>
     <SpeedInsights />
+    <Analytics />
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
