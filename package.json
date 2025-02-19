@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.2.0",
     "asana": "^3.0.14",
     "axios": "^1.7.9",
     "express": "^4.21.2",

@@ -6,6 +6,7 @@ import PencilBanner from "./components/PencilBanner";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <GoogleCaptchaWrapper>
+    <SpeedInsights />
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
