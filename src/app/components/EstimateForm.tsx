@@ -177,12 +177,11 @@ export default function EstimateForm() {
 
       {/* File Input */}
       <div>
-        <label className="block text-gray-700">Upload Photos (Max 5)</label>
+        <label className="block text-gray-700">Upload 1 Photo (Optional)</label>
         <input
           key={fileInputKey}
           type="file"
           name="photos"
-          multiple
           accept="image/*"
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
