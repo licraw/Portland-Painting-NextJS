@@ -14,6 +14,11 @@ export async function POST(request: NextRequest) {
   const overview = data.get("overview") as string;
   const promoCode = data.get("promoCode") as string;
   const formType = data.get("formType") as string;
+  const paintingAndStain = data.getAll("paintingAndStain") as string[];
+  const constructionAndRestoration = data.getAll("constructionAndRestoration") as string[];
+  const notes = data.get("notes") as string;
+
+
 
   let asanaTaskName = "";
   let asanaTaskNotes = "";
@@ -27,6 +32,27 @@ export async function POST(request: NextRequest) {
     asanaTaskName = `New Contact Request from ${name}`;
     asanaTaskNotes = `**Email**: ${email}\n**Phone**: ${phone}\n**Message**: ${overview}`;
     emailMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${overview}`;
+  } else if (formType === "homeLead") {
+    asanaTaskName = `New Home Lead Request from ${name}`;
+    asanaTaskNotes = `
+    **Name**: ${name}
+    **Email**: ${email}
+    **Phone**: ${phone}
+    **Address**: ${address}
+    **Notes**: ${notes || "N/A"}
+    **Painting & Stain**: ${paintingAndStain.length ? paintingAndStain.join(", ") : "None"}
+    **Construction & Restoration**: ${constructionAndRestoration.length ? constructionAndRestoration.join(", ") : "None"}
+    `;
+
+    emailMessage = `
+    Name: ${name}
+    Email: ${email}
+    Phone: ${phone}
+    Address: ${address}
+    Notes: ${notes || "N/A"}
+    Painting & Stain: ${paintingAndStain.length ? paintingAndStain.join(", ") : "None"}
+    Construction & Restoration: ${constructionAndRestoration.length ? constructionAndRestoration.join(", ") : "None"}
+    `;
   }
 
   try {
@@ -78,7 +104,6 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    // Send email request to another API route
     await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sendEmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
