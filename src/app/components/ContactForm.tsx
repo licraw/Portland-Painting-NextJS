@@ -1,6 +1,12 @@
 "use client";
 
 import { useState } from "react";
+
+declare global {
+  interface Window {
+    gtag?: (...args: (string | number | boolean | object)[]) => void;
+  }
+}
 import axios from "axios";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -55,6 +61,19 @@ export default function ContactForm() {
       setStatus("Failed to verify recaptcha! You must be a robot!");
       return;
     }
+
+  
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+          'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
+          'value': 1.0,
+          'currency': 'USD'
+      });
+  } else {
+      console.error("gtag is not defined");
+  }
+
+
 
     try {
       const formDataToSend = new FormData();

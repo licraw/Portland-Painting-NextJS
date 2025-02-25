@@ -55,6 +55,17 @@ export default function EstimateForm() {
       return;
     }
 
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+          'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
+          'value': 1.0,
+          'currency': 'USD'
+      });
+  } else {
+      console.error("gtag is not defined");
+  }
+
+
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
