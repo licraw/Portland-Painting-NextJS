@@ -14,10 +14,14 @@ interface HomeLeadFormData {
   paintingAndStain: string[];
   constructionAndRestoration: string[];
   subscribeToMailchimp: boolean;
+  photos: File[]; // Added photos array
 }
 
 export default function HomeLeadForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  
+  // Add fileInputKey to help reset file input display
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const [formData, setFormData] = useState<HomeLeadFormData>({
     name: "",
@@ -29,66 +33,97 @@ export default function HomeLeadForm() {
     subscribeToMailchimp: false,
     paintingAndStain: [],
     constructionAndRestoration: [],
+    photos: [], // Initialize photos
   });
 
   const [status, setStatus] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target as HTMLInputElement;
-
-    if (type === "checkbox") {
-      setFormData((prevData) => ({
+    const { name, value, type, checked, files } = e.target as HTMLInputElement;
+  
+    setFormData((prevData) => {
+      // Ensure checkbox fields are handled as arrays
+      if (["paintingAndStain", "constructionAndRestoration"].includes(name)) {
+        const currentArray = Array.isArray(prevData[name as keyof HomeLeadFormData])
+          ? (prevData[name as keyof HomeLeadFormData] as string[])
+          : [];
+  
+        return {
+          ...prevData,
+          [name]: checked
+            ? [...currentArray, value] // Add if checked
+            : currentArray.filter((item) => item !== value), // Remove if unchecked
+        };
+      }
+  
+      // Handle file inputs
+      if (type === "file") {
+        return {
+          ...prevData,
+          [name]: files ? Array.from(files) : [],
+        };
+      }
+  
+      // Handle other inputs (text, email, etc.)
+      return {
         ...prevData,
-        [name]: prevData[name as keyof HomeLeadFormData].includes(value)
-          ? (prevData[name as keyof HomeLeadFormData] as string[]).filter((item) => item !== value)
-          : [...(prevData[name as keyof HomeLeadFormData] as string[]), value],
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+        [name]: type === "checkbox" ? checked : value,
+      };
+    });
   };
+  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Sending...");
-  
+
     if (!executeRecaptcha) {
       setStatus("Recaptcha not ready. Please try again.");
       return;
     }
-  
+
     const gRecaptchaToken = await executeRecaptcha("home_lead_form");
     const response = await axios.post("/api/verifyRecaptcha", { gRecaptchaToken });
-  
+
     if (!response?.data?.success) {
       setStatus("Failed to verify reCAPTCHA! You must be a robot!");
       return;
     }
-  
-const formDataToSend = new FormData();
-formDataToSend.append("name", formData.name);
-formDataToSend.append("email", formData.email);
-formDataToSend.append("phone", formData.phone);
-formDataToSend.append("address", formData.address);
-formDataToSend.append("notes", formData.notes);
-formDataToSend.append("formType", formData.formType);
 
-formDataToSend.append("paintingAndStain", formData.paintingAndStain.join(","));
-formDataToSend.append("constructionAndRestoration", formData.constructionAndRestoration.join(","));
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("address", formData.address);
+    formDataToSend.append("notes", formData.notes);
+    formDataToSend.append("formType", formData.formType);
+    formDataToSend.append("paintingAndStain", formData.paintingAndStain.join(","));
+    formDataToSend.append("constructionAndRestoration", formData.constructionAndRestoration.join(","));
 
-  
+    // Append photo file if it exists
+    formData.photos.forEach((file) => formDataToSend.append("photos", file));
+
     try {
       const result = await fetch("/api/createAsanaTask", {
         method: "POST",
-        body: formDataToSend, // ✅ Send as FormData
+        body: formDataToSend,
       }).then((res) => res.json());
-  
+
       if (result.success) {
         setStatus("Request successfully submitted!");
-  
+
+        if (formData.subscribeToMailchimp) {
+            await fetch("/api/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: formData.email,
+                firstName: formData.name.split(" ")[0],
+                lastName: formData.name.split(" ")[1] || "",
+              }),
+            });
+          }
+
         // Reset form data
         setFormData({
           name: "",
@@ -97,9 +132,14 @@ formDataToSend.append("constructionAndRestoration", formData.constructionAndRest
           address: "",
           notes: "",
           formType: "homeLead",
+          subscribeToMailchimp: false,
           paintingAndStain: [],
           constructionAndRestoration: [],
+          photos: [],
         });
+
+        // Force file input to reset
+        setFileInputKey(Date.now());
       } else {
         setStatus("Failed to submit request.");
       }
@@ -108,7 +148,6 @@ formDataToSend.append("constructionAndRestoration", formData.constructionAndRest
       setStatus("Error submitting request.");
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit} className="p-10 bg-white shadow-2xl rounded-lg max-w-4xl mx-auto border border-gray-200 space-y-6">
@@ -152,20 +191,26 @@ formDataToSend.append("constructionAndRestoration", formData.constructionAndRest
         </label>
       ))}
 
+      {/* Notes Field */}
       <textarea name="notes" placeholder="Notes" value={formData.notes} onChange={handleChange} rows={4} className="p-4 border rounded-lg w-full"></textarea>
 
-    
-      <div className="flex items-center">
+      {/* Photo Upload Input (Identical to ContactForm) */}
+      <div>
+        <label className="block text-gray-700">Upload 1 Photo (Optional)</label>
         <input
-          type="checkbox"
-          name="subscribeToMailchimp"
-          checked={formData.subscribeToMailchimp}
+          key={fileInputKey}
+          type="file"
+          name="photos"
+          accept="image/*"
           onChange={handleChange}
-          className="mr-2"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
-        <label className="text-gray-700">
-          Subscribe to our newsletter for updates and discounts
-        </label>
+      </div>
+
+      {/* Subscribe Checkbox */}
+      <div className="flex items-center">
+        <input type="checkbox" name="subscribeToMailchimp" checked={formData.subscribeToMailchimp} onChange={handleChange} className="mr-2" />
+        <label className="text-gray-700">Subscribe to our newsletter for updates and discounts</label>
       </div>
 
       <button type="submit" className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800">

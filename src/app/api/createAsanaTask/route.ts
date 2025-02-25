@@ -64,7 +64,22 @@ export async function POST(request: NextRequest) {
     const tasksApiInstance = new Asana.TasksApi();
     const dueDate = new Date().toISOString().split("T")[0];
 
-    const body = {
+    let body;
+
+
+    if (formType === "homeLead") {
+     body = {
+      data: {
+        workspace: "9802913355207",
+        name: asanaTaskName,
+        notes: asanaTaskNotes,
+        due_on: dueDate,
+        projects: ["9865446660987"],
+        tags: ["1209503778924319"],
+      },
+    };
+  } else {
+     body = {
       data: {
         workspace: "9802913355207",
         name: asanaTaskName,
@@ -73,6 +88,9 @@ export async function POST(request: NextRequest) {
         projects: ["9865446660987"],
       },
     };
+
+
+  }
 
     const result = await tasksApiInstance.createTask(body, {});
     console.log("Task created successfully:", result);
