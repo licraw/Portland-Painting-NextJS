@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
   const overview = data.get("overview") as string;
   const promoCode = data.get("promoCode") as string;
   const formType = data.get("formType") as string;
-  const paintingAndStain = data.getAll("paintingAndStain") as string[];
-  const constructionAndRestoration = data.getAll("constructionAndRestoration") as string[];
+  const paintingAndStain = data.get("paintingAndStain") as string;
+  const constructionAndRestoration = data.get("constructionAndRestoration") as string;
   const notes = data.get("notes") as string;
 
 
@@ -39,9 +39,10 @@ export async function POST(request: NextRequest) {
     **Email**: ${email}
     **Phone**: ${phone}
     **Address**: ${address}
+    **Painting & Stain c**: ${paintingAndStain}
+    **Construction & Restoration Interests**: ${constructionAndRestoration}
     **Notes**: ${notes || "N/A"}
-    **Painting & Stain**: ${paintingAndStain.length ? paintingAndStain.join(", ") : "None"}
-    **Construction & Restoration**: ${constructionAndRestoration.length ? constructionAndRestoration.join(", ") : "None"}
+
     `;
 
     emailMessage = `
@@ -49,9 +50,9 @@ export async function POST(request: NextRequest) {
     Email: ${email}
     Phone: ${phone}
     Address: ${address}
+    Painting & Stain Interests: ${paintingAndStain}
+    Construction & Restoration Interests: ${constructionAndRestoration}
     Notes: ${notes || "N/A"}
-    Painting & Stain: ${paintingAndStain.length ? paintingAndStain.join(", ") : "None"}
-    Construction & Restoration: ${constructionAndRestoration.length ? constructionAndRestoration.join(", ") : "None"}
     `;
   }
 
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
         emailMessage,
         photoFiles: await Promise.all(photoFiles.map(async (photo) => ({
                   name: photo.name,
-                  content: Buffer.from(await photo.arrayBuffer()).toString("base64"), // Convert to Base64 for safe transport
+                  content: Buffer.from(await photo.arrayBuffer()).toString("base64"),
                 }))),
       }),
     });

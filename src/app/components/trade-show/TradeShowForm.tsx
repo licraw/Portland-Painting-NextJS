@@ -13,6 +13,7 @@ interface HomeLeadFormData {
   formType: string;
   paintingAndStain: string[];
   constructionAndRestoration: string[];
+  subscribeToMailchimp: boolean;
 }
 
 export default function HomeLeadForm() {
@@ -25,6 +26,7 @@ export default function HomeLeadForm() {
     address: "",
     notes: "",
     formType: "homeLead",
+    subscribeToMailchimp: false,
     paintingAndStain: [],
     constructionAndRestoration: [],
   });
@@ -66,20 +68,17 @@ export default function HomeLeadForm() {
       return;
     }
   
-    // Convert form state to FormData
-    const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("address", formData.address);
-    formDataToSend.append("notes", formData.notes);
-    formDataToSend.append("formType", formData.formType);
-  
-    // Append checkbox values (multiple selections)
-    formData.paintingAndStain.forEach((item) => formDataToSend.append("paintingAndStain[]", item));
-    formData.constructionAndRestoration.forEach((item) =>
-      formDataToSend.append("constructionAndRestoration[]", item)
-    );
+const formDataToSend = new FormData();
+formDataToSend.append("name", formData.name);
+formDataToSend.append("email", formData.email);
+formDataToSend.append("phone", formData.phone);
+formDataToSend.append("address", formData.address);
+formDataToSend.append("notes", formData.notes);
+formDataToSend.append("formType", formData.formType);
+
+formDataToSend.append("paintingAndStain", formData.paintingAndStain.join(","));
+formDataToSend.append("constructionAndRestoration", formData.constructionAndRestoration.join(","));
+
   
     try {
       const result = await fetch("/api/createAsanaTask", {
@@ -154,6 +153,20 @@ export default function HomeLeadForm() {
       ))}
 
       <textarea name="notes" placeholder="Notes" value={formData.notes} onChange={handleChange} rows={4} className="p-4 border rounded-lg w-full"></textarea>
+
+    
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          name="subscribeToMailchimp"
+          checked={formData.subscribeToMailchimp}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        <label className="text-gray-700">
+          Subscribe to our newsletter for updates and discounts
+        </label>
+      </div>
 
       <button type="submit" className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800">
         Submit
