@@ -84,7 +84,7 @@ export default function HomePage() {
 
         <Banner
           ctaLink="/estimate"
-          imagePath="https://paintpdx.com/wp-content/uploads/2018/02/iStock-592031050.jpg"
+          imagePath="/herobanner.webp"
           cta="Get Estimate"
           description="Portland Painting and Restoration is one of Portland and Vancouver’s premier repair, light remodel, and finish contractors."
         />
