@@ -6,11 +6,9 @@ import PencilBanner from "./components/PencilBanner";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
-import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,31 +32,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-  
     <html lang="en">
       <GoogleAnalytics gaId="AW-1016197559" />
 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <GoogleCaptchaWrapper>
-    <SpeedInsights />
-    <Analytics />
-        <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
-          {/* Header */}
-          <Header>
-            <PencilBanner
-              ctaAction="/estimate"
-            />
-            <Nav />
-          </Header>
+        <GoogleCaptchaWrapper>
+          <SpeedInsights />
+          <Analytics />
+          <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
+            {/* Header */}
+            <Header>
+              <PencilBanner ctaAction="/estimate" />
+              <Nav />
+            </Header>
 
-          {/* Main content */}
-          <main>{children}</main>
+            {/* Main content */}
+            <main>{children}</main>
 
-          {/* Footer */}
-          <Footer />
-        </div>
+            {/* Footer */}
+            <Footer />
+          </div>
         </GoogleCaptchaWrapper>
       </body>
     </html>
