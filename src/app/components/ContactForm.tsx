@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
+
+declare global {
+  interface Window {
+    gtag?: (...args: (string | number | boolean | object)[]) => void;
+  }
+}
 import axios from "axios";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function ContactForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   
-  // Add fileInputKey to help reset file input display
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const [formData, setFormData] = useState({
@@ -56,6 +61,19 @@ export default function ContactForm() {
       return;
     }
 
+  
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+          'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
+          'value': 1.0,
+          'currency': 'USD'
+      });
+  } else {
+      console.error("gtag is not defined");
+  }
+
+
+
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
@@ -84,7 +102,6 @@ export default function ContactForm() {
             }),
           });
         }
-        // Reset form data
         setFormData({
           name: "",
           email: "",
@@ -96,7 +113,6 @@ export default function ContactForm() {
           formType: "contact",
           photos: [],
         });
-        // Force file input to reset
         setFileInputKey(Date.now());
       } else {
         setStatus("Failed to submit request.");

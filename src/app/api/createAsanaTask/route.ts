@@ -14,6 +14,11 @@ export async function POST(request: NextRequest) {
   const overview = data.get("overview") as string;
   const promoCode = data.get("promoCode") as string;
   const formType = data.get("formType") as string;
+  const paintingAndStain = data.get("paintingAndStain") as string;
+  const constructionAndRestoration = data.get("constructionAndRestoration") as string;
+  const notes = data.get("notes") as string;
+
+
 
   let asanaTaskName = "";
   let asanaTaskNotes = "";
@@ -27,6 +32,28 @@ export async function POST(request: NextRequest) {
     asanaTaskName = `New Contact Request from ${name}`;
     asanaTaskNotes = `**Email**: ${email}\n**Phone**: ${phone}\n**Message**: ${overview}`;
     emailMessage = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${overview}`;
+  } else if (formType === "homeLead") {
+    asanaTaskName = `New Home Lead Request from ${name}`;
+    asanaTaskNotes = `
+    **Name**: ${name}
+    **Email**: ${email}
+    **Phone**: ${phone}
+    **Address**: ${address}
+    **Painting & Stain c**: ${paintingAndStain}
+    **Construction & Restoration Interests**: ${constructionAndRestoration}
+    **Notes**: ${notes || "N/A"}
+
+    `;
+
+    emailMessage = `
+    Name: ${name}
+    Email: ${email}
+    Phone: ${phone}
+    Address: ${address}
+    Painting & Stain Interests: ${paintingAndStain}
+    Construction & Restoration Interests: ${constructionAndRestoration}
+    Notes: ${notes || "N/A"}
+    `;
   }
 
   try {
@@ -37,7 +64,22 @@ export async function POST(request: NextRequest) {
     const tasksApiInstance = new Asana.TasksApi();
     const dueDate = new Date().toISOString().split("T")[0];
 
-    const body = {
+    let body;
+
+
+    if (formType === "homeLead") {
+     body = {
+      data: {
+        workspace: "9802913355207",
+        name: asanaTaskName,
+        notes: asanaTaskNotes,
+        due_on: dueDate,
+        projects: ["9865446660987"],
+        tags: ["1209503778924319"],
+      },
+    };
+  } else {
+     body = {
       data: {
         workspace: "9802913355207",
         name: asanaTaskName,
@@ -46,6 +88,9 @@ export async function POST(request: NextRequest) {
         projects: ["9865446660987"],
       },
     };
+
+
+  }
 
     const result = await tasksApiInstance.createTask(body, {});
     console.log("Task created successfully:", result);
@@ -78,7 +123,6 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    // Send email request to another API route
     await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sendEmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -90,7 +134,7 @@ export async function POST(request: NextRequest) {
         emailMessage,
         photoFiles: await Promise.all(photoFiles.map(async (photo) => ({
                   name: photo.name,
-                  content: Buffer.from(await photo.arrayBuffer()).toString("base64"), // Convert to Base64 for safe transport
+                  content: Buffer.from(await photo.arrayBuffer()).toString("base64"),
                 }))),
       }),
     });
