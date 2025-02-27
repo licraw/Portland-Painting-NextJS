@@ -97,33 +97,42 @@ export default function InteriorPaintingPage() {
           Interior Painting Services
         </h2>
         <div className="max-w-4xl mx-auto pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
-              <li>Masking &amp; Protection</li>
-              <li>Paint/Stain/Varnish</li>
-              <li>Wallpaper Removal</li>
-              <li>Complete Wall Preparation</li>
-              <li>Drywall repairs</li>
-            </ul>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+      <li>Masking &amp; Protection</li>
+      <li>Paint/Stain/Varnish</li>
+      <li>Wallpaper Removal</li>
+      <li>Complete Wall Preparation</li>
+      <li>Drywall Repairs</li>
+    </ul>
 
-            <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
-              <li>Complete Wood Preparation</li>
-              <li>Priming Walls/Wood</li>
-              <li>Caulking</li>
-              <li>Spackling</li>
-              <li>Professional Product Application</li>
-            </ul>
+    <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+      <li>Complete Wood Preparation</li>
+      <li>Priming Walls/Wood</li>
+      <li>Caulking</li>
+      <li>Spackling</li>
+      <li>Professional Product Application</li>
+    </ul>
 
-            <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
-              <li>Paint/Stain/Varnish</li>
-              <li>Spray, Brush &amp; Roll</li>
-              <li>Multiple Color Applications</li>
-              <li>Cabinets &amp; Doors</li>
-              <li>High-end Mill pack finishing</li>
-              <li>No and Low VOC Paints</li>
-            </ul>
-          </div>
-        </div>
+    <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+      <li>Paint/Stain/Varnish</li>
+      <li>Spray, Brush &amp; Roll</li>
+      <li>Multiple Color Applications</li>
+      <li>Cabinets &amp; Doors</li>
+      <li>High-end Mill Pack Finishing</li>
+      <li>No and Low VOC Paints</li>
+    </ul>
+
+    <ul className="list-disc list-inside text-left space-y-2 w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+      <li>Modernize: Update</li>
+      <li>New Trim Throughout</li>
+      <li>Install Waterproof Vinyl Flooring (LVP)</li>
+      <li>Install Picture or Crown Molding</li>
+      <li>Update: New Cabinet Doors</li>
+    </ul>
+  </div>
+</div>
+
         <p className="pb-4 pt-4">
           Our interior painting process begins with thorough preparation to
           ensure a consistent finish. We start by carefully inspecting the

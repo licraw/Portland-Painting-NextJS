@@ -95,10 +95,7 @@ export default function ExteriorPaintingPage() {
             meticulous process starts with pressure washing, removing dirt and
             mildew to ensure a clean canvas for the new paint. This step is
             crucial as it allows the paint to bond effectively, resulting in a
-            durable and consistent finish. Additionally, we offer comprehensive
-            carpentry services to address any structural issues before painting,
-            ensuring that your property’s exterior is not only beautiful but
-            also sound and secure. Our expert carpenters are skilled in repairs
+            durable and consistent finish. Additionally, we offer comprehensive carpentry services to address any structural, functional, or aesthetic issues before painting, ensuring that your property’s exterior is not only beautiful but also performs into the future. Our expert carpenters are skilled in repairs
             and enhancements, providing a seamless integration with our painting
             services to give your property a complete makeover.
           </p>
@@ -107,13 +104,7 @@ export default function ExteriorPaintingPage() {
       <CarouselGallery images={imageSet1} />
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 light-green-bg">
         <p className="pb-4 pt-4">
-          Our skilled painters are experts in surface preparation, meticulously
-          scraping, sanding, caulking, and priming your property. We take pride
-          in our attention to detail, knowing that thorough preparation is the
-          foundation for a beautiful and long-lasting paint job. By sealing any
-          bare wood and addressing gaps that can contribute to moisture
-          intrusion, we provide optimal protection against the elements.
-        </p>
+        Our skilled painters are experts in surface preparation, whether it is restorative lead paint removal, meticulous scraping, sanding, caulking, or priming your property. We take pride in our attention to detail, knowing that thorough preparation is the foundation for a beautiful and long-lasting paint job. By sealing any bare wood, adding missing flashing, and addressing gaps that contribute to moisture intrusion, we provide optimal protection against the elements.        </p>
         <p className="pb-4 pt-4">
           When it comes to choosing the right paint, we only work with
           top-quality materials that can withstand the challenging climate of

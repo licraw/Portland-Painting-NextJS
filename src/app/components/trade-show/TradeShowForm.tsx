@@ -163,7 +163,7 @@ export default function HomeLeadForm() {
 
       {/* Painting & Stain Section */}
       <h3 className="text-xl font-semibold">Painting & Stain</h3>
-      {["Interior", "Exterior", "Deck", "Paint Stain", "Paint Removal", "Restoration: Extensive Preparations & Repairs"].map((item) => (
+      {["Interior", "Exterior", "Deck", "Paint", "Stain"].map((item) => (
         <label key={item} className="block">
           <input type="checkbox" name="paintingAndStain" value={item} onChange={handleChange} checked={formData.paintingAndStain.includes(item)} className="mr-2" />
           {item}
@@ -173,6 +173,8 @@ export default function HomeLeadForm() {
       {/* Construction & Restoration Section */}
       <h3 className="text-xl font-semibold">Construction & Restoration</h3>
       {[
+        "Restoration: Extensive Preparations & Repairs",
+        "Paint Removal",
         "Repairs- Minor",
         "Repairs- Large scope",
         "Deck",
