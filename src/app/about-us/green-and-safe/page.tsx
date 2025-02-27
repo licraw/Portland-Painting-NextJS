@@ -104,7 +104,7 @@ export default function GreenAndSafePage() {
           </p>
 
           <Image
-            src="https://paintpdx.com/wp-content/uploads/2021/04/lead-safe-certified-firm.png"
+            src="/lead-safe-certified-firm.webp"
             alt="Lead Safe Certified Firm"
             width={300}
             height={300}
@@ -154,7 +154,7 @@ export default function GreenAndSafePage() {
           </p>
           <div className="flex justify-center my-6">
             <Image
-              src="https://paintpdx.com/wp-content/uploads/2021/04/vocs-in-paint.jpeg"
+              src="/vocs-in-paint.webp"
               alt="VOCs in Paint"
               width={300}
               height={300}
