@@ -105,7 +105,7 @@ const StatCard = styled.div<StatCardProps>`
 const SavePlanetSection = () => {
   return (
     <>
-      <PageSection className="pt-0!"  bgcolor="white">
+      <PageSection className={'!pt-6'} bgcolor="white">
         <SectionHeaderWrapper>
           <SectionHeader>
             <span className="sectionNumber">01/</span> It Will Last Longer
