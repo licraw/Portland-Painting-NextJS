@@ -94,7 +94,7 @@ export default function InteriorPaintingPage() {
       <CarouselGallery images={imageSet1} />
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 light-green-bg">
         <h2 className="font-sans font-medium text-4xl lg:text-4xl leading-[1.2] text-center pb-8">
-          Interior Painting Services
+          Carpentry Services
         </h2>
         <div className="max-w-4xl mx-auto pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
