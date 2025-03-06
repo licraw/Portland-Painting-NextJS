@@ -199,6 +199,16 @@ export default function EstimateForm() {
         />
       </div>
 
+        {/* Address */}
+        <input
+        type="text"
+        name="promoCode"
+        placeholder="Enter Promo Code"
+        value={formData.promoCode}
+        onChange={handleChange}
+        className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+      />
+
       {/* Newsletter */}
       <div className="flex items-center">
         <input

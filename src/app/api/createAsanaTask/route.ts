@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   const phone = data.get("phone") as string;
   const address = data.get("address") as string;
   const overview = data.get("overview") as string;
-  const promoCode = data.get("promoCode") as string;
+  const promoCode = data.get("promoCode") as string || "0000";
   const formType = data.get("formType") as string;
   const paintingAndStain = data.get("paintingAndStain") as string;
   const constructionAndRestoration = data.get("constructionAndRestoration") as string;
@@ -76,6 +76,12 @@ export async function POST(request: NextRequest) {
         due_on: dueDate,
         projects: ["9865446660987"],
         tags: ["1209503778924319"],
+        custom_fields: {
+          "1208441371887522" : "1208441371887523",
+          "1208441371887529" : "1208441371887530",
+          "1208441371887534" : name,
+        }
+
       },
     };
   } else {
@@ -86,6 +92,14 @@ export async function POST(request: NextRequest) {
         notes: asanaTaskNotes,
         due_on: dueDate,
         projects: ["9865446660987"],
+        custom_fields: {
+          "1208441371887522" : "1208441371887523",
+          "1208441371887529" : "1208441371887530",
+          "1208441371887534" : name,
+          "1209143077541096" : promoCode
+
+        }
+
       },
     };
 
