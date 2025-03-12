@@ -19,7 +19,7 @@ interface HomeLeadFormData {
 
 export default function HomeLeadForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  
+
   // Add fileInputKey to help reset file input display
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
@@ -40,14 +40,14 @@ export default function HomeLeadForm() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked, files } = e.target as HTMLInputElement;
-  
+
     setFormData((prevData) => {
       // Ensure checkbox fields are handled as arrays
       if (["paintingAndStain", "constructionAndRestoration"].includes(name)) {
         const currentArray = Array.isArray(prevData[name as keyof HomeLeadFormData])
           ? (prevData[name as keyof HomeLeadFormData] as string[])
           : [];
-  
+
         return {
           ...prevData,
           [name]: checked
@@ -55,7 +55,7 @@ export default function HomeLeadForm() {
             : currentArray.filter((item) => item !== value), // Remove if unchecked
         };
       }
-  
+
       // Handle file inputs
       if (type === "file") {
         return {
@@ -63,7 +63,7 @@ export default function HomeLeadForm() {
           [name]: files ? Array.from(files) : [],
         };
       }
-  
+
       // Handle other inputs (text, email, etc.)
       return {
         ...prevData,
@@ -71,7 +71,7 @@ export default function HomeLeadForm() {
       };
     });
   };
-  
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,16 +113,16 @@ export default function HomeLeadForm() {
         setStatus("Request successfully submitted!");
 
         if (formData.subscribeToMailchimp) {
-            await fetch("/api/subscribe", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: formData.email,
-                firstName: formData.name.split(" ")[0],
-                lastName: formData.name.split(" ")[1] || "",
-              }),
-            });
-          }
+          await fetch("/api/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: formData.email,
+              firstName: formData.name.split(" ")[0],
+              lastName: formData.name.split(" ")[1] || "",
+            }),
+          });
+        }
 
         // Reset form data
         setFormData({
@@ -151,7 +151,7 @@ export default function HomeLeadForm() {
 
   return (
     <form onSubmit={handleSubmit} className="p-10 bg-white shadow-2xl rounded-lg max-w-4xl mx-auto border border-gray-200 space-y-6">
-      <h2 className="text-4xl font-bold text-center text-green-900">Home Lead Form</h2>
+      <h2 className="text-4xl font-bold text-center text-green-900">Estimate Form</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
@@ -162,7 +162,10 @@ export default function HomeLeadForm() {
       <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
 
       {/* Painting & Stain Section */}
-      <h3 className="text-xl font-semibold">Painting & Stain</h3>
+      <div>
+        <h3 className="text-xl font-semibold">Painting & Stain</h3>
+        <p className="mt-1 text-sm text-gray-600">Click all that apply</p>
+      </div>
       {["Interior", "Exterior", "Deck", "Paint", "Stain"].map((item) => (
         <label key={item} className="block">
           <input type="checkbox" name="paintingAndStain" value={item} onChange={handleChange} checked={formData.paintingAndStain.includes(item)} className="mr-2" />
@@ -171,7 +174,10 @@ export default function HomeLeadForm() {
       ))}
 
       {/* Construction & Restoration Section */}
-      <h3 className="text-xl font-semibold">Construction & Restoration</h3>
+      <div>
+        <h3 className="text-xl font-semibold">Construction & Restoration</h3>
+        <p className="mt-1 text-sm text-gray-600">Click all that apply</p>
+      </div>
       {[
         "Restoration: Extensive Preparations & Repairs",
         "Paint Removal",
@@ -183,8 +189,6 @@ export default function HomeLeadForm() {
         "Renovation/Remodel",
         "Kitchen",
         "Bath",
-        "Design Build",
-        "Additions",
         "Custom",
       ].map((item) => (
         <label key={item} className="block">
