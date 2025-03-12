@@ -206,7 +206,6 @@ export default function HomeLeadForm() {
         <input
           key={fileInputKey}
           type="file"
-          multiple
           name="photos"
           accept="image/*"
           onChange={handleChange}
