@@ -126,7 +126,7 @@ export default function ExteriorPaintingPage() {
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 light-green-bg pt-0">
         <div className="pl-6 lg:pl-20 lg:pr-20 pb-8">
           <h2 className="font-sans font-medium text-4xl lg:text-4xl leading-[1.2] pb-8 text-center">
-            Exterior Painting Services
+          Carpentry and Painting Services
           </h2>
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
