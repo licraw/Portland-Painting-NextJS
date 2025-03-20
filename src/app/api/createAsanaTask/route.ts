@@ -188,8 +188,10 @@ export async function POST(request: NextRequest) {
     );
 
     // 9. Send the email
+
     console.log("==> [STEP] Sending email via /api/sendEmail");
-    const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sendEmail`, {
+    const origin = request.nextUrl.origin; 
+    const emailResponse = await fetch(`${origin}/api/sendEmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
