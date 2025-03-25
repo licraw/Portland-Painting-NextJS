@@ -10,7 +10,10 @@ export async function POST(request: NextRequest) {
 
     // 1. Read and log form data
     const data = await request.formData();
-    console.log("==> [STEP] Form data received:", JSON.stringify(Array.from(data.entries())));
+    console.log(
+      "==> [STEP] Form data received:",
+      JSON.stringify(Array.from(data.entries()))
+    );
 
     // 2. Pull out form fields
     const photoFiles: File[] = data.getAll("photos") as File[];
@@ -18,6 +21,7 @@ export async function POST(request: NextRequest) {
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
     const address = data.get("address") as string;
+    const howDidYouFindUs = data.get("howDidYouFindUs") as string;
     const overview = data.get("overview") as string;
     const promoCode = (data.get("promoCode") as string) || "0000";
     const formType = data.get("formType") as string;
@@ -39,7 +43,7 @@ export async function POST(request: NextRequest) {
       photoFilesCount: photoFiles?.length || 0,
     });
 
-    // 3. Build Asana task name/notes
+    // 3. Build Asana task name/notes and email message
     let asanaTaskName = "";
     let asanaTaskNotes = "";
     let emailMessage = "";
@@ -82,43 +86,51 @@ export async function POST(request: NextRequest) {
 
     if (!token.accessToken) {
       console.error("==> [ERROR] ASANA_TOKEN is missing or not set correctly.");
-      return new Response(JSON.stringify({ error: "ASANA_TOKEN not configured." }), { status: 500 });
+      return new Response(
+        JSON.stringify({ error: "ASANA_TOKEN not configured." }),
+        { status: 500 }
+      );
     }
 
     // 5. Create the API instances
     const tasksApiInstance = new Asana.TasksApi();
     const attachmentsApiInstance = new Asana.AttachmentsApi();
+    const projectsApiInstance = new Asana.ProjectsApi();
 
     // -------------------------------------------------------------------------
-    // ***** ADDITIONAL REQUEST to log custom fields before task creation *****
+    // ***** Fetch and log custom fields from the project in the workspace *****
     // -------------------------------------------------------------------------
-    const customFieldsApiInstance = new Asana.CustomFieldsApi();
-    const workspaceId = "9802913355207"; // Your Workspace GID
-
-    console.log("==> [STEP] Fetching all custom fields from workspace:", workspaceId);
+    const projectId = "9865446660987"; // Project ID
+    console.log("==> [STEP] Fetching project details for project:", projectId);
     try {
-      const customFieldsResponse = await customFieldsApiInstance.getCustomFieldsForWorkspace(
-        workspaceId,
-        { opt_fields: "name,resource_subtype,enum_options" }
+      const projectResponse = await projectsApiInstance.getProject(projectId, {
+        opt_fields: "workspace,custom_field_settings.custom_field,custom_field_settings.display_value",
+      });
+      const project = projectResponse.data;
+      if (project.workspace.gid !== "9802913355207") {
+        console.warn(`==> [WARNING] Project ${projectId} is not in workspace 9802913355207.`);
+      }
+      console.log(
+        "==> [STEP] Fetched project custom fields:",
+        JSON.stringify(project.custom_field_settings, null, 2)
       );
-      console.log("==> [STEP] Fetched custom fields:", JSON.stringify(customFieldsResponse.data, null, 2));
-    } catch (fetchError) {
-      console.error("==> [ERROR] Unable to fetch custom fields:", fetchError);
+    } catch (projectFetchError) {
+      console.error("==> [ERROR] Unable to fetch project details:", projectFetchError);
     }
     // -------------------------------------------------------------------------
 
     const dueDate = new Date().toISOString().split("T")[0];
 
-    // 6. Construct the request body for Asana
+    // 6. Construct the request body for Asana task creation
     let body;
     if (formType === "homeLead") {
       body = {
         data: {
-          workspace: "9802913355207", // same workspace GID
+          workspace: "9802913355207", // Workspace ID for task creation
           name: asanaTaskName,
           notes: asanaTaskNotes,
           due_on: dueDate,
-          projects: ["9865446660987"],
+          projects: [projectId],
           tags: ["1209503778924319"],
         },
       };
@@ -129,17 +141,16 @@ export async function POST(request: NextRequest) {
           name: asanaTaskName,
           notes: asanaTaskNotes,
           due_on: dueDate,
-          projects: ["9865446660987"],
+          projects: [projectId],
           custom_fields: {
             "1208441371887522": "1208441371887523",
             "1208441371887529": "1208441371887530",
             "1209143077541096": promoCode,
+            "1209743111880010": howDidYouFindUs,
           },
         },
       };
     }
-
-    // add name to description
 
     console.log("==> [STEP] Asana createTask body:", JSON.stringify(body, null, 2));
 
@@ -188,9 +199,8 @@ export async function POST(request: NextRequest) {
     );
 
     // 9. Send the email
-
     console.log("==> [STEP] Sending email via /api/sendEmail");
-    const origin = request.nextUrl.origin; 
+    const origin = request.nextUrl.origin;
     const emailResponse = await fetch(`${origin}/api/sendEmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -213,7 +223,6 @@ export async function POST(request: NextRequest) {
       console.error("==> [ERROR] Email API responded with status:", emailResponse.status);
       const errorText = await emailResponse.text();
       console.error("==> [ERROR] Email API response text:", errorText);
-      // Optionally return 500 if email must succeed
     } else {
       console.log("==> [STEP] Email API call succeeded.");
     }

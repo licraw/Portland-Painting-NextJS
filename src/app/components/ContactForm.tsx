@@ -22,15 +22,17 @@ export default function ContactForm() {
     address: "",
     overview: "",
     promoCode: "",
-    subscribeToMailchimp: false,
+    subscribeToMailchimp: true,
+    howDidYouFindUs: "",
     formType: "contact",
     photos: [],
   });
   const [status, setStatus] = useState("");
 
-  // @ts-expect-error - no types for event
-  const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+    const checked = (e.target as HTMLInputElement).checked;
+    const files = (e.target as HTMLInputElement).files;
     if (type === "file") {
       setFormData((prevData) => ({
         ...prevData,
@@ -110,6 +112,7 @@ export default function ContactForm() {
           overview: "",
           promoCode: "",
           subscribeToMailchimp: false,
+          howDidYouFindUs: "",
           formType: "contact",
           photos: [],
         });
@@ -187,17 +190,31 @@ export default function ContactForm() {
         />
       </div>
 
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          name="subscribeToMailchimp"
-          checked={formData.subscribeToMailchimp}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        <label className="text-gray-700">
-          Subscribe to our newsletter for updates and discounts
+       {/* How Did You Find Us? */}
+       <div className="flex flex-col">
+        <label htmlFor="howDidYouFindUs" className="text-gray-700 mb-2">
+          How did you find us?
         </label>
+        <select
+          id="howDidYouFindUs"
+          name="howDidYouFindUs"
+          value={formData.howDidYouFindUs}
+          onChange={handleChange}
+          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          required
+        >
+          <option value="" disabled>
+            Select an option
+          </option>
+          <option value="1209743111880011">Google</option>
+          <option value="1209743111880012">Yelp</option>
+          <option value="1209743111880013">Nextdoor</option>
+          <option value="1209744980063491">Houzz</option>
+          <option value="1209743111880014">Facebook</option>
+          <option value="1209743111880015">Email</option>
+          <option value="1209743111880016">friend / neighbor</option>
+          <option value="1209743111880017">other</option>
+        </select>
       </div>
 
       <button

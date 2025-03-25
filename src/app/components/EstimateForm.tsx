@@ -17,13 +17,14 @@ export default function EstimateForm() {
     address: "",
     overview: "",
     promoCode: "",
-    subscribeToMailchimp: false,
+    howDidYouFindUs: "", // new field for the custom field "How did you find us?"
+    subscribeToMailchimp: true,
     formType: "estimate",
     photos: [],
   });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked, files } = e.target as HTMLInputElement;
     if (type === "file") {
       setFormData((prevData) => ({
@@ -57,14 +58,13 @@ export default function EstimateForm() {
 
     if (window.gtag) {
       window.gtag('event', 'conversion', {
-          'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
-          'value': 1.0,
-          'currency': 'USD'
+        'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
+        'value': 1.0,
+        'currency': 'USD'
       });
-  } else {
+    } else {
       console.error("gtag is not defined");
-  }
-
+    }
 
     try {
       const formDataToSend = new FormData();
@@ -83,7 +83,7 @@ export default function EstimateForm() {
 
       if (result.success) {
         setStatus("Request successfully submitted!");
-        
+
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
             method: "POST",
@@ -104,6 +104,7 @@ export default function EstimateForm() {
           address: "",
           overview: "",
           promoCode: "",
+          howDidYouFindUs: "",
           subscribeToMailchimp: false,
           formType: "estimate",
           photos: [],
@@ -131,7 +132,7 @@ export default function EstimateForm() {
         Fill out the form below and we’ll reach out soon.
       </p>
 
-      {/* Name + Email, same style as ContactForm */}
+      {/* Name + Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <input
           type="text"
@@ -199,8 +200,8 @@ export default function EstimateForm() {
         />
       </div>
 
-        {/* Address */}
-        <input
+      {/* Promo Code */}
+      <input
         type="text"
         name="promoCode"
         placeholder="Enter Promo Code"
@@ -209,21 +210,34 @@ export default function EstimateForm() {
         className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
       />
 
-      {/* Newsletter */}
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          name="subscribeToMailchimp"
-          checked={formData.subscribeToMailchimp}
-          onChange={handleChange}
-          className="mr-2"
-        />
-        <label className="text-gray-700">
-          Subscribe to our newsletter for updates and discounts
+      {/* How Did You Find Us? */}
+      <div className="flex flex-col">
+        <label htmlFor="howDidYouFindUs" className="text-gray-700 mb-2">
+          How did you find us?
         </label>
+        <select
+          id="howDidYouFindUs"
+          name="howDidYouFindUs"
+          value={formData.howDidYouFindUs}
+          onChange={handleChange}
+          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          required
+        >
+          <option value="" disabled>
+            Select an option
+          </option>
+          <option value="1209743111880011">Google</option>
+          <option value="1209743111880012">Yelp</option>
+          <option value="1209743111880013">Nextdoor</option>
+          <option value="1209744980063491">Houzz</option>
+          <option value="1209743111880014">Facebook</option>
+          <option value="1209743111880015">Email</option>
+          <option value="1209743111880016">friend / neighbor</option>
+          <option value="1209743111880017">other</option>
+        </select>
       </div>
 
-      {/* Submit */}
+      {/* Submit Button */}
       <button
         type="submit"
         className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800 transition-all"
