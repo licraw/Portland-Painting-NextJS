@@ -155,48 +155,53 @@ export async function POST(request: NextRequest) {
     console.log("==> [STEP] Asana createTask body:", JSON.stringify(body, null, 2));
 
     // 7. Create the Asana task
-    const result = await tasksApiInstance.createTask(body, {});
+    let result = await tasksApiInstance.createTask(body, {});
     console.log("==> [STEP] Task created successfully in Asana:", result.data?.gid);
 
-    // 8. Upload attachments in parallel
-    const tempDir = path.resolve("/tmp");
-
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir);
-      console.log(`==> [STEP] Created temp directory at: ${tempDir}`);
-    }
-
+    // 8. Upload attachments in parallel with retry logic
+    let photosFailed = false;
     if (photoFiles && photoFiles.length > 0) {
-      console.log("==> [STEP] Uploading attachments, total files:", photoFiles.length);
+      const tempDir = path.resolve("/tmp");
+
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir);
+        console.log(`==> [STEP] Created temp directory at: ${tempDir}`);
+      }
+
+      try {
+        await Promise.all(
+          photoFiles.map(async (photoFile) => {
+            const tempFilePath = path.join(tempDir, photoFile.name);
+            console.log(`==> [INFO] Writing file to temp path: ${tempFilePath}`);
+            await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
+
+            // Attempt to upload the attachment.
+            const attachResult = await attachmentsApiInstance.createAttachmentForObject({
+              parent: result.data.gid,
+              file: fs.createReadStream(tempFilePath),
+            });
+            console.log(`==> [STEP] Attachment uploaded: ${photoFile.name}, attachResult:`, attachResult);
+            // Delete temp file synchronously after upload.
+            fs.unlinkSync(tempFilePath);
+          })
+        );
+      } catch (attachmentError) {
+        console.error("==> [ERROR] Attachment upload failed:", attachmentError);
+        // Delete the previously created task.
+        try {
+          await tasksApiInstance.deleteTask(result.data.gid, {});
+          console.log("==> [STEP] Deleted task due to attachment upload failure.");
+        } catch (deleteError) {
+          console.error("==> [ERROR] Failed to delete task after attachment failure:", deleteError);
+        }
+        // Retry creating the task without attempting attachments.
+        result = await tasksApiInstance.createTask(body, {});
+        console.log("==> [STEP] Task re-created without photos:", result.data?.gid);
+        photosFailed = true;
+      }
     } else {
       console.log("==> [STEP] No photo files to upload.");
     }
-
-    await Promise.all(
-      photoFiles.map(async (photoFile) => {
-        const tempFilePath = path.join(tempDir, photoFile.name);
-        console.log(`==> [INFO] Writing file to temp path: ${tempFilePath}`);
-
-        await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
-        try {
-          const attachResult = await attachmentsApiInstance.createAttachmentForObject({
-            parent: result.data.gid,
-            file: fs.createReadStream(tempFilePath),
-          });
-          console.log(`==> [STEP] Attachment uploaded: ${photoFile.name}, attachResult:`, attachResult);
-        } catch (error) {
-          console.error(`==> [ERROR] Error uploading attachment: ${photoFile.name}`, error);
-        } finally {
-          fs.unlink(tempFilePath, (err) => {
-            if (err) {
-              console.error("==> [ERROR] Failed to delete temp file:", tempFilePath, err.message);
-            } else {
-              console.log("==> [STEP] Temp file deleted:", tempFilePath);
-            }
-          });
-        }
-      })
-    );
 
     // 9. Send the email
     console.log("==> [STEP] Sending email via /api/sendEmail");
@@ -210,12 +215,15 @@ export async function POST(request: NextRequest) {
         phone,
         formType,
         emailMessage,
-        photoFiles: await Promise.all(
-          photoFiles.map(async (photo) => ({
-            name: photo.name,
-            content: Buffer.from(await photo.arrayBuffer()).toString("base64"),
-          }))
-        ),
+        // If photos failed to attach, send an empty array.
+        photoFiles: photosFailed
+          ? []
+          : await Promise.all(
+              photoFiles.map(async (photo) => ({
+                name: photo.name,
+                content: Buffer.from(await photo.arrayBuffer()).toString("base64"),
+              }))
+            ),
       }),
     });
 
@@ -227,10 +235,13 @@ export async function POST(request: NextRequest) {
       console.log("==> [STEP] Email API call succeeded.");
     }
 
-    // 10. Return success response
+    // 10. Return success response with message reflecting photo upload status
     console.log("==> [SUCCESS] Task created and email request sent.");
+    const finalMessage = photosFailed
+      ? "Task created successfully, but photos could not be attached. Estimate request sent without photos."
+      : "Task created and email request sent.";
     return new Response(
-      JSON.stringify({ success: true, message: "Task created and email request sent." }),
+      JSON.stringify({ success: true, message: finalMessage }),
       { status: 200 }
     );
   } catch (error) {

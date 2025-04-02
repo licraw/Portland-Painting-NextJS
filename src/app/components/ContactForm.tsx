@@ -25,18 +25,22 @@ export default function ContactForm() {
     subscribeToMailchimp: true,
     howDidYouFindUs: "",
     formType: "contact",
-    photos: [],
+    photos: [] as File[],
   });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
     const checked = (e.target as HTMLInputElement).checked;
     const files = (e.target as HTMLInputElement).files;
     if (type === "file") {
+      // Accept up to 3 photos only
+      const selectedFiles = files ? Array.from(files).slice(0, 4) : [];
       setFormData((prevData) => ({
         ...prevData,
-        [name]: files ? Array.from(files) : [],
+        [name]: selectedFiles,
       }));
     } else {
       setFormData((prevData) => ({
@@ -63,18 +67,15 @@ export default function ContactForm() {
       return;
     }
 
-  
     if (window.gtag) {
       window.gtag('event', 'conversion', {
           'send_to': 'AW-1016197559/cB8cCMGRj6MaELfjx-QD',
           'value': 1.0,
           'currency': 'USD'
       });
-  } else {
+    } else {
       console.error("gtag is not defined");
-  }
-
-
+    }
 
     try {
       const formDataToSend = new FormData();
@@ -92,7 +93,13 @@ export default function ContactForm() {
       }).then((res) => res.json());
 
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        // Show popup if the server indicates photos were not attached
+        if (result.message.includes("without photos")) {
+          alert("Sorry, unable to send photos. Request was sent without photos.");
+        }
+
+        setStatus(result.message || "Request successfully submitted!");
+        
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
             method: "POST",
@@ -178,20 +185,22 @@ export default function ContactForm() {
       ></textarea>
 
       <div>
-        <label className="block text-gray-700">Upload 1 Photo (Optional)</label>
-        {/* key prop forces re-mount when fileInputKey changes */}
+        <label className="block text-gray-700">
+          Upload up to 4 Photos (Optional)
+        </label>
         <input
           key={fileInputKey}
           type="file"
           name="photos"
           accept="image/*"
+          multiple
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
       </div>
 
-       {/* How Did You Find Us? */}
-       <div className="flex flex-col">
+      {/* How Did You Find Us? */}
+      <div className="flex flex-col">
         <label htmlFor="howDidYouFindUs" className="text-gray-700 mb-2">
           How did you find us?
         </label>

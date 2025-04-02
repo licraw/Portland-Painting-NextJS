@@ -20,16 +20,18 @@ export default function EstimateForm() {
     howDidYouFindUs: "", // new field for the custom field "How did you find us?"
     subscribeToMailchimp: true,
     formType: "estimate",
-    photos: [],
+    photos: [] as File[],
   });
   const [status, setStatus] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked, files } = e.target as HTMLInputElement;
     if (type === "file") {
+      // Only accept up to three files.
+      const selectedFiles = files ? Array.from(files).slice(0, 4) : [];
       setFormData((prevData) => ({
         ...prevData,
-        [name]: files ? Array.from(files) : [],
+        [name]: selectedFiles,
       }));
     } else {
       setFormData((prevData) => ({
@@ -82,7 +84,11 @@ export default function EstimateForm() {
       }).then((res) => res.json());
 
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        // Show popup if the server indicates photos were not attached.
+        if (result.message.includes("without photos")) {
+          alert("Sorry, unable to send photos. Estimate request sent without photos.");
+        }
+        setStatus(result.message);
 
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
@@ -189,12 +195,13 @@ export default function EstimateForm() {
 
       {/* File Input */}
       <div>
-        <label className="block text-gray-700">Upload 1 Photo (Optional)</label>
+        <label className="block text-gray-700">Upload up to 4 Photos (Optional)</label>
         <input
           key={fileInputKey}
           type="file"
           name="photos"
           accept="image/*"
+          multiple
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
