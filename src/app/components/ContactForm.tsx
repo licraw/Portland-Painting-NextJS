@@ -37,7 +37,7 @@ export default function ContactForm() {
     const files = (e.target as HTMLInputElement).files;
     if (type === "file") {
       // Accept up to 3 photos only
-      const selectedFiles = files ? Array.from(files).slice(0, 3) : [];
+      const selectedFiles = files ? Array.from(files).slice(0, 4) : [];
       setFormData((prevData) => ({
         ...prevData,
         [name]: selectedFiles,
@@ -93,7 +93,13 @@ export default function ContactForm() {
       }).then((res) => res.json());
 
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        // Show popup if the server indicates photos were not attached
+        if (result.message.includes("without photos")) {
+          alert("Sorry, unable to send photos. Request was sent without photos.");
+        }
+
+        setStatus(result.message || "Request successfully submitted!");
+        
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
             method: "POST",
@@ -180,7 +186,7 @@ export default function ContactForm() {
 
       <div>
         <label className="block text-gray-700">
-          Upload up to 3 Photos (Optional)
+          Upload up to 4 Photos (Optional)
         </label>
         <input
           key={fileInputKey}

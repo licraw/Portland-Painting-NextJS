@@ -28,7 +28,7 @@ export default function EstimateForm() {
     const { name, value, type, checked, files } = e.target as HTMLInputElement;
     if (type === "file") {
       // Only accept up to three files.
-      const selectedFiles = files ? Array.from(files).slice(0, 3) : [];
+      const selectedFiles = files ? Array.from(files).slice(0, 4) : [];
       setFormData((prevData) => ({
         ...prevData,
         [name]: selectedFiles,
@@ -195,7 +195,7 @@ export default function EstimateForm() {
 
       {/* File Input */}
       <div>
-        <label className="block text-gray-700">Upload up to 3 Photos (Optional)</label>
+        <label className="block text-gray-700">Upload up to 4 Photos (Optional)</label>
         <input
           key={fileInputKey}
           type="file"

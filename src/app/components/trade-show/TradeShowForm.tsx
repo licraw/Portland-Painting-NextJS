@@ -14,7 +14,7 @@ interface HomeLeadFormData {
   paintingAndStain: string[];
   constructionAndRestoration: string[];
   subscribeToMailchimp: boolean;
-  photos: File[]; // Added photos array
+  photos: File[];
 }
 
 export default function HomeLeadForm() {
@@ -33,7 +33,7 @@ export default function HomeLeadForm() {
     subscribeToMailchimp: false,
     paintingAndStain: [],
     constructionAndRestoration: [],
-    photos: [], // Initialize photos
+    photos: [],
   });
 
   const [status, setStatus] = useState<string>("");
@@ -51,16 +51,17 @@ export default function HomeLeadForm() {
         return {
           ...prevData,
           [name]: checked
-            ? [...currentArray, value] // Add if checked
-            : currentArray.filter((item) => item !== value), // Remove if unchecked
+            ? [...currentArray, value]
+            : currentArray.filter((item) => item !== value),
         };
       }
 
-      // Handle file inputs
+      // Handle file inputs (up to 3 files only)
       if (type === "file") {
+        const selectedFiles = files ? Array.from(files).slice(0, 4) : [];
         return {
           ...prevData,
-          [name]: files ? Array.from(files) : [],
+          [name]: selectedFiles,
         };
       }
 
@@ -71,7 +72,6 @@ export default function HomeLeadForm() {
       };
     });
   };
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,7 +100,6 @@ export default function HomeLeadForm() {
     formDataToSend.append("paintingAndStain", formData.paintingAndStain.join(","));
     formDataToSend.append("constructionAndRestoration", formData.constructionAndRestoration.join(","));
 
-    // Append photo file if it exists
     formData.photos.forEach((file) => formDataToSend.append("photos", file));
 
     try {
@@ -110,7 +109,12 @@ export default function HomeLeadForm() {
       }).then((res) => res.json());
 
       if (result.success) {
-        setStatus("Request successfully submitted!");
+        // Show popup if the server indicates photos were not attached
+        if (result.message.includes("without photos")) {
+          alert("Sorry, unable to send photos. Request was sent without photos.");
+        }
+
+        setStatus(result.message || "Request successfully submitted!");
 
         if (formData.subscribeToMailchimp) {
           await fetch("/api/subscribe", {
@@ -138,7 +142,6 @@ export default function HomeLeadForm() {
           photos: [],
         });
 
-        // Force file input to reset
         setFileInputKey(Date.now());
       } else {
         setStatus("Failed to submit request.");
@@ -154,12 +157,44 @@ export default function HomeLeadForm() {
       <h2 className="text-4xl font-bold text-center text-green-900">Estimate Form</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
-        <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="p-4 border rounded-lg w-full"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className="p-4 border rounded-lg w-full"
+        />
       </div>
 
-      <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
-      <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required className="p-4 border rounded-lg w-full" />
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Phone Number"
+        value={formData.phone}
+        onChange={handleChange}
+        required
+        className="p-4 border rounded-lg w-full"
+      />
+      <input
+        type="text"
+        name="address"
+        placeholder="Address"
+        value={formData.address}
+        onChange={handleChange}
+        required
+        className="p-4 border rounded-lg w-full"
+      />
 
       {/* Painting & Stain Section */}
       <div>
@@ -168,7 +203,14 @@ export default function HomeLeadForm() {
       </div>
       {["Interior", "Exterior", "Deck", "Paint", "Stain"].map((item) => (
         <label key={item} className="block">
-          <input type="checkbox" name="paintingAndStain" value={item} onChange={handleChange} checked={formData.paintingAndStain.includes(item)} className="mr-2" />
+          <input
+            type="checkbox"
+            name="paintingAndStain"
+            value={item}
+            onChange={handleChange}
+            checked={formData.paintingAndStain.includes(item)}
+            className="mr-2"
+          />
           {item}
         </label>
       ))}
@@ -192,31 +234,40 @@ export default function HomeLeadForm() {
         "Custom",
       ].map((item) => (
         <label key={item} className="block">
-          <input type="checkbox" name="constructionAndRestoration" value={item} onChange={handleChange} checked={formData.constructionAndRestoration.includes(item)} className="mr-2" />
+          <input
+            type="checkbox"
+            name="constructionAndRestoration"
+            value={item}
+            onChange={handleChange}
+            checked={formData.constructionAndRestoration.includes(item)}
+            className="mr-2"
+          />
           {item}
         </label>
       ))}
 
       {/* Notes Field */}
-      <textarea name="notes" placeholder="Notes" value={formData.notes} onChange={handleChange} rows={4} className="p-4 border rounded-lg w-full"></textarea>
+      <textarea
+        name="notes"
+        placeholder="Notes"
+        value={formData.notes}
+        onChange={handleChange}
+        rows={4}
+        className="p-4 border rounded-lg w-full"
+      ></textarea>
 
-      {/* Photo Upload Input (Identical to ContactForm) */}
+      {/* Photo Upload Input */}
       <div>
-        <label className="block text-gray-700">Upload 1 Photo (Optional)</label>
+        <label className="block text-gray-700">Upload up to 4 Photos (Optional)</label>
         <input
           key={fileInputKey}
           type="file"
           name="photos"
           accept="image/*"
+          multiple
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
-      </div>
-
-      {/* Subscribe Checkbox */}
-      <div className="flex items-center">
-        <input type="checkbox" name="subscribeToMailchimp" checked={formData.subscribeToMailchimp} onChange={handleChange} className="mr-2" />
-        <label className="text-gray-700">Subscribe to our newsletter for updates and discounts</label>
       </div>
 
       <button type="submit" className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800">
