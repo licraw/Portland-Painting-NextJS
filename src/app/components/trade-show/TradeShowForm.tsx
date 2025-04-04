@@ -257,7 +257,7 @@ export default function HomeLeadForm() {
       ></textarea>
 
       {/* Photo Upload Input */}
-      <div>
+      {/* <div>
         <label className="block text-gray-700">Upload up to 4 Photos (Optional)</label>
         <input
           key={fileInputKey}
@@ -268,7 +268,7 @@ export default function HomeLeadForm() {
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
         />
-      </div>
+      </div> */}
 
       <button type="submit" className="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800">
         Submit
