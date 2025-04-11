@@ -90,9 +90,8 @@ export default function Nav() {
             <li className="group relative">
               <Link
                 href="#"
-                className={`hover:text-black transition flex items-center ${
-                  isServicesActive ? "text-black" : ""
-                }`}
+                className={`hover:text-black transition flex items-center ${isServicesActive ? "text-black" : ""
+                  }`}
               >
                 Services
                 <span className="ml-1 text-sm">
@@ -109,33 +108,29 @@ export default function Nav() {
               <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
                 <Link
                   href="/painting/interior"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/painting/interior" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/painting/interior" ? "text-black" : ""
+                    }`}
                 >
                   Interior Painting
                 </Link>
                 <Link
                   href="/painting/exterior"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/painting/exterior" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/painting/exterior" ? "text-black" : ""
+                    }`}
                 >
                   Exterior Painting
                 </Link>
                 <Link
                   href="/carpentry"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/carpentry" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/carpentry" ? "text-black" : ""
+                    }`}
                 >
                   Carpentry
                 </Link>
                 <Link
                   href="/restoration"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/restoration" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/restoration" ? "text-black" : ""
+                    }`}
                 >
                   Restoration
                 </Link>
@@ -146,9 +141,8 @@ export default function Nav() {
             <li className="group relative">
               <Link
                 href="#"
-                className={`hover:text-black transition flex items-center ${
-                  isGalleryActive ? "text-black" : ""
-                }`}
+                className={`hover:text-black transition flex items-center ${isGalleryActive ? "text-black" : ""
+                  }`}
               >
                 Gallery
                 <span className="ml-1 text-sm">
@@ -165,17 +159,15 @@ export default function Nav() {
               <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-white shadow-md rounded-md p-2 mt-0 border border-gray-200 z-20">
                 <Link
                   href="/gallery/interior"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/gallery/interior" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/gallery/interior" ? "text-black" : ""
+                    }`}
                 >
                   Interior
                 </Link>
                 <Link
                   href="/gallery/exterior"
-                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${
-                    pathname === "/gallery/exterior" ? "text-black" : ""
-                  }`}
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/gallery/exterior" ? "text-black" : ""
+                    }`}
                 >
                   Exterior
                 </Link>
@@ -186,9 +178,8 @@ export default function Nav() {
             <li className="group relative">
               <Link
                 href="#"
-                className={`hover:text-black transition flex items-center ${
-                  isAboutActive ? "text-black" : ""
-                }`}
+                className={`hover:text-black transition flex items-center ${isAboutActive ? "text-black" : ""
+                  }`}
               >
                 About Us
                 <span className="ml-1 text-sm">
@@ -226,11 +217,19 @@ export default function Nav() {
             <li>
               <Link
                 href="/contact"
-                className={`hover:text-black transition ${
-                  pathname === "/contact" ? "text-black" : ""
-                }`}
+                className={`hover:text-black transition ${pathname === "/contact" ? "text-black" : ""
+                  }`}
               >
                 Contact
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/save-the-planet"
+                className={`hover:text-black transition ${pathname === "/save-the-planet" ? "text-green-500" : ""
+                  }`}
+              >
+                Save The Planet
               </Link>
             </li>
           </ul>
@@ -256,20 +255,18 @@ export default function Nav() {
 
         {/* Mobile Overlay (dims background) */}
         <div
-          className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-            menuOpen
+          className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${menuOpen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
-          } lg:hidden`}
+            } lg:hidden`}
           onClick={toggleMenu}
           aria-hidden={!menuOpen}
         />
 
         {/* Mobile Side Menu */}
         <div
-          className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white z-50 transform transition-transform duration-300 lg:hidden flex flex-col ${
-            menuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white z-50 transform transition-transform duration-300 lg:hidden flex flex-col ${menuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
         >
           {/* Close Button / Header */}
           <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
@@ -291,9 +288,8 @@ export default function Nav() {
               <Link
                 href="/"
                 onClick={toggleMenu}
-                className={`block transition ${
-                  pathname === "/" ? "text-black" : ""
-                }`}
+                className={`block transition ${pathname === "/" ? "text-black" : ""
+                  }`}
               >
                 Home
               </Link>
@@ -304,9 +300,8 @@ export default function Nav() {
               <button
                 type="button"
                 onClick={() => setServicesOpen(!servicesOpen)}
-                className={`flex items-center justify-between w-full text-left transition ${
-                  isServicesActive ? "text-black" : ""
-                }`}
+                className={`flex items-center justify-between w-full text-left transition ${isServicesActive ? "text-black" : ""
+                  }`}
               >
                 <span>Services</span>
                 <span className="ml-2 text-sm">
@@ -331,17 +326,15 @@ export default function Nav() {
                 </span>
               </button>
               <ul
-                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
-                  servicesOpen ? "max-h-40" : "max-h-0"
-                }`}
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${servicesOpen ? "max-h-40" : "max-h-0"
+                  }`}
               >
                 <li>
                   <Link
                     href="/painting/interior"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/painting/interior" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/painting/interior" ? "text-black" : ""
+                      }`}
                   >
                     Interior Painting
                   </Link>
@@ -350,9 +343,8 @@ export default function Nav() {
                   <Link
                     href="/painting/exterior"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/painting/exterior" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/painting/exterior" ? "text-black" : ""
+                      }`}
                   >
                     Exterior Painting
                   </Link>
@@ -361,9 +353,8 @@ export default function Nav() {
                   <Link
                     href="/carpentry"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/carpentry" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/carpentry" ? "text-black" : ""
+                      }`}
                   >
                     Carpentry
                   </Link>
@@ -372,9 +363,8 @@ export default function Nav() {
                   <Link
                     href="/restoration"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/restoration" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/restoration" ? "text-black" : ""
+                      }`}
                   >
                     Restoration
                   </Link>
@@ -387,9 +377,8 @@ export default function Nav() {
               <button
                 type="button"
                 onClick={() => setGalleryOpen(!galleryOpen)}
-                className={`flex items-center justify-between w-full text-left transition ${
-                  isGalleryActive ? "text-black" : ""
-                }`}
+                className={`flex items-center justify-between w-full text-left transition ${isGalleryActive ? "text-black" : ""
+                  }`}
               >
                 <span>Gallery</span>
                 <span className="ml-2 text-sm">
@@ -414,17 +403,15 @@ export default function Nav() {
                 </span>
               </button>
               <ul
-                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
-                  galleryOpen ? "max-h-40" : "max-h-0"
-                }`}
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${galleryOpen ? "max-h-40" : "max-h-0"
+                  }`}
               >
                 <li>
                   <Link
                     href="/gallery/interior"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/gallery/interior" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/gallery/interior" ? "text-black" : ""
+                      }`}
                   >
                     Interior
                   </Link>
@@ -433,9 +420,8 @@ export default function Nav() {
                   <Link
                     href="/gallery/exterior"
                     onClick={toggleMenu}
-                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${
-                      pathname === "/gallery/exterior" ? "text-black" : ""
-                    }`}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/gallery/exterior" ? "text-black" : ""
+                      }`}
                   >
                     Exterior
                   </Link>
@@ -448,9 +434,8 @@ export default function Nav() {
               <button
                 type="button"
                 onClick={() => setAboutOpen(!aboutOpen)}
-                className={`flex items-center justify-between w-full text-left transition ${
-                  isAboutActive ? "text-black" : ""
-                }`}
+                className={`flex items-center justify-between w-full text-left transition ${isAboutActive ? "text-black" : ""
+                  }`}
               >
                 <span>About Us</span>
                 <span className="ml-2 text-sm">
@@ -475,9 +460,8 @@ export default function Nav() {
                 </span>
               </button>
               <ul
-                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${
-                  aboutOpen ? "max-h-40" : "max-h-0"
-                }`}
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${aboutOpen ? "max-h-40" : "max-h-0"
+                  }`}
               >
                 <li>
                   <Link
@@ -513,12 +497,22 @@ export default function Nav() {
               <Link
                 href="/contact"
                 onClick={toggleMenu}
-                className={`block transition ${
-                  pathname === "/contact" ? "text-black" : ""
-                }`}
+                className={`block transition ${pathname === "/contact" ? "text-black" : ""
+                  }`}
               >
                 Contact
               </Link>
+            </li>
+            <li>
+              <Link
+                href="/save-the-planet"
+                onClick={toggleMenu}
+                className={`block transition ${pathname === "/save-the-planet" ? "text-green-500" : ""
+                  }`}
+              >
+                Save The Planet
+              </Link>
+
             </li>
           </ul>
 
