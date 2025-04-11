@@ -152,6 +152,12 @@ const StatCard = styled.div<StatCardProps>`
 const SavePlanetSection = () => {
   return (
     <>
+     <SectionLayout>
+          <SectionImageFinal
+            src="/save-the-planet/summary.png"
+            alt="Printable infographic illustration"
+          />
+        </SectionLayout>
       {/* Section 1: It Will Last Longer */}
       <PageSection className="!pt-6" bgcolor="white">
         <SectionHeaderWrapper>
@@ -318,12 +324,6 @@ const SavePlanetSection = () => {
           </SectionSubHeader>
           <hr />
         </SectionHeaderWrapper>
-        <SectionLayout>
-          <SectionImageFinal
-            src="/save-the-planet/summary.png"
-            alt="Printable infographic illustration"
-          />
-        </SectionLayout>
       </PageSection>
     </>
   );
