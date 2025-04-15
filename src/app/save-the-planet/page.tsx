@@ -63,8 +63,7 @@ export default function SaveThePlanetPage() {
 
       <div className="w-full bg-white p-8 pl-6 lg:pl-20 lg:pr-20">
         <p className="pt-0 pb-4">
-          Global warming may seem like an overwhelmingly complex problem to handle 
-          but painting your house white is a step in the right direction.
+        Did you know a white home can perform nearly twice as efficiently as a dark one? Painting your house white is a simple change that can lower your cooling costs and reduce environmental impact—all while keeping things looking fresh.
         </p>
         <p className="pt-4 pb-0">
           So we’ve gone ahead and put together some reasons to paint your house white, 
