@@ -1,19 +1,40 @@
+// pages/api/yourEndpoint.ts
 import { NextRequest } from "next/server";
 import { writeFile } from "fs/promises";
 import fs from "fs";
 import path from "path";
+import pino from "pino";
+import { createPinoBrowserSend, createWriteStream } from "pino-logflare";
 const Asana = require("asana");
+
+// Create a pino-logflare stream for server-side logging.
+const stream = createWriteStream({
+  apiKey: "gqMBh7DUjkAV",
+  sourceToken: "a71d5d94-2c92-46f1-9028-e430ba0e149d",
+});
+
+// (Optional) Create a pino-logflare browser stream if you need to send logs from the client.
+const send = createPinoBrowserSend({
+  apiKey: "gqMBh7DUjkAV",
+  sourceToken: "a71d5d94-2c92-46f1-9028-e430ba0e149d",
+});
+
+// Create the pino logger instance.
+const logger = pino(
+  {
+    browser: {
+      transmit: {
+        send,
+      },
+    },
+  },
+  stream
+);
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("==> [START] Received POST request.");
-
-    // 1. Read and log form data
+    // 1. Read form data
     const data = await request.formData();
-    console.log(
-      "==> [STEP] Form data received:",
-      JSON.stringify(Array.from(data.entries()))
-    );
 
     // 2. Pull out form fields
     const photoFiles: File[] = data.getAll("photos") as File[];
@@ -28,20 +49,6 @@ export async function POST(request: NextRequest) {
     const paintingAndStain = data.get("paintingAndStain") as string;
     const constructionAndRestoration = data.get("constructionAndRestoration") as string;
     const notes = data.get("notes") as string;
-
-    console.log("==> [STEP] Parsed fields:", {
-      name,
-      email,
-      phone,
-      address,
-      overview,
-      promoCode,
-      formType,
-      paintingAndStain,
-      constructionAndRestoration,
-      notes,
-      photoFilesCount: photoFiles?.length || 0,
-    });
 
     // 3. Build Asana task name/notes and email message
     let asanaTaskName = "";
@@ -59,25 +66,24 @@ export async function POST(request: NextRequest) {
     } else if (formType === "homeLead") {
       asanaTaskName = `New Home Lead Request from ${name}`;
       asanaTaskNotes = `
-      **Name**: ${name}
-      **Email**: ${email}
-      **Phone**: ${phone}
-      **Address**: ${address}
-      **Painting & Stain**: ${paintingAndStain}
-      **Construction & Restoration Interests**: ${constructionAndRestoration}
-      **Notes**: ${notes || "N/A"}
+        **Name**: ${name}
+        **Email**: ${email}
+        **Phone**: ${phone}
+        **Address**: ${address}
+        **Painting & Stain**: ${paintingAndStain}
+        **Construction & Restoration Interests**: ${constructionAndRestoration}
+        **Notes**: ${notes || "N/A"}
       `;
       emailMessage = `
-      Name: ${name}
-      Email: ${email}
-      Phone: ${phone}
-      Address: ${address}
-      Painting & Stain Interests: ${paintingAndStain}
-      Construction & Restoration Interests: ${constructionAndRestoration}
-      Notes: ${notes || "N/A"}
+        Name: ${name}
+        Email: ${email}
+        Phone: ${phone}
+        Address: ${address}
+        Painting & Stain Interests: ${paintingAndStain}
+        Construction & Restoration Interests: ${constructionAndRestoration}
+        Notes: ${notes || "N/A"}
       `;
     }
-    console.log("==> [STEP] Asana task data prepared:", { asanaTaskName, asanaTaskNotes });
 
     // 4. Initialize Asana
     const client = Asana.ApiClient.instance;
@@ -85,11 +91,8 @@ export async function POST(request: NextRequest) {
     token.accessToken = process.env.ASANA_TOKEN;
 
     if (!token.accessToken) {
-      console.error("==> [ERROR] ASANA_TOKEN is missing or not set correctly.");
-      return new Response(
-        JSON.stringify({ error: "ASANA_TOKEN not configured." }),
-        { status: 500 }
-      );
+      logger.error("ASANA_TOKEN is missing or not set correctly.");
+      return new Response(JSON.stringify({ error: "ASANA_TOKEN not configured." }), { status: 500 });
     }
 
     // 5. Create the API instances
@@ -97,27 +100,15 @@ export async function POST(request: NextRequest) {
     const attachmentsApiInstance = new Asana.AttachmentsApi();
     const projectsApiInstance = new Asana.ProjectsApi();
 
-    // -------------------------------------------------------------------------
-    // ***** Fetch and log custom fields from the project in the workspace *****
-    // -------------------------------------------------------------------------
+    // Attempt to fetch project details for custom fields
     const projectId = "9865446660987"; // Project ID
-    console.log("==> [STEP] Fetching project details for project:", projectId);
     try {
-      const projectResponse = await projectsApiInstance.getProject(projectId, {
+      await projectsApiInstance.getProject(projectId, {
         opt_fields: "workspace,custom_field_settings.custom_field,custom_field_settings.display_value",
       });
-      const project = projectResponse.data;
-      if (project.workspace.gid !== "9802913355207") {
-        console.warn(`==> [WARNING] Project ${projectId} is not in workspace 9802913355207.`);
-      }
-      console.log(
-        "==> [STEP] Fetched project custom fields:",
-        JSON.stringify(project.custom_field_settings, null, 2)
-      );
     } catch (projectFetchError) {
-      console.error("==> [ERROR] Unable to fetch project details:", projectFetchError);
+      logger.error("Unable to fetch project details", { error: projectFetchError });
     }
-    // -------------------------------------------------------------------------
 
     const dueDate = new Date().toISOString().split("T")[0];
 
@@ -152,59 +143,45 @@ export async function POST(request: NextRequest) {
       };
     }
 
-    console.log("==> [STEP] Asana createTask body:", JSON.stringify(body, null, 2));
-
     // 7. Create the Asana task
     let result = await tasksApiInstance.createTask(body, {});
-    console.log("==> [STEP] Task created successfully in Asana:", result.data?.gid);
 
-    // 8. Upload attachments in parallel with retry logic
+    // 8. Upload attachments
     let photosFailed = false;
     if (photoFiles && photoFiles.length > 0) {
       const tempDir = path.resolve("/tmp");
 
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir);
-        console.log(`==> [STEP] Created temp directory at: ${tempDir}`);
       }
 
       try {
         await Promise.all(
           photoFiles.map(async (photoFile) => {
             const tempFilePath = path.join(tempDir, photoFile.name);
-            console.log(`==> [INFO] Writing file to temp path: ${tempFilePath}`);
             await writeFile(tempFilePath, Buffer.from(await photoFile.arrayBuffer()));
 
             // Attempt to upload the attachment.
-            const attachResult = await attachmentsApiInstance.createAttachmentForObject({
+            await attachmentsApiInstance.createAttachmentForObject({
               parent: result.data.gid,
               file: fs.createReadStream(tempFilePath),
             });
-            console.log(`==> [STEP] Attachment uploaded: ${photoFile.name}, attachResult:`, attachResult);
-            // Delete temp file synchronously after upload.
             fs.unlinkSync(tempFilePath);
           })
         );
       } catch (attachmentError) {
-        console.error("==> [ERROR] Attachment upload failed:", attachmentError);
-        // Delete the previously created task.
+        logger.error("Attachment upload failed", { error: attachmentError });
         try {
           await tasksApiInstance.deleteTask(result.data.gid, {});
-          console.log("==> [STEP] Deleted task due to attachment upload failure.");
         } catch (deleteError) {
-          console.error("==> [ERROR] Failed to delete task after attachment failure:", deleteError);
+          logger.error("Failed to delete task after attachment failure", { error: deleteError });
         }
-        // Retry creating the task without attempting attachments.
         result = await tasksApiInstance.createTask(body, {});
-        console.log("==> [STEP] Task re-created without photos:", result.data?.gid);
         photosFailed = true;
       }
-    } else {
-      console.log("==> [STEP] No photo files to upload.");
     }
 
     // 9. Send the email
-    console.log("==> [STEP] Sending email via /api/sendEmail");
     const origin = request.nextUrl.origin;
     const emailResponse = await fetch(`${origin}/api/sendEmail`, {
       method: "POST",
@@ -215,7 +192,6 @@ export async function POST(request: NextRequest) {
         phone,
         formType,
         emailMessage,
-        // If photos failed to attach, send an empty array.
         photoFiles: photosFailed
           ? []
           : await Promise.all(
@@ -228,24 +204,18 @@ export async function POST(request: NextRequest) {
     });
 
     if (!emailResponse.ok) {
-      console.error("==> [ERROR] Email API responded with status:", emailResponse.status);
+      logger.error("Email API responded with status", { status: emailResponse.status });
       const errorText = await emailResponse.text();
-      console.error("==> [ERROR] Email API response text:", errorText);
-    } else {
-      console.log("==> [STEP] Email API call succeeded.");
+      logger.error("Email API response text", { errorText });
     }
 
-    // 10. Return success response with message reflecting photo upload status
-    console.log("==> [SUCCESS] Task created and email request sent.");
+    // 10. Return success response
     const finalMessage = photosFailed
       ? "Task created successfully, but photos could not be attached. Estimate request sent without photos."
       : "Task created and email request sent.";
-    return new Response(
-      JSON.stringify({ success: true, message: finalMessage }),
-      { status: 200 }
-    );
+    return new Response(JSON.stringify({ success: true, message: finalMessage }), { status: 200 });
   } catch (error) {
-    console.error("==> [CATCH] An error occurred:", error);
+    logger.error("An error occurred", { error });
     return new Response(JSON.stringify({ error: "Failed to process request" }), { status: 500 });
   }
 }
