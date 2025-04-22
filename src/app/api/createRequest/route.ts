@@ -1,37 +1,73 @@
-// pages/api/createRequest.ts
-import { NextRequest } from "next/server";
+/**
+ * POST /api/createRequest
+ * Creates an Asana task for “estimate” or “contact” forms.
+ *
+ * Expects JSON in the request body — no photos.
+ * Photos should be uploaded separately to /api/uploadPhoto?taskId=...
+ */
+
 const Asana = require("asana");
+const { NextRequest } = require("next/server");
 
 export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
+export async function POST(req = new NextRequest()) {
   try {
+    /* 1️⃣  parse body */
+    const payload = await req.json();
     const {
+      formType,
       name,
       email,
       phone,
       address,
-      formType,
       overview,
       promoCode = "0000",
+      howDidYouFindUs,
       paintingAndStain,
       constructionAndRestoration,
-      howDidYouFindUs,
-    } = await req.json();
+    } = payload;
 
+    /* 2️⃣  initialise Asana client */
     const client = Asana.ApiClient.instance;
-    client.authentications["token"].accessToken = process.env.ASANA_TOKEN as string;
+    const token = client.authentications["token"];
+    token.accessToken = process.env.ASANA_TOKEN;
 
-    const tasks = new Asana.TasksApi();
+    if (!token.accessToken) {
+      console.error("ASANA_TOKEN is missing");
+      return new Response(
+        JSON.stringify({ error: "ASANA_TOKEN not configured" }),
+        { status: 500 }
+      );
+    }
+
+    /* 3️⃣  create API instances */
+    const tasksApiInstance = new Asana.TasksApi();
+    const attachmentsApiInstance = new Asana.AttachmentsApi();
+    const projectsApiInstance = new Asana.ProjectsApi();
+
+    /* 4️⃣ (optional) verify project exists / grab custom‑field settings */
     const projectId = "9865446660987";
-    const due_on = new Date().toISOString().split("T")[0];
+    try {
+      await projectsApiInstance.getProject(projectId, {
+        opt_fields: "workspace,custom_field_settings.custom_field",
+      });
+    } catch (err) {
+      console.error("Failed to fetch project metadata", err);
+    }
 
-    const data =
+    /* 5️⃣  build task data */
+    const due_on = new Date().toISOString().split("T")[0];
+    const taskData =
       formType === "homeLead"
         ? {
             workspace: "9802913355207",
             name: `New Home Lead Request from ${name}`,
-            notes: `**Email**: ${email}\n**Phone**: ${phone}\n**Address**: ${address}\n**Painting & Stain**: ${paintingAndStain}\n**Construction & Restoration**: ${constructionAndRestoration}`,
+            notes: `**Email**: ${email}
+**Phone**: ${phone}
+**Address**: ${address}
+**Painting & Stain**: ${paintingAndStain}
+**Construction & Restoration**: ${constructionAndRestoration}`,
             due_on,
             projects: [projectId],
             tags: ["1209503778924319"],
@@ -39,7 +75,11 @@ export async function POST(req: NextRequest) {
         : {
             workspace: "9802913355207",
             name: `New ${formType === "estimate" ? "Estimate" : "Contact"} Request from ${name}`,
-            notes: `**Email**: ${email}\n**Phone**: ${phone}\n**Address**: ${address}\n**Overview**: ${overview}\n**Promo Code**: ${promoCode}`,
+            notes: `**Email**: ${email}
+**Phone**: ${phone}
+**Address**: ${address}
+**Overview**: ${overview}
+**Promo Code**: ${promoCode}`,
             due_on,
             projects: [projectId],
             custom_fields: {
@@ -50,11 +90,13 @@ export async function POST(req: NextRequest) {
             },
           };
 
-    const { data: task } = await tasks.createTask({ data }, {});
+    /* 6️⃣  create task */
+    const { data: task } = await tasksApiInstance.createTask({ data: taskData }, {});
 
+    /* 7️⃣  respond with taskId so the client can POST photos later */
     return new Response(JSON.stringify({ taskId: task.gid }), { status: 200 });
   } catch (err) {
     console.error("createRequest error", err);
-    return new Response(JSON.stringify({ error: "task‑create failed" }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Task creation failed" }), { status: 500 });
   }
 }

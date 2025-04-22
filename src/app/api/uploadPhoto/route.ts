@@ -1,34 +1,53 @@
-// pages/api/uploadPhoto.ts
+/**
+ * POST /api/uploadPhoto?taskId=123
+ * Multipart endpoint: expects a single <input name="photo" />
+ * Keeps each request < 4.5 MB to avoid Vercel’s limit.
+ */
+
+const Asana = require("asana");
+const fs = require("fs");
+const path = require("path");
+const { writeFile } = require("fs/promises");
 import { NextRequest } from "next/server";
-import Asana from "asana";
-import fs from "fs";
-import path from "path";
-import { writeFile } from "fs/promises";
 
 export const runtime = "nodejs";
 export const config = { api: { bodyParser: false } }; // keep raw multipart
 
 export async function POST(req: NextRequest) {
   try {
+    /* 1️⃣  validate query */
     const { searchParams } = new URL(req.url);
     const taskId = searchParams.get("taskId");
     if (!taskId) return new Response("missing taskId", { status: 400 });
 
+    /* 2️⃣  parse multipart */
     const form = await req.formData();
-    const file = form.get("photo") as File | null;
+    const file = form.get("photo");
     if (!file) return new Response("no file", { status: 400 });
-
-    if (file.size > 4.5 * 1024 * 1024)
+    if ((file as File).size > 4.5 * 1024 * 1024)
       return new Response("file > 4.5 MB", { status: 413 });
 
-    const tmp = path.join("/tmp", file.name);
-    await writeFile(tmp, Buffer.from(await file.arrayBuffer()));
+    /* 3️⃣  temp‑save */
+    const tmp = path.join("/tmp", (file as File).name);
+    await writeFile(tmp, Buffer.from(await (file as File).arrayBuffer()));
 
+    /* 4️⃣  init Asana */
     const client = Asana.ApiClient.instance;
-    client.authentications["token"].accessToken = process.env.ASANA_TOKEN as string;
-    const attachments = new Asana.AttachmentsApi();
+    const token = client.authentications["token"];
+    token.accessToken = process.env.ASANA_TOKEN;
 
-    await attachments.createAttachmentForObject({
+    if (!token.accessToken) {
+      console.error("ASANA_TOKEN not configured");
+      return new Response(
+        JSON.stringify({ error: "ASANA_TOKEN not configured." }),
+        { status: 500 }
+      );
+    }
+
+    const attachmentsApiInstance = new Asana.AttachmentsApi();
+
+    /* 5️⃣  upload */
+    await attachmentsApiInstance.createAttachmentForObject({
       parent: taskId,
       file: fs.createReadStream(tmp),
     });
