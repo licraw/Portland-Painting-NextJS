@@ -1,11 +1,12 @@
 import { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 
-export async function POST(request: NextRequest) {
-  const { name, email, formType, emailMessage, photoFiles } = await request.json();
+export const runtime = "nodejs";
 
+export async function POST(req: NextRequest) {
   try {
-    // GMAIL Integration
+    const { name, email, formType, bodyText, photos = [] } = await req.json();
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -14,26 +15,24 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const mailOptions = {
+    const attachments = photos
+      .filter((p: { content: string }) => Buffer.byteLength(p.content, "base64") < 20 * 1024 * 1024) // stay under Gmail cap
+      .map((p: { name: string; content: string }) => ({
+        filename: p.name,
+        content: Buffer.from(p.content, "base64"),
+      }));
+
+    await transporter.sendMail({
       from: `"${name}" <${email}>`,
       to: process.env.RECIPIENT_EMAIL,
       subject: `New ${formType === "estimate" ? "Estimate" : "Contact"} Request from ${name}`,
-      text: emailMessage,
-      attachments: photoFiles.map((photo: { name: string; content: string }) => ({
-        filename: photo.name,
-        content: Buffer.from(photo.content, "base64"), // Decode Base64 back to buffer
-      })),
-    };
+      text: bodyText,
+      attachments,
+    });
 
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
-
-    return new Response(
-      JSON.stringify({ success: true, message: "Email sent successfully" }),
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Email error:", error);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), { status: 500 });
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  } catch (err) {
+    console.error("email error", err);
+    return new Response(JSON.stringify({ error: "email failed" }), { status: 500 });
   }
 }
