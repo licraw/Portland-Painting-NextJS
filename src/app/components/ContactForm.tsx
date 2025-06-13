@@ -6,7 +6,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -23,6 +23,7 @@ export default function ContactForm() {
     address: "",
     overview: "",
     promoCode: "",
+    zipCode: "",
     subscribeToMailchimp: true,
     howDidYouFindUs: "",
     formType: "contact",
@@ -144,6 +145,7 @@ Message: ${formData.overview}`;
         address: "",
         overview: "",
         promoCode: "",
+        zipCode: "",
         subscribeToMailchimp: true,
         howDidYouFindUs: "",
         formType: "contact",
@@ -198,6 +200,17 @@ Message: ${formData.overview}`;
         name="phone"
         placeholder="Phone Number"
         value={formData.phone}
+        onChange={handleChange}
+      />
+
+      {/* zip code */}
+      <input
+        className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full mt-4"
+        required
+        type="text"
+        name="zipCode"
+        placeholder="Zip Code"
+        value={formData.zipCode}
         onChange={handleChange}
       />
 

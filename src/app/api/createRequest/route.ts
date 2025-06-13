@@ -22,6 +22,7 @@ export async function POST(req = new NextRequest()) {
       phone,
       address,
       overview,
+      zipCode,
       promoCode = "0000",
       howDidYouFindUs,
       paintingAndStain,
@@ -43,7 +44,6 @@ export async function POST(req = new NextRequest()) {
 
     /* 3️⃣  create API instances */
     const tasksApiInstance = new Asana.TasksApi();
-    const attachmentsApiInstance = new Asana.AttachmentsApi();
     const projectsApiInstance = new Asana.ProjectsApi();
 
     /* 4️⃣ (optional) verify project exists / grab custom‑field settings */
@@ -66,6 +66,7 @@ export async function POST(req = new NextRequest()) {
             notes: `**Email**: ${email}
 **Phone**: ${phone}
 **Address**: ${address}
+**Zip Code**: ${zipCode}
 **Painting & Stain**: ${paintingAndStain}
 **Construction & Restoration**: ${constructionAndRestoration}`,
             due_on,
@@ -78,6 +79,7 @@ export async function POST(req = new NextRequest()) {
             notes: `**Email**: ${email}
 **Phone**: ${phone}
 **Address**: ${address}
+**Zip Code**: ${zipCode}
 **Overview**: ${overview}
 **Promo Code**: ${promoCode}`,
             due_on,

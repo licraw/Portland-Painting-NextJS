@@ -232,6 +232,15 @@ export default function Nav() {
                 Save The Planet
               </Link>
             </li>
+            <li>
+              <Link
+                href="/blogs"
+                className={`hover:text-black transition ${pathname === "/blogs" ? "text-black" : ""
+                  }`}
+              >
+                Blogs
+              </Link>
+            </li>
           </ul>
 
           {/* "Get Estimate" Button (Desktop Only) */}
@@ -513,6 +522,16 @@ export default function Nav() {
                 Save The Planet
               </Link>
 
+            </li>
+            <li>
+              <Link
+                href="/blogs"
+                onClick={toggleMenu}
+                className={`block transition ${pathname === "/blogs" ? "text-black" : ""
+                  }`}
+              >
+                Blogs
+              </Link>
             </li>
           </ul>
 

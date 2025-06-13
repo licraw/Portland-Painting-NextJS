@@ -16,6 +16,7 @@ export default function EstimateForm() {
     phone: "",
     address: "",
     overview: "",
+    zipCode: "",
     promoCode: "",
     howDidYouFindUs: "",
     subscribeToMailchimp: true,
@@ -129,6 +130,7 @@ Promo Code: ${formData.promoCode || "None"}`;
         address: "",
         overview: "",
         promoCode: "",
+        zipCode: "",
         howDidYouFindUs: "",
         subscribeToMailchimp: true,
         formType: "estimate",
@@ -184,15 +186,26 @@ Promo Code: ${formData.promoCode || "None"}`;
         className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
       />
 
-      <input
-        type="text"
-        name="address"
-        placeholder="Project Address"
-        value={formData.address}
-        onChange={handleChange}
-        required
-        className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <input
+          type="text"
+          name="address"
+          placeholder="Project Address"
+          value={formData.address}
+          onChange={handleChange}
+          required
+          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+        />
+        <input
+          type="text"
+          name="zipCode"
+          placeholder="Zip Code"
+          value={formData.zipCode}
+          onChange={handleChange}
+          required
+          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+        />
+      </div>
 
       <textarea
         name="overview"

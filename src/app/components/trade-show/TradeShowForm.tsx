@@ -10,6 +10,7 @@ interface HomeLeadFormData {
   email: string;
   phone: string;
   address: string;
+  zipCode: string;
   notes: string;
   formType: "homeLead";
   paintingAndStain: string[];
@@ -29,6 +30,7 @@ export default function HomeLeadForm() {
     email: "",
     phone: "",
     address: "",
+    zipCode: "",
     notes: "",
     formType: "homeLead",
     paintingAndStain: [],
@@ -149,6 +151,7 @@ Notes: ${formData.notes}`;
         email: "",
         phone: "",
         address: "",
+        zipCode: "",
         notes: "",
         formType: "homeLead",
         paintingAndStain: [],
@@ -210,6 +213,16 @@ Notes: ${formData.notes}`;
         name="address"
         placeholder="Address"
         value={formData.address}
+        onChange={handleChange}
+      />
+
+      <input
+        className="p-4 border rounded-lg w-full mt-4"
+        required
+        type="text"
+        name="zipCode"
+        placeholder="Zip Code"
+        value={formData.zipCode}
         onChange={handleChange}
       />
 
