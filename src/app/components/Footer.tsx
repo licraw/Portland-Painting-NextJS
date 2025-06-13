@@ -137,6 +137,11 @@ export default function Footer() {
                   Contact Us
                 </Link>
               </li>
+              <li>
+                <Link href="/blogs" className="hover:text-white">
+                  Blogs
+                </Link>
+              </li>
             </ul>
           </div>
           {/* Contact */}
