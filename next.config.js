@@ -32,6 +32,11 @@ module.exports = {
         permanent: true,
       },
       {
+        source: '/reviews',
+        destination: '/about-us/reviews',
+        permanent: true,
+      },
+      {
         source: '/portland-interior-residential-painting',
         destination: '/painting/interior',
         permanent: true,
