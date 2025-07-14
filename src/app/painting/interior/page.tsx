@@ -91,7 +91,7 @@ export default function InteriorPaintingPage() {
           </p>
         </div>
       </div>
-      
+
       <CarouselGallery images={imageSet1} />
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20 light-green-bg">
         <h2 className="font-sans font-medium text-4xl lg:text-4xl leading-[1.2] text-center pb-8">
