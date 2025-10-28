@@ -1,5 +1,23 @@
 import { Metadata } from "next";
+import Script from "next/script";
 import ContactContainer from "../components/contact/contactContainer";
+
+const contactPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": "https://www.paintpdx.com/contact#webpage",
+  name: "Contact Portland Painting & Restoration",
+  description:
+    "Contact Portland Painting & Restoration via phone, email, or our online form to discuss your next painting or restoration project.",
+  url: "https://www.paintpdx.com/contact",
+  mainEntity: {
+    "@type": "ContactPoint",
+    telephone: "+1-503-236-7003",
+    contactType: "Customer Service",
+    areaServed: "US",
+    availableLanguage: "English",
+  },
+};
 
 export const metadata: Metadata = {
   title: "Contact Us | Portland Painting & Restoration",
@@ -42,5 +60,12 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return <ContactContainer />;
+  return (
+    <>
+      <Script id="contact-page-ld-json" type="application/ld+json">
+        {JSON.stringify(contactPageJsonLd)}
+      </Script>
+      <ContactContainer />
+    </>
+  );
 }

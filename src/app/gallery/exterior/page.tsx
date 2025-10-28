@@ -1,9 +1,35 @@
 
 import type { Metadata } from "next";
-import Image from 'next/image';
-import imageFiles from './galleryFiles';
-import MasonryGallery from '../../components/ImageGallery/MasonryGallery';
-import Link from 'next/link';
+import Image from "next/image";
+import imageFiles from "./galleryFiles";
+import MasonryGallery from "../../components/ImageGallery/MasonryGallery";
+import Link from "next/link";
+import Script from "next/script";
+
+const toAbsoluteImage = (path: string) =>
+  (path.startsWith("http") ? path : `https://www.paintpdx.com${path}`).replace(
+    /\s/g,
+    "%20"
+  );
+
+const galleryJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://www.paintpdx.com/exterior-gallery#collection",
+  name: "Exterior Painting Gallery",
+  description:
+    "A portfolio of exterior painting and carpentry projects completed across Portland and Vancouver.",
+  url: "https://www.paintpdx.com/exterior-gallery",
+  hasPart: imageFiles.slice(0, 12).map((image, index) => {
+    const absoluteUrl = toAbsoluteImage(image);
+    return {
+      "@type": "ImageObject",
+      "@id": `${absoluteUrl}#image-${index + 1}`,
+      contentUrl: absoluteUrl,
+      representativeOfPage: index === 0,
+    };
+  }),
+};
 
 export const metadata: Metadata = {
   title: "Exterior Gallery | Portland Painting & Restoration",
@@ -41,6 +67,9 @@ export const metadata: Metadata = {
 export default async function ExteriorGalleryPage() {
   return (
     <>
+      <Script id="exterior-gallery-ld-json" type="application/ld+json">
+        {JSON.stringify(galleryJsonLd)}
+      </Script>
       <div>
         <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
           <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
