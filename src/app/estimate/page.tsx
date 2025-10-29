@@ -1,5 +1,31 @@
 import { Metadata } from "next";
+import Script from "next/script";
 import EstimateForm from "../components/EstimateForm";
+
+const estimatePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.paintpdx.com/estimate#webpage",
+  name: "Request an Estimate",
+  description:
+    "Request a free estimate from Portland Painting & Restoration for painting, carpentry, and restoration projects.",
+  url: "https://www.paintpdx.com/estimate",
+  potentialAction: {
+    "@type": "QuoteAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://www.paintpdx.com/estimate",
+      actionPlatform: [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform",
+      ],
+    },
+    result: {
+      "@type": "Quote",
+      name: "Painting and Restoration Project Estimate",
+    },
+  },
+};
 
 export const metadata: Metadata = {
   title: "Get an Estimate | Portland Painting & Restoration",
@@ -47,8 +73,13 @@ export const metadata: Metadata = {
 
 export default function Estimate() {
   return (
-    <div className="min-h-screen flex flex-col items-center">
-      <EstimateForm />
-    </div>
+    <>
+      <Script id="estimate-page-ld-json" type="application/ld+json">
+        {JSON.stringify(estimatePageJsonLd)}
+      </Script>
+      <div className="min-h-screen flex flex-col items-center">
+        <EstimateForm />
+      </div>
+    </>
   );
 }

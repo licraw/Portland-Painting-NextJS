@@ -1,8 +1,29 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import imageFiles from "@/app/carpentry/galleryFiles";
 import CarouselGallery from "../components/ImageGallery/CarouselGallery";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://www.paintpdx.com/carpentry#service",
+  name: "Carpentry Services",
+  description:
+    "Comprehensive carpentry, wood rot repair, and finish carpentry services supporting Portland-area painting projects.",
+  serviceType: "Carpentry and Finish Carpentry",
+  provider: {
+    "@id": "https://www.paintpdx.com/#organization",
+  },
+  areaServed: [
+    { "@type": "City", name: "Portland" },
+    { "@type": "City", name: "Vancouver" },
+  ],
+  url: "https://www.paintpdx.com/carpentry",
+  image: "https://www.paintpdx.com/herobanner.webp",
+  slogan: "Skilled carpenters supporting beautiful, long-lasting paint jobs.",
+};
 
 export const metadata: Metadata = {
   title: "Carpentry Services | Portland Painting & Restoration",
@@ -49,6 +70,9 @@ export default function CarpentryPage() {
   const imageSet2 = imageFiles.slice(8, 16);
   return (
     <div>
+      <Script id="carpentry-service" type="application/ld+json">
+        {JSON.stringify(serviceJsonLd)}
+      </Script>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
         <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
           <div className="flex items-center justify-center w-8 h-6 bg-white rounded-full">

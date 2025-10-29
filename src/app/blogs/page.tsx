@@ -1,6 +1,7 @@
 // app/blog/page.tsx
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { getAllBlogs } from "../../../lib/getAllBlogs";
 
 export const metadata = {
@@ -10,41 +11,74 @@ export const metadata = {
 
 export default function BlogPage() {
   const posts = getAllBlogs();
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": "https://www.paintpdx.com/blogs#blog",
+    name: "Portland Painting & Restoration Blog",
+    description:
+      "Articles about painting, restoration, carpentry, and home maintenance from Portland Painting & Restoration.",
+    url: "https://www.paintpdx.com/blogs",
+    blogPost: posts.slice(0, 12).map((post) => ({
+      "@type": "BlogPosting",
+      "@id": `https://www.paintpdx.com/content/${post.slug}#blogposting`,
+      headline: post.title,
+      description: post.description,
+      datePublished: new Date(post.date).toISOString(),
+      dateModified: new Date(post.date).toISOString(),
+      image: post.image.startsWith("http")
+        ? post.image
+        : `https://www.paintpdx.com${post.image}`,
+      url: `https://www.paintpdx.com/content/${post.slug}`,
+      author: {
+        "@id": "https://www.paintpdx.com/#organization",
+      },
+      publisher: {
+        "@id": "https://www.paintpdx.com/#organization",
+      },
+    })),
+  };
 
   return (
-    <div className="w-full p-8 lg:pl-20 lg:pr-20">
-      <h1 className="text-4xl font-bold mb-8">Insights from Portland Painting & Restoration</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/content/${post.slug}`}
-            className="block group bg-white shadow hover:shadow-md rounded overflow-hidden transition"
-          >
-            <div className="relative h-48 w-full">
-              <Image
-                src={post.image}
-                alt={post.title}
-                layout="fill"
-                objectFit="cover"
-                className="group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="p-4">
-            <p className="text-sm text-gray-500">
-  {new Date(post.date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })}
-</p>              <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-700">
-                {post.title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-2">{post.description}</p>
-            </div>
-          </Link>
-        ))}
+    <>
+      <Script id="blog-ld-json" type="application/ld+json">
+        {JSON.stringify(blogJsonLd)}
+      </Script>
+      <div className="w-full p-8 lg:pl-20 lg:pr-20">
+        <h1 className="text-4xl font-bold mb-8">Insights from Portland Painting & Restoration</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/content/${post.slug}`}
+              className="block group bg-white shadow hover:shadow-md rounded overflow-hidden transition"
+            >
+              <div className="relative h-48 w-full">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-4">
+                <p className="text-sm text-gray-500">
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-700">
+                  {post.title}
+                </h2>
+                <p className="text-sm text-gray-600 mt-2">{post.description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

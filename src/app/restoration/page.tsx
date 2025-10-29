@@ -1,7 +1,28 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import BeforeAndAfterGallery from "../components/ImageGallery/BeforeAndAfterGallery";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://www.paintpdx.com/restoration#service",
+  name: "Restoration Services",
+  description:
+    "Full-scope restoration services addressing moisture damage, lead paint, and substrate failure for Portland properties.",
+  serviceType: "Home Restoration",
+  provider: {
+    "@id": "https://www.paintpdx.com/#organization",
+  },
+  areaServed: [
+    { "@type": "City", name: "Portland" },
+    { "@type": "City", name: "Vancouver" },
+  ],
+  url: "https://www.paintpdx.com/restoration",
+  image: "https://www.paintpdx.com/restoration-gallery/after1.jpg",
+  slogan: "Revive the beauty and integrity of your home with expert restoration.",
+};
 
 export const metadata: Metadata = {
   title: "Restoration Services | Portland Painting & Restoration",
@@ -46,6 +67,9 @@ export const metadata: Metadata = {
 export default function RestorationPage() {
   return (
     <div>
+      <Script id="restoration-service" type="application/ld+json">
+        {JSON.stringify(serviceJsonLd)}
+      </Script>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
         <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
           <div className="flex items-center justify-center w-8 h-6 bg-white rounded-full">

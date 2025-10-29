@@ -1,8 +1,29 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import CarouselGallery from "../../components/ImageGallery/CarouselGallery";
 import imageFiles from "@/app/gallery/exterior/galleryFiles";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://www.paintpdx.com/exterior-painting#service",
+  name: "Exterior Painting Services",
+  description:
+    "Weather-resistant exterior painting and carpentry repairs for homes and businesses in the Portland metro area.",
+  serviceType: "Exterior Residential Painting",
+  provider: {
+    "@id": "https://www.paintpdx.com/#organization",
+  },
+  areaServed: [
+    { "@type": "City", name: "Portland" },
+    { "@type": "City", name: "Vancouver" },
+  ],
+  url: "https://www.paintpdx.com/exterior-painting",
+  image: "https://www.paintpdx.com/herobanner.webp",
+  slogan: "Protect and beautify your property with exterior painting experts.",
+};
 
 export const metadata: Metadata = {
   title: "Exterior Painting Services | Portland Painting & Restoration",
@@ -43,6 +64,9 @@ export default function ExteriorPaintingPage() {
   const imageSet2 = imageFiles.slice(12, 24);
   return (
     <>
+      <Script id="exterior-painting-service" type="application/ld+json">
+        {JSON.stringify(serviceJsonLd)}
+      </Script>
       <div>
         <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
           <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">

@@ -2,7 +2,28 @@ import CarouselGallery from "../../components/ImageGallery/CarouselGallery";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Script from "next/script";
 import imageFiles from "@/app/gallery/interior/galleryFiles";
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://www.paintpdx.com/interior-painting#service",
+  name: "Interior Painting Services",
+  description:
+    "Interior painting and carpentry services for residential properties in the Portland and Vancouver metro areas.",
+  serviceType: "Interior Residential Painting",
+  provider: {
+    "@id": "https://www.paintpdx.com/#organization",
+  },
+  areaServed: [
+    { "@type": "City", name: "Portland" },
+    { "@type": "City", name: "Vancouver" },
+  ],
+  url: "https://www.paintpdx.com/interior-painting",
+  image: "https://www.paintpdx.com/herobanner.webp",
+  slogan: "Transform your interior spaces with professional painters and carpenters.",
+};
 
 export const metadata: Metadata = {
   title: "Interior Painting Services | Portland Painting & Restoration",
@@ -42,6 +63,9 @@ export default function InteriorPaintingPage() {
   const imageSet2 = imageFiles.slice(12, 24);
   return (
     <>
+      <Script id="interior-painting-service" type="application/ld+json">
+        {JSON.stringify(serviceJsonLd)}
+      </Script>
       <div>
         <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
           <div className="flex items-center space-x-3 bg-gray-100 py-2 px-4 rounded-full max-w-fit mb-4">
