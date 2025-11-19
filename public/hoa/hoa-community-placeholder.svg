@@ -1,0 +1,19 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#grad)" />
+  <g fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round">
+    <rect x="120" y="260" width="560" height="220" rx="20" />
+    <path d="M80 260 L400 120 L720 260" />
+    <line x1="400" y1="120" x2="400" y2="220" />
+    <line x1="280" y1="260" x2="280" y2="420" />
+    <line x1="520" y1="260" x2="520" y2="420" />
+  </g>
+  <text x="50%" y="75%" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="32" fill="#475569">
+    HOA Clubhouse / Shared Spaces
+  </text>
+</svg>
