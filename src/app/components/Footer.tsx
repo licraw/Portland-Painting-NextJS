@@ -121,6 +121,11 @@ export default function Footer() {
                   Restoration
                 </Link>
               </li>
+              <li>
+                <Link href="/commercial" className="hover:text-white">
+                  Commercial
+                </Link>
+              </li>
             </ul>
           </div>
           {/* Company */}

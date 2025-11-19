@@ -38,6 +38,7 @@ export default function Nav() {
     "/painting/exterior",
     "/carpentry",
     "/restoration",
+    "/commercial",
   ].includes(pathname);
 
   const isAboutActive =
@@ -133,6 +134,13 @@ export default function Nav() {
                     }`}
                 >
                   Restoration
+                </Link>
+                <Link
+                  href="/commercial"
+                  className={`block px-4 py-2 hover:bg-gray-100 rounded-md transition ${pathname === "/commercial" ? "text-black" : ""
+                    }`}
+                >
+                  Commercial
                 </Link>
               </div>
             </li>
@@ -376,6 +384,16 @@ export default function Nav() {
                       }`}
                   >
                     Restoration
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/commercial"
+                    onClick={toggleMenu}
+                    className={`block px-2 py-1 rounded-md hover:bg-gray-100 ${pathname === "/commercial" ? "text-black" : ""
+                      }`}
+                  >
+                    Commercial
                   </Link>
                 </li>
               </ul>
