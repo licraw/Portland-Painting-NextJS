@@ -195,7 +195,7 @@ export default function HoaPage() {
             <div className="order-2 lg:order-1">
               <div className="w-full overflow-hidden rounded-2xl shadow-lg border border-gray-200">
                 <Image
-                  src="/hoa/hoa-exterior.jpeg"
+                  src="/hoa/hoa-exterior.webp"
                   alt="Placeholder image showing HOA exterior buildings"
                   width={800}
                   height={600}
