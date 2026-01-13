@@ -102,15 +102,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleAnalytics gaId="AW-1016197559" />
-      <Script
-        id="portland-painting-ld-json"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-      >
-        {JSON.stringify(organizationJsonLd)}
-      </Script>
-
+      <head>
+        <GoogleAnalytics gaId="AW-1016197559" />
+        <Script
+          id="portland-painting-ld-json"
+          type="application/ld+json"
+          async
+        >
+          {JSON.stringify(organizationJsonLd)}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -111,7 +111,7 @@ export default async function Page(context: any): Promise<JSX.Element> {
 
   return (
     <>
-      <Script id={`blog-post-${slug}-ld-json`} type="application/ld+json">
+      <Script async id={`blog-post-${slug}-ld-json`} type="application/ld+json">
         {JSON.stringify(blogPostingJsonLd)}
       </Script>
       <article className="prose prose-lg mx-auto py-12 px-6">

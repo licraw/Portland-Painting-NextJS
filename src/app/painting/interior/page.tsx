@@ -63,7 +63,7 @@ export default function InteriorPaintingPage() {
   const imageSet2 = imageFiles.slice(12, 24);
   return (
     <>
-      <Script id="interior-painting-service" type="application/ld+json">
+      <Script async id="interior-painting-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div>

@@ -351,7 +351,7 @@ export default function Nav() {
                 </span>
               </button>
               <ul
-                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${servicesOpen ? "max-h-40" : "max-h-0"
+                className={`mt-2 ml-4 space-y-2 overflow-hidden transition-all duration-300 ${servicesOpen ? "max-h-96" : "max-h-0"
                   }`}
               >
                 <li>

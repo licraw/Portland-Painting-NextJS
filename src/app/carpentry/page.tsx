@@ -70,7 +70,7 @@ export default function CarpentryPage() {
   const imageSet2 = imageFiles.slice(8, 16);
   return (
     <div>
-      <Script id="carpentry-service" type="application/ld+json">
+      <Script async id="carpentry-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">

@@ -128,7 +128,7 @@ const commercialGalleryImages = hoaComImages
 export default function CommercialPage() {
   return (
     <>
-      <Script id="commercial-service" type="application/ld+json">
+      <Script async id="commercial-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div>

@@ -126,7 +126,7 @@ const hoaGalleryImages = hoaComImages
 export default function HoaPage() {
   return (
     <>
-      <Script id="hoa-service" type="application/ld+json">
+      <Script async id="hoa-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div>

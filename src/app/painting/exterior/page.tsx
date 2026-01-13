@@ -64,7 +64,7 @@ export default function ExteriorPaintingPage() {
   const imageSet2 = imageFiles.slice(12, 24);
   return (
     <>
-      <Script id="exterior-painting-service" type="application/ld+json">
+      <Script async id="exterior-painting-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div>

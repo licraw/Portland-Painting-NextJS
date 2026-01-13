@@ -41,7 +41,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <Script id="blog-ld-json" type="application/ld+json">
+      <Script async id="blog-ld-json" type="application/ld+json">
         {JSON.stringify(blogJsonLd)}
       </Script>
       <div className="w-full p-8 lg:pl-20 lg:pr-20">

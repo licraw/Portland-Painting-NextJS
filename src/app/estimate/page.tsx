@@ -74,7 +74,7 @@ export const metadata: Metadata = {
 export default function Estimate() {
   return (
     <>
-      <Script id="estimate-page-ld-json" type="application/ld+json">
+      <Script async id="estimate-page-ld-json" type="application/ld+json">
         {JSON.stringify(estimatePageJsonLd)}
       </Script>
       <div className="min-h-screen flex flex-col items-center">

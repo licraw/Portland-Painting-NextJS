@@ -62,7 +62,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Script id="contact-page-ld-json" type="application/ld+json">
+      <Script async id="contact-page-ld-json" type="application/ld+json">
         {JSON.stringify(contactPageJsonLd)}
       </Script>
       <ContactContainer />

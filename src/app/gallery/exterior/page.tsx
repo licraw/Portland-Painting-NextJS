@@ -67,7 +67,7 @@ export const metadata: Metadata = {
 export default async function ExteriorGalleryPage() {
   return (
     <>
-      <Script id="exterior-gallery-ld-json" type="application/ld+json">
+      <Script async id="exterior-gallery-ld-json" type="application/ld+json">
         {JSON.stringify(galleryJsonLd)}
       </Script>
       <div>

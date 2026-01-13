@@ -67,7 +67,7 @@ export const metadata: Metadata = {
 export default function RestorationPage() {
   return (
     <div>
-      <Script id="restoration-service" type="application/ld+json">
+      <Script async id="restoration-service" type="application/ld+json">
         {JSON.stringify(serviceJsonLd)}
       </Script>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
