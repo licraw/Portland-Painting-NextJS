@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import CarouselGallery from "../components/ImageGallery/CarouselGallery";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -95,6 +96,34 @@ const projectAssurances = [
   "Licensed, bonded, and insured across OR & WA",
   "Color consultations aligned with your brand standards",
 ];
+
+const hoaComImages = [
+  "1459 SE Ankeny.1.jpg",
+  "2017-I AM YOGA 1.jpg",
+  "24153 SE Ankeny.2.jpg",
+  "2516 Belmont HOA.2.jpg",
+  "2516 Belmont HOA.3.jpg",
+  "2516 Belmont HOA.4.jpg",
+  "2516 Belmont HOA.A1.jpg",
+  "2516 Belmont HOA.A2.jpg",
+  "2516 Belmont.1.jpg",
+  "Greenwich.jpg",
+  "GuysOn Ladder.Usable.jpg",
+  "Harrison_Ct_Appartments_Web_1006.jpg",
+  "NW 24th firehouse restoration (3).jpg",
+  "Ryder_Print_1005.jpg",
+  "Ryder_Print_1019.jpg",
+  "Sorrento_Condos_Web_1003.jpg",
+  "Stain Sample.JPG",
+  "The Terazzo Condos 1.png",
+  "The Terazzo Condos 2.png",
+  "The Terazzo Condos.png",
+  "TheByway.jpg",
+];
+
+const commercialGalleryImages = hoaComImages
+  .filter((path) => !/HOA|Condo/i.test(path))
+  .map((path) => encodeURI(`/HOA-COM/${path}`));
 
 export default function CommercialPage() {
   return (
@@ -190,8 +219,8 @@ export default function CommercialPage() {
             <div className="order-1 lg:order-2">
               <div className="w-full overflow-hidden rounded-2xl shadow-lg border border-gray-200">
                 <Image
-                  src="/commercial/interior-commercial-placeholder.jpg"
-                  alt="Placeholder showing commercial interior painting"
+                  src={encodeURI("/HOA-COM/2017-I AM YOGA 1.jpg")}
+                  alt="Freshly painted commercial yoga studio interior"
                   width={800}
                   height={600}
                   className="w-full h-auto object-cover"
@@ -207,8 +236,8 @@ export default function CommercialPage() {
             <div>
               <div className="w-full overflow-hidden rounded-2xl shadow-lg border border-gray-200">
                 <Image
-                  src="/commercial/exterior-commercial-painting-placeholder.png"
-                  alt="Placeholder showing commercial exterior painting"
+                  src="/HOA-COM/Ryder_Print_1019.jpg"
+                  alt="Commercial storefront exterior repaint"
                   width={800}
                   height={600}
                   className="w-full h-auto object-cover"
@@ -272,6 +301,22 @@ export default function CommercialPage() {
             </div>
           </div>
         </section>
+
+        <section className="py-16 px-6 lg:px-20 bg-gray-50">
+          <div className="max-w-4xl mx-auto text-center space-y-4">
+            <p className="uppercase tracking-wide text-sm font-semibold text-green-700">
+              Commercial Project Gallery
+            </p>
+            <h2 className="text-3xl font-semibold text-gray-900">
+              Explore recent interior and exterior work
+            </h2>
+            <p className="text-gray-700">
+              Browse offices, retail storefronts, condo communities, and more to
+              see how we handle a wide range of commercial repaint needs.
+            </p>
+          </div>
+        </section>
+        <CarouselGallery bgcolor="#e8f2ec" images={commercialGalleryImages} />
       </div>
     </>
   );
