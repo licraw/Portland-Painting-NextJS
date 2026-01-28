@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
         opt_fields: "workspace,custom_field_settings.custom_field,custom_field_settings.display_value",
       });
     } catch (projectFetchError) {
-      logger.error("Unable to fetch project details", { error: projectFetchError });
+      logger.error({ error: projectFetchError }, "Unable to fetch project details");
     }
 
     const dueDate = new Date().toISOString().split("T")[0];
@@ -170,11 +170,11 @@ export async function POST(request: NextRequest) {
           })
         );
       } catch (attachmentError) {
-        logger.error("Attachment upload failed", { error: attachmentError });
+        logger.error({ error: attachmentError }, "Attachment upload failed");
         try {
           await tasksApiInstance.deleteTask(result.data.gid, {});
         } catch (deleteError) {
-          logger.error("Failed to delete task after attachment failure", { error: deleteError });
+          logger.error({ error: deleteError }, "Failed to delete task after attachment failure");
         }
         result = await tasksApiInstance.createTask(body, {});
         photosFailed = true;
@@ -204,9 +204,9 @@ export async function POST(request: NextRequest) {
     });
 
     if (!emailResponse.ok) {
-      logger.error("Email API responded with status", { status: emailResponse.status });
+      logger.error({ status: emailResponse.status }, "Email API responded with status");
       const errorText = await emailResponse.text();
-      logger.error("Email API response text", { errorText });
+      logger.error({ errorText }, "Email API response text");
     }
 
     // 10. Return success response
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
       : "Task created and email request sent.";
     return new Response(JSON.stringify({ success: true, message: finalMessage }), { status: 200 });
   } catch (error) {
-    logger.error("An error occurred", { error });
+    logger.error({ error }, "An error occurred");
     return new Response(JSON.stringify({ error: "Failed to process request" }), { status: 500 });
   }
 }

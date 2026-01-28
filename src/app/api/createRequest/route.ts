@@ -97,21 +97,33 @@ export async function POST(req = new NextRequest()) {
 
     /* 7️⃣  respond with taskId so the client can POST photos later */
     return new Response(JSON.stringify({ taskId: task.gid }), { status: 200 });
-  } catch (err) {
+  } catch (err: unknown) {
+    const error = err as {
+      status?: number;
+      response?: { status?: number; statusCode?: number; res?: { statusCode?: number }; body?: unknown };
+      body?: unknown;
+      message?: string;
+    };
+
     const asanaStatus =
-      err?.status || err?.response?.status || err?.response?.statusCode || err?.response?.res?.statusCode;
-    const asanaBody = err?.response?.body || err?.body;
-    const asanaErrors = Array.isArray(asanaBody?.errors) ? asanaBody.errors : undefined;
+      error.status ??
+      error.response?.status ??
+      error.response?.statusCode ??
+      error.response?.res?.statusCode;
+    const asanaBody = error.response?.body ?? error.body;
+    const asanaErrors = Array.isArray((asanaBody as { errors?: unknown[] })?.errors)
+      ? (asanaBody as { errors: unknown[] }).errors
+      : undefined;
 
     console.error("createRequest error", {
-      message: err?.message,
+      message: error.message,
       status: asanaStatus,
       asanaErrors,
       asanaBody,
     });
 
     const status = typeof asanaStatus === "number" && asanaStatus >= 400 ? asanaStatus : 500;
-    const details = asanaErrors || asanaBody || err?.message || "Unknown Asana error";
+    const details = asanaErrors || asanaBody || error.message || "Unknown Asana error";
     return new Response(JSON.stringify({ error: "Task creation failed", details }), { status });
   }
 }
