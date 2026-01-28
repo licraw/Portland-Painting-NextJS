@@ -11,7 +11,6 @@ const { writeFile } = require("fs/promises");
 import { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
-export const config = { api: { bodyParser: false } }; // keep raw multipart
 
 export async function POST(req: NextRequest) {
   try {
