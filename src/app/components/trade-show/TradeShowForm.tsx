@@ -3,7 +3,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { Buffer } from "buffer";
 
 interface HomeLeadFormData {
   name: string;
@@ -65,12 +64,6 @@ export default function HomeLeadForm() {
     });
   };
 
-  const toBase64IfSmall = async (file: File) => {
-    if (file.size >= 20 * 1024 * 1024) return null; // Gmail cap safety
-    const buf = Buffer.from(await file.arrayBuffer());
-    return { name: file.name, content: buf.toString("base64") };
-  };
-
   /* ---------- submit ---------- */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -117,18 +110,19 @@ Phone: ${formData.phone}
 Address: ${formData.address}
 Notes: ${formData.notes}`;
 
-      const emailPhotos = (await Promise.all(photos.map(toBase64IfSmall))).filter(Boolean);
+      const emailFd = new FormData();
+      emailFd.append("name", formData.name);
+      emailFd.append("email", formData.email);
+      emailFd.append("formType", formData.formType);
+      emailFd.append("bodyText", bodyText);
+      emailFd.append("asanaTaskId", taskId);
+      photos.forEach((p) => {
+        if (p.size <= 2 * 1024 * 1024) emailFd.append("photos", p);
+      });
 
       await fetch("/api/sendEmail", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          formType: formData.formType,
-          bodyText,
-          photos: emailPhotos,
-        }),
+        body: emailFd,
       });
 
       /* 5️⃣ mailchimp */
