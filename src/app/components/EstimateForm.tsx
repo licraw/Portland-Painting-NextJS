@@ -252,14 +252,20 @@ Promo Code: ${formData.promoCode || "None"}`;
           required
         >
           <option value="" disabled>Select an option</option>
-          <option value="1209743111880011">Google</option>
-          <option value="1209743111880012">Yelp</option>
-          <option value="1209743111880013">Nextdoor</option>
-          <option value="1209744980063491">Houzz</option>
-          <option value="1209743111880014">Facebook</option>
-          <option value="1209743111880015">Email</option>
-          <option value="1209743111880016">Friend / Neighbor</option>
-          <option value="1209743111880017">Other</option>
+          <option value="1212483327157304">Previous client</option>
+          <option value="1212884250991075">Friend/neighbor</option>
+          <option value="1212483327157302">Google</option>
+          <option value="1212483327157309">YELP</option>
+          <option value="1212884250991072">Nextdoor</option>
+          <option value="1212884250991073">Houzz</option>
+          <option value="1212884250991074">Facebook</option>
+          <option value="1212884250991076">HS Convention center</option>
+          <option value="1212884250991077">HS Expo</option>
+          <option value="1212483327157305">Contacted US - Comm managers</option>
+          <option value="1212483327157306">Contacted US - Comm Residents</option>
+          <option value="1212483327157307">CAI - Comm</option>
+          <option value="1212483327157308">OWCAM - Comm</option>
+          <option value="1212888118985266">Other</option>
         </select>
       </div>
 
