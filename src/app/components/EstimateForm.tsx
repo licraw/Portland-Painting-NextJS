@@ -87,26 +87,19 @@ Address: ${formData.address}
 Project Overview: ${formData.overview}
 Promo Code: ${formData.promoCode || "None"}`;
 
-      // send only tiny previews (<20 MB each) if needed
-      const photosForEmail = await Promise.all(
-        photos.map(async (f) => ({
-          name: f.name,
-          content: (await f.arrayBuffer()).byteLength < 20 * 1024 * 1024
-            ? Buffer.from(await f.arrayBuffer()).toString("base64")
-            : "",
-        }))
-      );
+      const emailFd = new FormData();
+      emailFd.append("name", formData.name);
+      emailFd.append("email", formData.email);
+      emailFd.append("formType", formData.formType);
+      emailFd.append("bodyText", bodyText);
+      emailFd.append("asanaTaskId", taskRes.taskId);
+      photos.forEach((p) => {
+        if (p.size <= 2 * 1024 * 1024) emailFd.append("photos", p);
+      });
 
       await fetch("/api/sendEmail", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          formType: formData.formType,
-          bodyText,
-          photos: photosForEmail.filter((p) => p.content),
-        }),
+        body: emailFd,
       });
 
       // optional Mailchimp subscribe
