@@ -63,13 +63,24 @@ export const metadata: Metadata = {
   },
 };
 
-const propertyTypes = [
-  "Multi-tenant offices",
-  "Retail storefronts",
-  "Restaurants & hospitality",
-  "Healthcare clinics",
-  "Industrial suites",
-  "Mixed-use communities",
+const commercialServices = [
+  "Property Management Firms",
+  "Retail Storefronts & Tenant Improvements",
+  "Restaurants, bars & hospitality spaces",
+  "Medical & healthcare clinics",
+  "HOA & condominium communities",
+  "Mixed-use buildings (retail / office / residential)",
+  "Light industrial & warehouse spaces",
+  "Historic Commercial Properties",
+  "Capitol Improvement & Maintenance",
+  "Common areas, lobbies, & shared spaces",
+  "Stairwells, hallways & egress routes",
+  "After-hours & overnight painting",
+  "Phased work to maintain business operations",
+  "Occupied-space projects",
+  "Noise & dust sensitive environments",
+  "Lead-safe commercial properties",
+  "ADA-related repairs & improvements",
 ];
 
 const interiorServices = [
@@ -170,11 +181,11 @@ export default function CommercialPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <div>
               <h2 className="text-2xl font-semibold mb-4">
-                Properties We Support
+                Commercial Services
               </h2>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
-                {propertyTypes.map((type) => (
-                  <li key={type}>{type}</li>
+                {commercialServices.map((service) => (
+                  <li key={service}>{service}</li>
                 ))}
               </ul>
             </div>
@@ -185,6 +196,15 @@ export default function CommercialPage() {
                   <li key={assurance}>{assurance}</li>
                 ))}
               </ul>
+              <div className="mt-8 w-full overflow-hidden rounded-2xl shadow-lg border border-gray-200">
+                <Image
+                  src="/commercial/interior-commercial-placeholder.jpg"
+                  alt="Commercial interior painting project"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
             </div>
           </div>
         </section>
