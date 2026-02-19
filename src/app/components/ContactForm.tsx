@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
+const INSTAGRAM_OPTION_GID = "1213363131795302";
+const UTM_SOURCE_STORAGE_KEY = "utm_source";
 
 declare global {
   interface Window {
@@ -15,6 +18,7 @@ export default function ContactForm() {
 
   const [fileInputKey, setFileInputKey] = useState(Date.now());
   const [status, setStatus] = useState("");
+  const [isInstagramAttribution, setIsInstagramAttribution] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +33,19 @@ export default function ContactForm() {
     formType: "contact",
     photos: [] as File[],
   });
+
+  useEffect(() => {
+    const storedSource = window.localStorage.getItem(UTM_SOURCE_STORAGE_KEY)?.trim().toLowerCase();
+    const fromInstagram = storedSource === "instagram";
+    setIsInstagramAttribution(fromInstagram);
+
+    if (fromInstagram) {
+      setFormData((prev) => ({
+        ...prev,
+        howDidYouFindUs: INSTAGRAM_OPTION_GID,
+      }));
+    }
+  }, []);
 
   /* ----------------------- helpers ----------------------- */
 
@@ -77,6 +94,9 @@ export default function ContactForm() {
     try {
       /* 2️⃣ create Asana task (no photos) */
       const { photos, subscribeToMailchimp, ...jsonPayload } = formData;
+      if (isInstagramAttribution && !jsonPayload.howDidYouFindUs) {
+        jsonPayload.howDidYouFindUs = INSTAGRAM_OPTION_GID;
+      }
       const createRes = await fetch("/api/createRequest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -140,7 +160,7 @@ Message: ${formData.overview}`;
         promoCode: "",
         zipCode: "",
         subscribeToMailchimp: true,
-        howDidYouFindUs: "",
+        howDidYouFindUs: isInstagramAttribution ? INSTAGRAM_OPTION_GID : "",
         formType: "contact",
         photos: [],
       });
@@ -233,36 +253,38 @@ Message: ${formData.overview}`;
       </div>
 
       {/* how did you find us */}
-      <div className="flex flex-col">
-        <label htmlFor="howDidYouFindUs" className="text-gray-700 mb-2">
-          How did you find us?
-        </label>
-        <select
-          id="howDidYouFindUs"
-          name="howDidYouFindUs"
-          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
-          required
-          value={formData.howDidYouFindUs}
-          onChange={handleChange}
-        >
-          <option value="" disabled>Select an option</option>
-          <option value="1212483327157304">Previous client</option>
-          <option value="1212884250991075">Friend/neighbor</option>
-          <option value="1212483327157302">Google</option>
-          <option value="1212483327157309">YELP</option>
-          <option value="1213363131795302">Instagram</option>
-          <option value="1212884250991072">Nextdoor</option>
-          <option value="1212884250991073">Houzz</option>
-          <option value="1212884250991074">Facebook</option>
-          <option value="1212884250991076">HS Convention center</option>
-          <option value="1212884250991077">HS Expo</option>
-          <option value="1212483327157305">Contacted US - Comm managers</option>
-          <option value="1212483327157306">Contacted US - Comm Residents</option>
-          <option value="1212483327157307">CAI - Comm</option>
-          <option value="1212483327157308">OWCAM - Comm</option>
-          <option value="1212888118985266">Other</option>
-        </select>
-      </div>
+      {!isInstagramAttribution && (
+        <div className="flex flex-col">
+          <label htmlFor="howDidYouFindUs" className="text-gray-700 mb-2">
+            How did you find us?
+          </label>
+          <select
+            id="howDidYouFindUs"
+            name="howDidYouFindUs"
+            className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+            required
+            value={formData.howDidYouFindUs}
+            onChange={handleChange}
+          >
+            <option value="" disabled>Select an option</option>
+            <option value="1212483327157304">Previous client</option>
+            <option value="1212884250991075">Friend/neighbor</option>
+            <option value="1212483327157302">Google</option>
+            <option value="1212483327157309">YELP</option>
+            <option value="1213363131795302">Instagram</option>
+            <option value="1212884250991072">Nextdoor</option>
+            <option value="1212884250991073">Houzz</option>
+            <option value="1212884250991074">Facebook</option>
+            <option value="1212884250991076">HS Convention center</option>
+            <option value="1212884250991077">HS Expo</option>
+            <option value="1212483327157305">Contacted US - Comm managers</option>
+            <option value="1212483327157306">Contacted US - Comm Residents</option>
+            <option value="1212483327157307">CAI - Comm</option>
+            <option value="1212483327157308">OWCAM - Comm</option>
+            <option value="1212888118985266">Other</option>
+          </select>
+        </div>
+      )}
 
       <button
         type="submit"

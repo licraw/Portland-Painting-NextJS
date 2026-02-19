@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import PencilBanner from "./components/PencilBanner";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import UtmTracker from "./components/UtmTracker";
 import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
@@ -116,6 +117,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <GoogleCaptchaWrapper>
+          <UtmTracker />
           <SpeedInsights />
           <Analytics />
           <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
