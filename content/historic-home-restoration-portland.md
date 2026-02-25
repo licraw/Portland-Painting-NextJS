@@ -1,7 +1,7 @@
 ---
 title: "Historic Home Restoration in Portland: Preserving Character While Upgrading Efficiency"
 description: "Best practices for restoring original woodwork, mouldings, and windows in Portland’s older neighborhoods—keeping the charm while improving comfort and sustainability."
-date: 2025-06-13
+date: 2025-12-15
 tags: [historic, restoration, portland, home, efficiency]
 ogImage: /img/historic-home-restoration-portland.png
 ---

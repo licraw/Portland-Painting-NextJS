@@ -1,7 +1,7 @@
 ---
 title: "Top Exterior Paint Colors for Portland Homes: Weather-Resistant Choices for the Pacific Northwest"
 description: "Discover the best exterior paint colors for Portland homes that not only stand up to the region's wet climate but also enhance the natural beauty and character of the city’s iconic neighborhoods."
-date: 2025-06-13
+date: 2026-02-15
 tags: [paint, exterior, portland, weather, architecture]
 ogImage: /img/top-exterior-paint-colors-portland-homes.png
 ---

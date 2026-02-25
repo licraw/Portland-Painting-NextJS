@@ -1,7 +1,7 @@
 ---
 title: "Seasonal Maintenance Tips: Protecting Your Wood Decks and Fences in Oregon"
 description: "Advice on cleaning, sealing, and minor carpentry repairs to keep your outdoor wood structures in top shape year-round across Oregon's changing seasons."
-date: 2025-06-13
+date: 2025-11-15
 tags: [wood, deck, fence, maintenance, seasonal, oregon]
 ogImage: /img/seasonal-maintenance-decks-fences-oregon.png
 ---

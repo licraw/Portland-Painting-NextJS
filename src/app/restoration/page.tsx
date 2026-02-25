@@ -98,7 +98,7 @@ export default function RestorationPage() {
           }}
           className="font-sans font-medium text-4xl lg:text-7xl leading-[1.2] pb-8"
         >
-          Restorations Services
+          Restorations Service
         </h1>
         <p className="pb-4 pt-4">
           Here in the Pacific Northwest, buildings are subject to constant

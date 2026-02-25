@@ -1,7 +1,7 @@
 ---
 title: "How to Identify and Fix Wood Rot in Your Portland Exterior Trim"
 description: "Learn the tell-tale signs of rot, how to prevent it from spreading, and repair techniques to extend the life of your home’s siding and trim."
-date: 2025-06-13
+date: 2025-06-15
 tags: [wood rot, trim, siding, portland, repair, moisture]
 ogImage: /img/identify-fix-wood-rot-portland-trim.png
 ---
