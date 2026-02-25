@@ -1,7 +1,7 @@
 ---
 title: "Professional vs. DIY Cabinet Refinishing in Portland Kitchens: What You Need to Know"
 description: "Compare costs, timelines, and quality outcomes for professional vs. DIY cabinet refinishing in Portland so you can make the right choice for your renovation goals."
-date: 2025-06-13
+date: 2026-01-15
 tags: [cabinets, kitchen, refinishing, diy, professional, portland]
 ogImage: /img/pro-vs-diy-cabinet-refinishing-portland.png
 ---

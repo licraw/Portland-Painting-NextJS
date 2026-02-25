@@ -1,7 +1,7 @@
 ---
 title: "Eco-Friendly Painting Options in Portland: Low-VOC Paints and Sustainable Practices"
 description: "Explore green paint brands, proper disposal, and how to reduce your project’s environmental impact with eco-conscious choices tailored to the Portland lifestyle."
-date: 2025-06-13
+date: 2025-08-15
 tags: [eco-friendly, paint, sustainable, portland, low-voc]
 ogImage: /img/eco-friendly-painting-options-portland.png
 ---

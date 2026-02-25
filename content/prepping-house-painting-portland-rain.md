@@ -1,7 +1,7 @@
 ---
 title: "A Homeowner’s Guide to Preparing Your House for Painting in Portland’s Rainy Seasons"
 description: "Step-by-step preparation tips to avoid moisture problems and ensure a long-lasting, flawless paint job—no matter the weather in Portland."
-date: 2025-06-13
+date: 2025-09-15
 tags: [painting, exterior, rainy, portland, prep]
 ogImage: /img/prepping-house-painting-portland-rain.png
 ---

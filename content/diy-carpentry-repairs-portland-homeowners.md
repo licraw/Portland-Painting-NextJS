@@ -1,7 +1,7 @@
 ---
 title: "DIY Carpentry Repairs Every Portland Homeowner Should Know"
 description: "Simple fixes—from squeaky thresholds to loose railings—to help you maintain your Portland home with confidence between professional visits."
-date: 2025-06-13
+date: 2025-10-15
 tags: [carpentry, diy, home, portland, repairs]
 ogImage: /img/diy-carpentry-repairs-portland-homeowners.png
 ---

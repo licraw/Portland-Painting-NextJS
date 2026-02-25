@@ -1,7 +1,7 @@
 ---
 title: "Choosing the Right Siding Restoration Services in Portland: What to Look For"
 description: "Key questions to ask contractors, licensing considerations, and red flags to watch out for when hiring siding restoration experts in Portland."
-date: 2025-06-13
+date: 2025-05-15
 tags: [siding, restoration, portland, contractor, home]
 ogImage: /img/choosing-siding-restoration-portland.png
 ---
