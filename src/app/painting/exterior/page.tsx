@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import CarouselGallery from "../../components/ImageGallery/CarouselGallery";
 import imageFiles from "@/app/gallery/exterior/galleryFiles";
+import ReviewsWidget from "../../components/ReviewsWidget";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -200,6 +201,10 @@ export default function ExteriorPaintingPage() {
           clear communication, and completing the project in a timely manor.
         </p>
       </div>
+      <ReviewsWidget
+        title="Exterior Painting Reviews"
+        className="bg-gray-50"
+      />
     </>
   );
 }

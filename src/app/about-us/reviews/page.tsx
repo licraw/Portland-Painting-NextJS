@@ -3,6 +3,70 @@ import Review from "./Review";
 import { Metadata } from "next";
 import { reviews } from "./reviews";
 import Link from "next/link";
+import googleReviewsSnapshot from "@/data/google-reviews.json";
+import { FaGoogle } from "react-icons/fa";
+
+type SnapshotReview = {
+  author_name?: string;
+  profile_photo_url?: string;
+  rating: number;
+  relative_time_description?: string;
+  text: string;
+  time?: string;
+};
+
+type ReviewsSnapshot = {
+  place_id?: string | null;
+  name?: string | null;
+  url?: string | null;
+  rating?: number | null;
+  user_ratings_total?: number | null;
+  reviews?: SnapshotReview[];
+};
+
+type DisplayReview = {
+  text: string;
+  author: string;
+  rating: number;
+  relativeTimeDescription?: string;
+  profilePhotoUrl?: string;
+  time?: string;
+};
+
+type ReviewsPageData = {
+  rating: number;
+  userRatingsTotal: number;
+  url?: string;
+  placeId?: string;
+  placeName?: string;
+  reviews: DisplayReview[];
+} | null;
+
+function getGoogleReviewsFromSnapshot(): ReviewsPageData {
+  const snapshot = googleReviewsSnapshot as ReviewsSnapshot;
+  const snapshotReviews = Array.isArray(snapshot.reviews) ? snapshot.reviews : [];
+  const mappedReviews: DisplayReview[] = snapshotReviews.map((review) => ({
+    text: review.text,
+    author: review.author_name ?? "Google User",
+    rating: review.rating ?? 5,
+    relativeTimeDescription: review.relative_time_description,
+    profilePhotoUrl: review.profile_photo_url,
+    time: review.time,
+  }));
+
+  if (!mappedReviews.length) {
+    return null;
+  }
+
+  return {
+    rating: snapshot.rating ?? 0,
+    userRatingsTotal: snapshot.user_ratings_total ?? 0,
+    url: snapshot.url ?? undefined,
+    placeId: snapshot.place_id ?? undefined,
+    placeName: snapshot.name ?? undefined,
+    reviews: mappedReviews,
+  };
+}
 
 export const metadata: Metadata = {
   title: "Customer Reviews | Portland Painting & Restoration",
@@ -46,6 +110,31 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewsPage() {
+  const googleData = getGoogleReviewsFromSnapshot();
+  const displayRating = googleData?.rating ?? 4.9;
+  const ratingCount = googleData?.userRatingsTotal ?? reviews.length;
+
+  const displayReviews: DisplayReview[] =
+    googleData?.reviews?.length
+      ? [...googleData.reviews]
+          .sort((a, b) => {
+            const aTime = a.time ? new Date(a.time).getTime() : 0;
+            const bTime = b.time ? new Date(b.time).getTime() : 0;
+            return bTime - aTime;
+          })
+          .slice(0, 5)
+      : reviews.map((review) => ({
+          text: review.text,
+          author: review.author,
+          rating: 5,
+        }));
+
+  const mapEmbedQuery =
+    "Portland Painting and Restoration, 918 SE Stephens St, Portland, OR 97214";
+  const mapEmbedUrl = mapEmbedQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(mapEmbedQuery)}&output=embed`
+    : undefined;
+
   return (
     <div className="w-full">
       {/* Common Top Navigation and Intro */}
@@ -94,33 +183,42 @@ export default function ReviewsPage() {
         <div className="max-w-5xl mx-auto">
           {/* Rating Display */}
           <div className="flex items-center justify-center mb-6">
-            <span className="text-3xl font-extrabold text-green-900 mr-2">
-              4.9
-            </span>
-            <div className="flex items-center mr-4">
-              {[...Array(5)].map((_, i) => (
-                <svg
-                  key={i}
-                  className="h-6 w-6 text-yellow-500 fill-current"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 .587l3.668 7.431 8.21 1.192-5.93 5.776 1.401 8.168L12 18.896l-7.349 3.858 1.401-8.168-5.93-5.776 8.21-1.192z" />
-                </svg>
-              ))}
-            </div>
-            <Image
-              src="/googlereviews1.png"
-              alt="Google Reviews"
-              width={150}
-              height={50}
-              className="rounded-lg"
-            />
+            {googleData?.url ? (
+              <a
+                href={googleData.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+              >
+                <FaGoogle className="text-[#4285F4]" aria-hidden="true" />
+                View on Google
+              </a>
+            ) : (
+              <div className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800">
+                <FaGoogle className="text-[#4285F4]" aria-hidden="true" />
+                Google Reviews
+              </div>
+            )}
           </div>
+          <p className="text-center text-sm text-gray-500 mb-6">
+            Google rating {displayRating.toFixed(1)} based on{" "}
+            {ratingCount.toLocaleString()} reviews
+          </p>
+          <p className="text-center text-sm text-gray-500 mb-6">
+            Showing latest 5 reviews
+          </p>
 
           {/* Reviews List */}
           <div className="space-y-6">
-            {reviews.map((review, index) => (
-              <Review key={index} text={review.text} author={review.author} />
+            {displayReviews.map((review, index) => (
+              <Review
+                key={`${review.author}-${index}`}
+                text={review.text}
+                author={review.author}
+                rating={review.rating}
+                relativeTimeDescription={review.relativeTimeDescription}
+                profilePhotoUrl={review.profilePhotoUrl}
+              />
             ))}
           </div>
 
@@ -134,6 +232,36 @@ export default function ReviewsPage() {
             </a>{" "}
             to share your thoughts.
           </p>
+          {googleData?.url ? (
+            <p className="text-center mt-4">
+              <a
+                href={googleData.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-700 font-semibold hover:underline"
+              >
+                View all Google reviews
+              </a>
+            </p>
+          ) : null}
+          {mapEmbedUrl ? (
+            <div className="mt-10">
+              <h2 className="text-2xl font-medium text-center mb-4">
+                Find Us On Google Maps
+              </h2>
+              <div className="overflow-hidden rounded-lg border border-gray-200 shadow-lg">
+                <iframe
+                  src={mapEmbedUrl}
+                  width="100%"
+                  height="420"
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Portland Painting and Restoration on Google Maps"
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import BeforeAndAfterGallery from "../components/ImageGallery/BeforeAndAfterGallery";
+import ReviewsWidget from "../components/ReviewsWidget";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -174,6 +175,10 @@ export default function RestorationPage() {
           "/restoration-gallery/before2.jpg",
           "/restoration-gallery/after2.jpg",
         ]}
+      />
+      <ReviewsWidget
+        title="Restoration Project Reviews"
+        className="bg-gray-50"
       />
     </div>
   );

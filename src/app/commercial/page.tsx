@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import CarouselGallery from "../components/ImageGallery/CarouselGallery";
+import ReviewsWidget from "../components/ReviewsWidget";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -337,6 +338,10 @@ export default function CommercialPage() {
           </div>
         </section>
         <CarouselGallery bgcolor="#e8f2ec" images={commercialGalleryImages} />
+        <ReviewsWidget
+          title="Commercial Client Reviews"
+          className="bg-white"
+        />
       </div>
     </>
   );

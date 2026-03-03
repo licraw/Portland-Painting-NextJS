@@ -11,6 +11,7 @@ import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import StickyReviewsWidget from "./components/StickyReviewsWidget";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -129,6 +130,7 @@ export default function RootLayout({
 
             {/* Main content */}
             <main>{children}</main>
+            <StickyReviewsWidget />
 
             {/* Footer */}
             <Footer />

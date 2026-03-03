@@ -4,6 +4,7 @@ import About from "./components/home/About";
 import Services from "./components/home/Services";
 import { Metadata } from "next";
 import Link from "next/link";
+import ReviewsWidget from "./components/ReviewsWidget";
 
 export const metadata: Metadata = {
   title: "Transform Your Space with Painting and Restoration Experts | Portland Painting & Restoration",
@@ -91,6 +92,7 @@ export default function HomePage() {
 
         <About />
         <Services />
+        <ReviewsWidget title="Recent Google Reviews" />
       </div>
     </>
   );

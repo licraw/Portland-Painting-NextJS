@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Script from "next/script";
 import imageFiles from "@/app/gallery/interior/galleryFiles";
+import ReviewsWidget from "../../components/ReviewsWidget";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -202,6 +203,10 @@ export default function InteriorPaintingPage() {
           with our expert craftsmanship and exceptional service.
         </p>
       </div>
+      <ReviewsWidget
+        title="Interior Painting Reviews"
+        className="bg-gray-50"
+      />
     </>
   );
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import CarouselGallery from "../components/ImageGallery/CarouselGallery";
+import ReviewsWidget from "../components/ReviewsWidget";
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -305,6 +306,7 @@ export default function HoaPage() {
           </div>
         </section>
         <CarouselGallery bgcolor="#e8f2ec" images={hoaGalleryImages} />
+        <ReviewsWidget title="HOA Partner Reviews" className="bg-white" />
       </div>
     </>
   );
