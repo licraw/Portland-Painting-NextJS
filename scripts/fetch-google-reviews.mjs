@@ -10,7 +10,7 @@ if (!apiKey || !placeId) {
   console.error("Missing GOOGLE_MAPS_API_KEY or GOOGLE_PLACE_ID");
   process.exit(1);
 }
-
+// test for capturing git. 
 const placeResource = placeId.startsWith("places/") ? placeId : `places/${placeId}`;
 const endpoint = `https://places.googleapis.com/v1/${placeResource}`;
 
