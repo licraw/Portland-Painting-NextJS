@@ -1,8 +1,3 @@
-// app/content/[slug]/page.tsx
-
-import fs from "fs/promises";
-import path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -11,63 +6,49 @@ import rehypeStringify from "rehype-stringify";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { getAllBlogSlugs, getBlogBySlug } from "../../../../lib/getAllBlogs";
 
-const CONTENT_DIR = path.join(process.cwd(), "content");
+type SlugPageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const files = await fs.readdir(CONTENT_DIR);
-  return files
-    .filter((f) => f.endsWith(".md"))
-    .map((file) => ({ slug: file.replace(/\.md$/, "") }));
+  const slugs = await getAllBlogSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata(context: any): Promise<Metadata> {
-  const slug = (context.params as { slug: string }).slug;
+export async function generateMetadata({ params }: SlugPageProps): Promise<Metadata> {
+  const post = await getBlogBySlug(params.slug);
+  if (!post) return {};
 
-  try {
-    const raw = await fs.readFile(
-      path.join(CONTENT_DIR, `${slug}.md`),
-      "utf8"
-    );
-    const { data } = matter(raw);
-
-    return {
-      metadataBase: new URL("https://www.paintpdx.com"),
-      title: data.title ?? "Untitled",
-      description: data.description ?? "",
-      openGraph: { images: data.image ? [data.image] : undefined },
-      twitter: { images: data.image ? [data.image] : undefined },
-    };
-  } catch {
-    return {};
-  }
+  return {
+    metadataBase: new URL("https://www.paintpdx.com"),
+    title: post.title || "Untitled",
+    description: post.description || "",
+    openGraph: { images: post.image ? [post.image] : undefined },
+    twitter: { images: post.image ? [post.image] : undefined },
+  };
 }
 
-export default async function Page(context: any): Promise<JSX.Element> {
-  const slug = (context.params as { slug: string }).slug;
+export default async function Page({ params }: SlugPageProps): Promise<JSX.Element> {
+  const post = await getBlogBySlug(params.slug);
+  if (!post) return notFound();
 
-  let rawMd: string;
-  try {
-    rawMd = await fs.readFile(
-      path.join(CONTENT_DIR, `${slug}.md`),
-      "utf8"
-    );
-  } catch {
-    return notFound();
-  }
+  const parsedDate = new Date(post.date);
+  const dateStr = Number.isNaN(parsedDate.getTime())
+    ? post.date
+    : parsedDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+  const isoDate = Number.isNaN(parsedDate.getTime())
+    ? new Date().toISOString()
+    : parsedDate.toISOString();
 
-  const { data: fm, content } = matter(rawMd);
-  const dateStr =
-    fm.date instanceof Date
-      ? fm.date.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      : String(fm.date);
-
-  const isoDate = new Date(fm.date ?? new Date()).toISOString();
-  const heroImage = (fm.ogImage ?? fm.image ?? "") as string;
+  const heroImage = post.image;
   const absoluteImage = heroImage
     ? (heroImage.startsWith("http")
         ? heroImage
@@ -77,15 +58,15 @@ export default async function Page(context: any): Promise<JSX.Element> {
   const blogPostingJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "@id": `https://www.paintpdx.com/content/${slug}#blogposting`,
-    headline: fm.title,
-    description: fm.description,
+    "@id": `https://www.paintpdx.com/content/${post.slug}#blogposting`,
+    headline: post.title,
+    description: post.description,
     datePublished: isoDate,
     dateModified: isoDate,
     image: absoluteImage ? [absoluteImage] : undefined,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://www.paintpdx.com/content/${slug}`,
+      "@id": `https://www.paintpdx.com/content/${post.slug}`,
     },
     author: {
       "@id": "https://www.paintpdx.com/#organization",
@@ -101,21 +82,25 @@ export default async function Page(context: any): Promise<JSX.Element> {
     },
   };
 
-  const processed = await unified()
-    .use(remarkParse)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeStringify)
-    .process(content);
-  const html = processed.toString();
+  const html =
+    post.contentType === "html"
+      ? post.content
+      : (
+          await unified()
+            .use(remarkParse)
+            .use(remarkRehype, { allowDangerousHtml: true })
+            .use(rehypeRaw)
+            .use(rehypeStringify)
+            .process(post.content)
+        ).toString();
 
   return (
     <>
-      <Script async id={`blog-post-${slug}-ld-json`} type="application/ld+json">
+      <Script async id={`blog-post-${post.slug}-ld-json`} type="application/ld+json">
         {JSON.stringify(blogPostingJsonLd)}
       </Script>
       <article className="prose prose-lg mx-auto py-12 px-6">
-        <h1 className="text-4xl font-bold mb-2">{fm.title}</h1>
+        <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
         <p className="text-sm text-gray-500 mb-6">{dateStr}</p>
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </article>

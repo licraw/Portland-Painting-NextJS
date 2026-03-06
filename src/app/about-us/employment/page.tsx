@@ -116,12 +116,16 @@ export default function EmploymentPage() {
               "/employment/employment2.jpg",
               "/employment/employment3.jpg",
             ].map((src, index) => (
-              <div key={index} className="relative w-full h-64 overflow-hidden">
+              <div
+                key={index}
+                className="relative w-full h-52 sm:h-60 md:h-64 overflow-hidden rounded-lg"
+              >
                 <Image
                   src={src}
                   alt="Gallery Image"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover"
                 />
               </div>
             ))}

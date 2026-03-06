@@ -169,6 +169,7 @@ export default function CarpentryPage() {
                   <li>Crown Molding Installation</li>
                   <li>Custom Cabinets</li>
                   <li>Door and Window Trim Installation</li>
+                  <li>Vinyl Wainscot</li>
                   <li>Wainscot Paneling</li>
                 </ul>
               </div>

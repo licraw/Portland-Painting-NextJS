@@ -203,6 +203,7 @@ export default function CommercialPage() {
                   alt="Commercial interior painting project"
                   width={1200}
                   height={800}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -244,6 +245,7 @@ export default function CommercialPage() {
                   alt="Freshly painted commercial yoga studio interior"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto object-cover"
                   priority
                 />
@@ -261,6 +263,7 @@ export default function CommercialPage() {
                   alt="Commercial storefront exterior repaint"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto object-cover"
                 />
               </div>

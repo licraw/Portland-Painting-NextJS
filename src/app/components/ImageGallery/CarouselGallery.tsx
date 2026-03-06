@@ -118,17 +118,15 @@ const CarouselGallery: React.FC<CarouselGalleryProps> = ({
                 >
                   {/* Fixed aspect ratio card */}
                   <div className="relative w-full aspect-[4/3]">
-                    <div className="relative w-full aspect-[4/3]">
-                      <Image
-                        src={src}
-                        alt={`Gallery image ${index + 1} of ${
-                          mediaItems.length
-                        }`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover cursor-zoom-in"
-                      />
-                    </div>
+                    <Image
+                      src={src}
+                      alt={`Gallery image ${index + 1} of ${
+                        mediaItems.length
+                      }`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover cursor-zoom-in"
+                    />
                   </div>
                 </div>
               ))}

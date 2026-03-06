@@ -108,7 +108,8 @@ export default function GreenAndSafePage() {
             alt="Lead Safe Certified Firm"
             width={300}
             height={300}
-            style={{ margin: "0 auto" }}
+            sizes="(max-width: 768px) 70vw, 300px"
+            className="mx-auto h-auto max-w-full"
           />
 
           <p className="pt-4 pb-4">
@@ -158,6 +159,8 @@ export default function GreenAndSafePage() {
               alt="VOCs in Paint"
               width={300}
               height={300}
+              sizes="(max-width: 768px) 70vw, 300px"
+              className="h-auto max-w-full"
             />
           </div>
           <p className="pt-4 pb-4">

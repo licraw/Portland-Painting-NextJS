@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 import CarouselGallery from "../components/ImageGallery/CarouselGallery";
 import ReviewsWidget from "../components/ReviewsWidget";
 
@@ -96,33 +98,10 @@ const boardAssurances = [
   "Warranty documentation and future maintenance schedules",
 ];
 
-const hoaComImages = [
-  "1459 SE Ankeny.1.jpg",
-  "2017-I AM YOGA 1.jpg",
-  "24153 SE Ankeny.2.jpg",
-  "2516 Belmont HOA.2.jpg",
-  "2516 Belmont HOA.3.jpg",
-  "2516 Belmont HOA.4.jpg",
-  "2516 Belmont HOA.A1.jpg",
-  "2516 Belmont HOA.A2.jpg",
-  "2516 Belmont.1.jpg",
-  "Greenwich.jpg",
-  "GuysOn Ladder.Usable.jpg",
-  "Harrison_Ct_Appartments_Web_1006.jpg",
-  "NW 24th firehouse restoration (3).jpg",
-  "Ryder_Print_1005.jpg",
-  "Ryder_Print_1019.jpg",
-  "Sorrento_Condos_Web_1003.jpg",
-  "Stain Sample.JPG",
-  "The Terazzo Condos 1.png",
-  "The Terazzo Condos 2.png",
-  "The Terazzo Condos.png",
-  "TheByway.jpg",
-];
-
-const hoaGalleryImages = hoaComImages
-  .filter((path) => /HOA|Condo/i.test(path))
-  .map((path) => encodeURI(`/HOA-COM/${path}`));
+const hoaGalleryImages = readdirSync(join(process.cwd(), "public", "HOA-COM"))
+  .filter((fileName) => /\.(jpe?g|png|webp|gif)$/i.test(fileName))
+  .sort((a, b) => a.localeCompare(b))
+  .map((fileName) => encodeURI(`/HOA-COM/${fileName}`));
 
 export default function HoaPage() {
   return (
@@ -213,6 +192,7 @@ export default function HoaPage() {
                   alt="Condo community interior refresh"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -229,6 +209,7 @@ export default function HoaPage() {
                   alt="HOA exterior repaint with refreshed trim and siding"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto object-cover"
                 />
               </div>

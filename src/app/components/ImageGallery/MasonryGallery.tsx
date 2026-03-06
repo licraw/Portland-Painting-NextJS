@@ -81,21 +81,21 @@ const MasonryGallery: React.FC<MasonryGalleryProps> = ({ images }) => {
         <PageSection className="!pt-0 !block" bgcolor="white">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {mediaItems.map((src, index) => (
-             <div
-             key={index}
-             className="relative w-full h-48 bg-gray-200 rounded-lg overflow-hidden shadow-md"
-             onClick={() => openModalAtIndex(index)}
-           >
-             <div className="relative w-full h-full">
-               <Image
-                 src={src}
-                 alt={`Exterior Project ${index + 1}`}
-                 fill
-                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                 className="object-cover cursor-zoom-in"
-               />
-             </div>
-           </div>
+              <div
+                key={index}
+                className="relative w-full aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden shadow-md"
+                onClick={() => openModalAtIndex(index)}
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={src}
+                    alt={`Exterior Project ${index + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover cursor-zoom-in"
+                  />
+                </div>
+              </div>
             ))}
           </div>
         </PageSection>

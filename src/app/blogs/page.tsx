@@ -9,8 +9,8 @@ export const metadata = {
   description: "Read our latest articles on painting, restoration, and home care tips in Portland.",
 };
 
-export default function BlogPage() {
-  const posts = getAllBlogs();
+export default async function BlogPage() {
+  const posts = await getAllBlogs();
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -57,8 +57,8 @@ export default function BlogPage() {
                 <Image
                   src={post.image}
                   alt={post.title}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
