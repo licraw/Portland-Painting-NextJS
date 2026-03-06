@@ -9,9 +9,9 @@ import Script from "next/script";
 import { getAllBlogSlugs, getBlogBySlug } from "../../../../lib/getAllBlogs";
 
 type SlugPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -20,7 +20,8 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 }
 
 export async function generateMetadata({ params }: SlugPageProps): Promise<Metadata> {
-  const post = await getBlogBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getBlogBySlug(slug);
   if (!post) return {};
 
   return {
@@ -33,7 +34,8 @@ export async function generateMetadata({ params }: SlugPageProps): Promise<Metad
 }
 
 export default async function Page({ params }: SlugPageProps): Promise<JSX.Element> {
-  const post = await getBlogBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getBlogBySlug(slug);
   if (!post) return notFound();
 
   const parsedDate = new Date(post.date);
