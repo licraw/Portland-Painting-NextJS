@@ -155,11 +155,14 @@ export default function CarpentryPage() {
           Inquire with a free estimate to find out how we can better assist you
           with your carpentry needs!
         </p>
+        <p className="pb-4 text-center text-sm text-blue-600">
+          Click on blue services to learn more
+        </p>
         <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
               {/* Interior Column */}
-              <div className="w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+              <div className="w-full max-w-md mx-auto">
                 <h2 className="font-sans font-medium text-2xl pb-4">
                   Interior
                 </h2>
@@ -170,11 +173,56 @@ export default function CarpentryPage() {
                   <li>Custom Cabinets</li>
                   <li>Door and Window Trim Installation</li>
                   <li>Vinyl Wainscot</li>
-                  <li>Wainscot Paneling</li>
+                  <li>
+                    <details className="inline">
+                      <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
+                        <span>Wainscot Paneling</span>
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      
+                      <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                        <h3 className="font-medium text-xl pb-2">
+                          Vinyl Wainscot &amp; Wall Protection Systems
+                        </h3>
+                        <p className="pb-4 text-gray-700">
+                          Portland Painting &amp; Restoration provides vinyl
+                          wainscot installation and wall protection systems for
+                          high-traffic interiors. These commercial wall panels
+                          are impact-resistant, easy to clean, and well-suited
+                          for healthcare wall protection, schools, and other
+                          demanding environments.
+                        </p>
+                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                          <div>
+                            <p className="font-medium pb-2">
+                              Our Services Include
+                            </p>
+                            <ul className="list-disc list-inside space-y-2 text-gray-700">
+                              <li>Vinyl wainscot installation</li>
+                              <li>Impact-resistant wall protection panels</li>
+                              <li>Chair rail and corner guard systems</li>
+                              <li>Repair and replacement of damaged panels</li>
+                            </ul>
+                          </div>
+                          <div>
+                            <p className="font-medium pb-2">
+                              Common Applications
+                            </p>
+                            <ul className="list-disc list-inside space-y-2 text-gray-700">
+                              <li>Medical and dental offices</li>
+                              <li>Senior living and care facilities</li>
+                              <li>Schools and institutional buildings</li>
+                              <li>High-traffic commercial interiors</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </li>
                 </ul>
               </div>
               {/* Exterior Column */}
-              <div className="w-full max-w-[90%] mx-auto md:mx-0 md:max-w-full">
+              <div className="w-full max-w-md mx-auto">
                 <h2 className="font-sans font-medium text-2xl pb-4">
                   Exterior
                 </h2>
@@ -192,6 +240,7 @@ export default function CarpentryPage() {
               </div>
             </div>
           </div>
+          
         </div>
       </div>
       <ReviewsWidget
