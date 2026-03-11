@@ -172,14 +172,12 @@ export default function CarpentryPage() {
                   <li>Crown Molding Installation</li>
                   <li>Custom Cabinets</li>
                   <li>Door and Window Trim Installation</li>
-                  <li>Vinyl Wainscot</li>
                   <li>
                     <details className="inline">
                       <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
-                        <span>Wainscot Paneling</span>
+                        <span>Vinyl Wainscot</span>
                         <span aria-hidden="true">▾</span>
                       </summary>
-                      
                       <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
                         <h3 className="font-medium text-xl pb-2">
                           Vinyl Wainscot &amp; Wall Protection Systems
@@ -219,6 +217,55 @@ export default function CarpentryPage() {
                       </div>
                     </details>
                   </li>
+                  <li>Wainscot Paneling</li>
+                  <li>
+                    <details className="inline">
+                      <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
+                        <span>Updating</span>
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                        <h3 className="font-medium text-xl pb-2">
+                          Modern Interior Updates
+                        </h3>
+                        <p className="pb-4 text-gray-700">
+                          We help homeowners update tired interiors with clean,
+                          coordinated finish carpentry details that make spaces
+                          feel current without a full remodel.
+                        </p>
+                        <ul className="list-disc list-inside space-y-2 text-gray-700">
+                          <li>New modern trim packages</li>
+                          <li>Wainscot installations and custom wall details</li>
+                          <li>Cabinet doors and drawer front updates</li>
+                          <li>Barn doors, shelving, and cabinet modifications</li>
+                          <li>Custom finish details tied into painting work</li>
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
+                  <li>
+                    <details className="inline">
+                      <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
+                        <span>Flooring</span>
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                        <h3 className="font-medium text-xl pb-2">
+                          Flooring Installation
+                        </h3>
+                        <p className="pb-4 text-gray-700">
+                          We install flooring upgrades that pair cleanly with
+                          trim, baseboards, and finish carpentry so the final
+                          result feels cohesive.
+                        </p>
+                        <ul className="list-disc list-inside space-y-2 text-gray-700">
+                          <li>LVP flooring</li>
+                          <li>Hardwood flooring</li>
+                          <li>Finish transitions and trim tie-ins</li>
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
                 </ul>
               </div>
               {/* Exterior Column */}
@@ -228,14 +275,63 @@ export default function CarpentryPage() {
                 </h2>
                 <ul className="list-disc list-inside text-left space-y-2">
                   <li>Front porch repairs/rebuilds</li>
-                  <li>Door and Window Installation</li>
+                  <li>
+                    <details className="inline">
+                      <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
+                        <span>Door &amp; Window Installation</span>
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                        <h3 className="font-medium text-xl pb-2">
+                          Efficient Door &amp; Window Upgrades
+                        </h3>
+                        <p className="pb-4 text-gray-700">
+                          New doors and windows can improve comfort, reduce
+                          drafts, and help your home perform more efficiently.
+                          We can also help you identify projects that may align
+                          with available Oregon or federal energy-efficiency
+                          incentives, depending on current program rules.
+                        </p>
+                        <ul className="list-disc list-inside space-y-2 text-gray-700">
+                          <li>Exterior door replacement</li>
+                          <li>Window replacement and installation</li>
+                          <li>Trim, flashing, and weatherproofing details</li>
+                          <li>Efficiency-minded upgrade planning</li>
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
                   <li>Dry Rot Repair</li>
                   <li>Siding/Shingle Replacement</li>
                   <li>Stair/Railing Repair and Rebuild</li>
-                  <li>Trim Installation and Flashing Details</li>
+                  <li>
+                    <details className="inline">
+                      <summary className="inline-flex items-center gap-1 cursor-pointer list-none text-blue-700 underline hover:text-blue-800 [&::-webkit-details-marker]:hidden">
+                        <span>Flashing Details</span>
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      <div className="mt-3 ml-5 rounded-lg border border-gray-200 bg-white px-4 py-4">
+                        <h3 className="font-medium text-xl pb-2">
+                          Missing Flashing Is a Common Problem
+                        </h3>
+                        <p className="pb-4 text-gray-700">
+                          Many HardiePlank homes built from the 1990s into the
+                          early 2010s are missing important flashing details at
+                          windows, doors, butt joints, and trim transitions. We
+                          can help correct those vulnerable areas before moisture
+                          damage gets worse.
+                        </p>
+                        <ul className="list-disc list-inside space-y-2 text-gray-700">
+                          <li>Window and door flashing corrections</li>
+                          <li>Butt-joint and trim transition detailing</li>
+                          <li>Moisture management repairs before repainting</li>
+                          <li>Targeted carpentry fixes for long-term performance</li>
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
                   <li>General Repairs</li>
                   <li>Garbage Surrounds</li>
-                  <li>Historic Front Door Rehabilitation</li>
                 </ul>
               </div>
             </div>
