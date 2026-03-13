@@ -261,7 +261,6 @@ export default function CarpentryPage() {
                         <ul className="list-disc list-inside space-y-2 text-gray-700">
                           <li>LVP flooring</li>
                           <li>Hardwood flooring</li>
-                          <li>Finish transitions and trim tie-ins</li>
                         </ul>
                       </div>
                     </details>
