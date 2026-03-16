@@ -3,7 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Script from "next/script";
-import imageFiles from "@/app/gallery/interior/galleryFiles";
+import {
+  interiorServiceGalleryOneImages,
+  interiorServiceGalleryTwoImages,
+} from "@/app/gallery/interior/galleryFiles";
 import ReviewsWidget from "../../components/ReviewsWidget";
 
 const serviceJsonLd = {
@@ -60,8 +63,8 @@ export const metadata: Metadata = {
 };
 
 export default function InteriorPaintingPage() {
-  const imageSet1 = imageFiles.slice(0, 12);
-  const imageSet2 = imageFiles.slice(12, 24);
+  const imageSet1 = interiorServiceGalleryOneImages;
+  const imageSet2 = interiorServiceGalleryTwoImages;
   return (
     <>
       <Script async id="interior-painting-service" type="application/ld+json">
@@ -176,6 +179,14 @@ export default function InteriorPaintingPage() {
         </p>
       </div>
       <CarouselGallery bgcolor="#e8f2ec" images={imageSet2} />
+      <div className="px-6 pb-8 lg:px-20 text-center">
+        <Link
+          href="/gallery/interior"
+          className="inline-flex items-center justify-center rounded-full border border-gray-900 px-6 py-3 text-sm font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
+        >
+          View Full Interior Gallery
+        </Link>
+      </div>
       <div className="p-8 pl-6 lg:pl-20 lg:pr-20">
         <p className="pt-4 pb-4">
           At Portland Painting and Restoration, we prioritize attention to
