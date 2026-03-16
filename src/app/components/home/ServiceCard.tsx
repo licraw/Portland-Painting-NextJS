@@ -15,6 +15,11 @@ interface ServiceCardProps {
   handleCardClick?: (e: any) => void;
 }
 
+const toCssImageUrl = (image?: string) => {
+  if (!image) return "none";
+  return `url("${encodeURI(image)}")`;
+};
+
 const Card = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== "isactive",
 })<ServiceCardProps>`
@@ -32,7 +37,7 @@ const Card = styled.div.withConfig({
       rgba(9, 51, 25, 0.9) 90%
     ),
     linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${(props) => props.image}) center/cover no-repeat;
+    ${(props) => toCssImageUrl(props.image)} center/cover no-repeat;
 
   @media (min-width: 1024px) {
     flex: ${({ isactive }) => (isactive ? "2" : "1")};

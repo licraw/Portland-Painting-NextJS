@@ -179,7 +179,7 @@ export default function InteriorPaintingPage() {
         </p>
       </div>
       <CarouselGallery bgcolor="#e8f2ec" images={imageSet2} />
-      <div className="px-6 pb-8 lg:px-20 text-center">
+      <div className="px-6 pb-8 lg:px-20 text-center mt-4">
         <Link
           href="/gallery/interior"
           className="inline-flex items-center justify-center rounded-full border border-gray-900 px-6 py-3 text-sm font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
