@@ -7,6 +7,9 @@ import { getAllBlogs } from "../../../lib/getAllBlogs";
 export const metadata = {
   title: "Blog | Portland Painting & Restoration",
   description: "Read our latest articles on painting, restoration, and home care tips in Portland.",
+  alternates: {
+    canonical: "https://www.paintpdx.com/blogs",
+  },
 };
 
 export default async function BlogPage() {

@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     "restoration",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/green-safe",
+    canonical: "https://www.paintpdx.com/about-us/green-and-safe",
   },
   openGraph: {
     title: "Green and Safe Practices | Portland Painting & Restoration",
     description:
       "Discover our eco-friendly and sustainable painting solutions. At Portland Painting & Restoration, we prioritize green practices, lead safety, and low-VOC/zero-VOC paints for a healthier home and planet.",
-    url: "https://www.paintpdx.com/green-safe",
+    url: "https://www.paintpdx.com/about-us/green-and-safe",
     type: "website",
     images: [
       {

@@ -9,7 +9,7 @@ import ReviewsWidget from "../../components/ReviewsWidget";
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": "https://www.paintpdx.com/exterior-painting#service",
+  "@id": "https://www.paintpdx.com/painting/exterior#service",
   name: "Exterior Painting Services",
   description:
     "Weather-resistant exterior painting and carpentry repairs for homes and businesses in the Portland metro area.",
@@ -21,7 +21,7 @@ const serviceJsonLd = {
     { "@type": "City", name: "Portland" },
     { "@type": "City", name: "Vancouver" },
   ],
-  url: "https://www.paintpdx.com/exterior-painting",
+  url: "https://www.paintpdx.com/painting/exterior",
   image: "https://www.paintpdx.com/herobanner.webp",
   slogan: "Protect and beautify your property with exterior painting experts.",
 };
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
     "free estimate",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/exterior-painting",
+    canonical: "https://www.paintpdx.com/painting/exterior",
   },
   openGraph: {
     title: "Exterior Painting Services | Portland Painting & Restoration",
     description:
       "Enhance your home's curb appeal with our exterior painting services. We use durable, weather-resistant finishes to protect and beautify your home.",
-    url: "https://www.paintpdx.com/exterior-painting",
+    url: "https://www.paintpdx.com/painting/exterior",
     type: "website",
     images: "https://www.paintpdx.com/logo.png",
   },

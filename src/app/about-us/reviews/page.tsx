@@ -83,13 +83,13 @@ export const metadata: Metadata = {
     "customer satisfaction",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/reviews",
+    canonical: "https://www.paintpdx.com/about-us/reviews",
   },
   openGraph: {
     title: "Customer Reviews | Portland Painting & Restoration",
     description:
       "Read what our customers have to say about their experiences with Portland Painting & Restoration. Discover why we’re rated 4.9 stars for quality, professionalism, and exceptional service.",
-    url: "https://www.paintpdx.com/reviews",
+    url: "https://www.paintpdx.com/about-us/reviews",
     type: "website",
     images: [
       {

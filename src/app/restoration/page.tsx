@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     "building restoration",
     "dogs",
   ],
+  alternates: {
+    canonical: "https://www.paintpdx.com/restoration",
+  },
   openGraph: {
     title: "Restoration Services | Portland Painting & Restoration",
     description:

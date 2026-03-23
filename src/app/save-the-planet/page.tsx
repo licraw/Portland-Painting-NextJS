@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description:
     "Global warming may seem like an overwhelmingly complex problem to handle but painting your house white is a step in the right direction. So we’ve gone ahead and put together some reasons to paint your house white, some of which might just surprise you!",
   alternates: {
-    canonical: "https://paintpdx.com/save-the-planet/",
+    canonical: "https://www.paintpdx.com/save-the-planet",
   },
   openGraph: {
     title: "PPR Helping Save Your home, the planet, and Your Budget - Portland Painting and Restoration",
     description:
       "Global warming may seem like an overwhelmingly complex problem to handle but painting your house white is a step in the right direction. So we’ve gone ahead and put together some reasons to paint your house white, some of which might just surprise you!",
-    url: "https://paintpdx.com/save-the-planet/",
+    url: "https://www.paintpdx.com/save-the-planet",
     siteName: "Portland Painting and Restoration",
     type: "article",
   },

@@ -15,11 +15,11 @@ const toAbsoluteImage = (path: string) =>
 const galleryJsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "@id": "https://www.paintpdx.com/exterior-gallery#collection",
+  "@id": "https://www.paintpdx.com/gallery/exterior#collection",
   name: "Exterior Painting Gallery",
   description:
     "A portfolio of exterior painting and carpentry projects completed across Portland and Vancouver.",
-  url: "https://www.paintpdx.com/exterior-gallery",
+  url: "https://www.paintpdx.com/gallery/exterior",
   hasPart: imageFiles.slice(0, 12).map((image, index) => {
     const absoluteUrl = toAbsoluteImage(image);
     return {
@@ -45,13 +45,13 @@ export const metadata: Metadata = {
     "restoration",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/exterior-gallery",
+    canonical: "https://www.paintpdx.com/gallery/exterior",
   },
   openGraph: {
     title: "Exterior Gallery | Portland Painting & Restoration",
     description:
       "Explore our portfolio of exceptional exterior painting projects. From elegant facades to colorful accents, see how Portland Painting & Restoration enhances the beauty of homes and buildings.",
-    url: "https://www.paintpdx.com/exterior-gallery",
+    url: "https://www.paintpdx.com/gallery/exterior",
     type: "website",
     images: "https://www.paintpdx.com/logo.png",
   },

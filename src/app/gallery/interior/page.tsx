@@ -13,11 +13,11 @@ const toAbsoluteImage = (path: string) =>
 const galleryJsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "@id": "https://www.paintpdx.com/interior-gallery#collection",
+  "@id": "https://www.paintpdx.com/gallery/interior#collection",
   name: "Interior Painting Gallery",
   description:
     "A portfolio of interior painting projects completed by Portland Painting & Restoration.",
-  url: "https://www.paintpdx.com/interior-gallery",
+  url: "https://www.paintpdx.com/gallery/interior",
   hasPart: imageFiles.slice(0, 12).map((image, index) => {
     const absoluteUrl = toAbsoluteImage(image);
     return {
@@ -44,13 +44,13 @@ export const metadata = {
     "restoration",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/interior-gallery",
+    canonical: "https://www.paintpdx.com/gallery/interior",
   },
   openGraph: {
     title: "Interior Gallery | Portland Painting & Restoration",
     description:
       "Explore our collection of stunning interior painting projects. From vibrant living spaces to soothing bedrooms, our work showcases our dedication to quality and craftsmanship.",
-    url: "https://www.paintpdx.com/interior-gallery",
+    url: "https://www.paintpdx.com/gallery/interior",
     type: "website",
     images: "https://www.paintpdx.com/logo.png",
   },

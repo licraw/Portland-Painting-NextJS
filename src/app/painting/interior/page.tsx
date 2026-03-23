@@ -12,7 +12,7 @@ import ReviewsWidget from "../../components/ReviewsWidget";
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": "https://www.paintpdx.com/interior-painting#service",
+  "@id": "https://www.paintpdx.com/painting/interior#service",
   name: "Interior Painting Services",
   description:
     "Interior painting and carpentry services for residential properties in the Portland and Vancouver metro areas.",
@@ -24,7 +24,7 @@ const serviceJsonLd = {
     { "@type": "City", name: "Portland" },
     { "@type": "City", name: "Vancouver" },
   ],
-  url: "https://www.paintpdx.com/interior-painting",
+  url: "https://www.paintpdx.com/painting/interior",
   image: "https://www.paintpdx.com/herobanner.webp",
   slogan: "Transform your interior spaces with professional painters and carpenters.",
 };
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     "restoration",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/interior-painting",
+    canonical: "https://www.paintpdx.com/painting/interior",
   },
   openGraph: {
     title: "Interior Painting Services | Portland Painting & Restoration",
     description:
       "Transform your home with our professional interior painting services. We specialize in vibrant, lasting colors that elevate your living spaces.",
-    url: "https://www.paintpdx.com/interior-painting",
+    url: "https://www.paintpdx.com/painting/interior",
     type: "website",
     images: "https://www.paintpdx.com/logo.png",
   },

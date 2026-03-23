@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     "job opportunities",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/employment",
+    canonical: "https://www.paintpdx.com/about-us/employment",
   },
   openGraph: {
     title: "Join Our Team | Portland Painting & Restoration",
     description:
       "Discover career opportunities at Portland Painting & Restoration. Be part of a company that values craftsmanship, excellence, and diversity.",
-    url: "https://www.paintpdx.com/employment",
+    url: "https://www.paintpdx.com/about-us/employment",
     type: "website",
     images: [
       {

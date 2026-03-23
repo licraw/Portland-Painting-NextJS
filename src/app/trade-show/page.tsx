@@ -2,11 +2,11 @@ import { Metadata } from "next";
 import TradeShowContainer from "../components/trade-show/tradeShowContainer";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Portland Painting & Restoration",
+  title: "Trade Show | Portland Painting & Restoration",
   description:
-    "We look forward to collaborating with you on your next project. Contact Portland Painting & Restoration via our online form, phone, or visit our Portland office for quality painting and restoration services.",
+    "Connect with Portland Painting & Restoration at our trade show and learn more about our painting, restoration, and carpentry services.",
   keywords: [
-    "contact",
+    "trade show",
     "painting",
     "restoration",
     "Portland",
@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     "professional services",
   ],
   alternates: {
-    canonical: "https://www.paintpdx.com/contact",
+    canonical: "https://www.paintpdx.com/trade-show",
   },
   openGraph: {
-    title: "Contact Us | Portland Painting & Restoration",
+    title: "Trade Show | Portland Painting & Restoration",
     description:
-      "Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office.",
-    url: "https://www.paintpdx.com/contact",
+      "Connect with Portland Painting & Restoration at our trade show and learn more about our painting, restoration, and carpentry services.",
+    url: "https://www.paintpdx.com/trade-show",
     type: "website",
     images: [
       {
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Us | Portland Painting & Restoration",
+    title: "Trade Show | Portland Painting & Restoration",
     description:
-      "Get in touch with Portland Painting & Restoration for quality painting and restoration services in Portland, OR. Reach us via our contact form, phone, or visit our office.",
+      "Connect with Portland Painting & Restoration at our trade show and learn more about our painting, restoration, and carpentry services.",
     images: ["https://www.paintpdx.com/logo.png"],
   },
 };
