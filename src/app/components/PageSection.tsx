@@ -11,6 +11,8 @@ interface PageSectionProps {
 const Section = styled.section<PageSectionProps>`
   background-color: ${(props) => props.bgcolor};
   display: flex;
+  box-sizing: border-box;
+  max-width: 100vw;
   padding: 40px 32px;
   flex-direction: column;
   justify-content: center;
