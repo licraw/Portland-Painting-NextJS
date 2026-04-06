@@ -55,7 +55,7 @@ const Services = () => {
               title="Painting"
               description="Servicing the greater Portland, OR metro area, we offer both Interior and exterior repaints as well as chronic failure solutions like lead paint removal of old failing substrates and carpentry repairs, of which ensures a sound substrate on historic homes to preserve them for another 100 years to come."
               image="/images/interior/home/interior-home.jpg"
-              secondImage='/gallery/exterior1.jpeg'
+              secondImage='/images/exterior/home/exterior-home.jpeg'
               handleCardClick={handleCardClick}
             />
             <ServiceCard

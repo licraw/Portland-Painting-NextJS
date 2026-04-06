@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import CarouselGallery from "../../components/ImageGallery/CarouselGallery";
-import imageFiles from "@/app/gallery/exterior/galleryFiles";
+import { exteriorLandingImages } from "@/app/gallery/exterior/galleryFiles";
 import ReviewsWidget from "../../components/ReviewsWidget";
 
 const serviceJsonLd = {
@@ -61,8 +61,8 @@ export const metadata: Metadata = {
 };
 
 export default function ExteriorPaintingPage() {
-  const imageSet1 = imageFiles.slice(0, 12);
-  const imageSet2 = imageFiles.slice(12, 24);
+  const imageSet1 = exteriorLandingImages.slice(0, 12);
+  const imageSet2 = exteriorLandingImages.slice(12, 24);
   return (
     <>
       <Script async id="exterior-painting-service" type="application/ld+json">
