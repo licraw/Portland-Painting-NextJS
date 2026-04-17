@@ -199,16 +199,22 @@ Promo Code: ${formData.promoCode || "None"}`;
         className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <input
-          type="text"
-          name="address"
-          placeholder="Project Address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+        <div>
+          <input
+            type="text"
+            name="address"
+            placeholder="Project Address (optional)"
+            value={formData.address}
+            onChange={handleChange}
+            autoComplete="street-address"
+            aria-describedby="estimate-address-help"
+            className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          />
+          <p id="estimate-address-help" className="mt-2 text-xs text-gray-600">
+            Optional. Used for scheduling/logistics only.
+          </p>
+        </div>
         <input
           type="text"
           name="zipCode"
@@ -216,7 +222,11 @@ Promo Code: ${formData.promoCode || "None"}`;
           value={formData.zipCode}
           onChange={handleChange}
           required
-          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          inputMode="numeric"
+          autoComplete="postal-code"
+          pattern="\\d{5}(-\\d{4})?"
+          title="Enter a 5-digit ZIP code (or ZIP+4)."
+          className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full self-start"
         />
       </div>
 

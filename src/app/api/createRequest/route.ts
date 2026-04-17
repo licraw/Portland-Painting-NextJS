@@ -11,6 +11,13 @@ const { NextRequest } = require("next/server");
 
 export const runtime = "nodejs";
 
+function isValidUsZip(zip: unknown): zip is string {
+  if (typeof zip !== "string") return false;
+  const trimmed = zip.trim();
+  if (!trimmed) return false;
+  return /^\d{5}(-\d{4})?$/.test(trimmed);
+}
+
 export async function POST(req = new NextRequest()) {
   try {
     /* 1️⃣  parse body */
@@ -28,6 +35,11 @@ export async function POST(req = new NextRequest()) {
       paintingAndStain,
       constructionAndRestoration,
     } = payload;
+
+    if (!isValidUsZip(zipCode)) {
+      return new Response(JSON.stringify({ error: "zipCode is required" }), { status: 400 });
+    }
+    const normalizedZipCode = zipCode.trim();
 
     /* 2️⃣  initialise Asana client */
     const client = Asana.ApiClient.instance;
@@ -66,7 +78,7 @@ export async function POST(req = new NextRequest()) {
             notes: `**Email**: ${email}
 **Phone**: ${phone}
 **Address**: ${address}
-**Zip Code**: ${zipCode}
+**Zip Code**: ${normalizedZipCode}
 **Painting & Stain**: ${paintingAndStain}
 **Construction & Restoration**: ${constructionAndRestoration}`,
             due_on,
@@ -79,7 +91,7 @@ export async function POST(req = new NextRequest()) {
             notes: `**Email**: ${email}
 **Phone**: ${phone}
 **Address**: ${address}
-**Zip Code**: ${zipCode}
+**Zip Code**: ${normalizedZipCode}
 **Overview**: ${overview}
 **Promo Code**: ${promoCode}`,
             due_on,

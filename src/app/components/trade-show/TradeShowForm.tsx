@@ -200,15 +200,21 @@ Notes: ${formData.notes}`;
         onChange={handleChange}
       />
 
-      <input
-        className="p-4 border rounded-lg w-full"
-        required
-        type="text"
-        name="address"
-        placeholder="Address"
-        value={formData.address}
-        onChange={handleChange}
-      />
+      <div>
+        <input
+          className="p-4 border rounded-lg w-full"
+          type="text"
+          name="address"
+          placeholder="Address (optional)"
+          value={formData.address}
+          onChange={handleChange}
+          autoComplete="street-address"
+          aria-describedby="home-lead-address-help"
+        />
+        <p id="home-lead-address-help" className="mt-2 text-xs text-gray-600">
+          Optional. Used for scheduling/logistics only.
+        </p>
+      </div>
 
       <input
         className="p-4 border rounded-lg w-full mt-4"
@@ -218,6 +224,10 @@ Notes: ${formData.notes}`;
         placeholder="Zip Code"
         value={formData.zipCode}
         onChange={handleChange}
+        inputMode="numeric"
+        autoComplete="postal-code"
+        pattern="\\d{5}(-\\d{4})?"
+        title="Enter a 5-digit ZIP code (or ZIP+4)."
       />
 
       {/* painting & stain */}

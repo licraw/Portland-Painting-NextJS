@@ -225,6 +225,10 @@ Message: ${formData.overview}`;
         placeholder="Zip Code"
         value={formData.zipCode}
         onChange={handleChange}
+        inputMode="numeric"
+        autoComplete="postal-code"
+        pattern="\\d{5}(-\\d{4})?"
+        title="Enter a 5-digit ZIP code (or ZIP+4)."
       />
 
       {/* message */}
