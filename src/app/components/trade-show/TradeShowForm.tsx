@@ -24,7 +24,7 @@ interface HomeLeadFormData {
 export default function HomeLeadForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
 
   const [fileInputKey, setFileInputKey] = useState(Date.now());
   const [status, setStatus] = useState("");
@@ -228,14 +228,14 @@ Notes: ${formData.notes}`;
           className="p-4 border rounded-lg w-full"
           type="text"
           name="address"
-          placeholder="Address (optional)"
+          placeholder="Address"
           value={formData.address}
           onChange={handleChange}
           autoComplete="street-address"
           aria-describedby="home-lead-address-help"
         />
         <p id="home-lead-address-help" className="mt-2 text-xs text-gray-600">
-          Optional. Used for scheduling/logistics only.
+          Used for scheduling/logistics only.
         </p>
       </div>
 
@@ -290,10 +290,7 @@ Notes: ${formData.notes}`;
           >
             <option value="">Select an option (optional)</option>
             <option value="Morning">Morning</option>
-            <option value="Midday">Midday</option>
             <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-            <option value="Weekends">Weekends</option>
             <option value="Anytime">Anytime</option>
           </select>
         </div>

@@ -10,7 +10,7 @@ const UTM_SOURCE_STORAGE_KEY = "utm_source";
 export default function EstimateForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
 
   const [fileInputKey, setFileInputKey] = useState(Date.now());
   const [status, setStatus] = useState("");
@@ -226,7 +226,7 @@ Promo Code: ${formData.promoCode || "None"}`;
           <input
             type="text"
             name="address"
-            placeholder="Project Address (optional)"
+            placeholder="Project Address"
             value={formData.address}
             onChange={handleChange}
             autoComplete="street-address"
@@ -234,7 +234,7 @@ Promo Code: ${formData.promoCode || "None"}`;
             className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
           />
           <p id="estimate-address-help" className="mt-2 text-xs text-gray-600">
-            Optional. Used for scheduling/logistics only.
+            Used for scheduling/logistics only.
           </p>
         </div>
         <input
@@ -299,10 +299,7 @@ Promo Code: ${formData.promoCode || "None"}`;
           >
             <option value="">Select an option (optional)</option>
             <option value="Morning">Morning</option>
-            <option value="Midday">Midday</option>
             <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-            <option value="Weekends">Weekends</option>
             <option value="Anytime">Anytime</option>
           </select>
         </div>
