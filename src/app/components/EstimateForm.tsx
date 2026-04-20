@@ -10,6 +10,8 @@ const UTM_SOURCE_STORAGE_KEY = "utm_source";
 export default function EstimateForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
+  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+
   const [fileInputKey, setFileInputKey] = useState(Date.now());
   const [status, setStatus] = useState("");
   const [isInstagramAttribution, setIsInstagramAttribution] = useState(false);
@@ -23,6 +25,9 @@ export default function EstimateForm() {
     zipCode: "",
     promoCode: "",
     howDidYouFindUs: "",
+    preferredDays: [] as string[],
+    preferredTimeOfDay: "",
+    schedulingNotes: "",
     subscribeToMailchimp: true,
     formType: "estimate",
     photos: [] as File[],
@@ -48,8 +53,22 @@ export default function EstimateForm() {
     if (type === "file") {
       const selected = files ? Array.from(files).slice(0, 4) : [];
       setFormData((p) => ({ ...p, [name]: selected }));
+    } else if (name === "preferredDays" && type === "checkbox") {
+      setFormData((p) => {
+        const current = p.preferredDays ?? [];
+        return {
+          ...p,
+          preferredDays: checked
+            ? Array.from(new Set([...current, value]))
+            : current.filter((d) => d !== value),
+        };
+      });
     } else {
-      setFormData((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
+      const normalizedValue = name === "zipCode" ? value.replace(/\s+/g, "") : value;
+      setFormData((p) => ({
+        ...p,
+        [name]: type === "checkbox" ? checked : normalizedValue,
+      }));
     }
   };
 
@@ -145,6 +164,9 @@ Promo Code: ${formData.promoCode || "None"}`;
         promoCode: "",
         zipCode: "",
         howDidYouFindUs: isInstagramAttribution ? INSTAGRAM_OPTION_GID : "",
+        preferredDays: [],
+        preferredTimeOfDay: "",
+        schedulingNotes: "",
         subscribeToMailchimp: true,
         formType: "estimate",
         photos: [],
@@ -224,7 +246,7 @@ Promo Code: ${formData.promoCode || "None"}`;
           required
           inputMode="numeric"
           autoComplete="postal-code"
-          pattern="\\d{5}(-\\d{4})?"
+          pattern="[0-9]{5}(-[0-9]{4})?"
           title="Enter a 5-digit ZIP code (or ZIP+4)."
           className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full self-start"
         />
@@ -239,6 +261,67 @@ Promo Code: ${formData.promoCode || "None"}`;
         required
         className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
       />
+
+      <fieldset className="space-y-4 border border-gray-200 rounded-lg p-6">
+        <legend className="px-2 text-gray-700 font-medium">
+          Scheduling Preferences (Optional)
+        </legend>
+
+        <div>
+          <p className="text-sm text-gray-600 mb-2">Preferred days</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {DAYS.map((day) => (
+              <label key={day} className="flex items-center gap-2 text-gray-700">
+                <input
+                  type="checkbox"
+                  name="preferredDays"
+                  value={day}
+                  checked={formData.preferredDays.includes(day)}
+                  onChange={handleChange}
+                  className="h-4 w-4"
+                />
+                <span>{day}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="preferredTimeOfDay" className="text-sm text-gray-600 mb-2">
+            Preferred time of day
+          </label>
+          <select
+            id="preferredTimeOfDay"
+            name="preferredTimeOfDay"
+            value={formData.preferredTimeOfDay}
+            onChange={handleChange}
+            className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          >
+            <option value="">Select an option (optional)</option>
+            <option value="Morning">Morning</option>
+            <option value="Midday">Midday</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+            <option value="Weekends">Weekends</option>
+            <option value="Anytime">Anytime</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="schedulingNotes" className="text-sm text-gray-600 mb-2">
+            Scheduling notes
+          </label>
+          <textarea
+            id="schedulingNotes"
+            name="schedulingNotes"
+            placeholder="Gate codes, parking notes, best contact method, etc."
+            value={formData.schedulingNotes}
+            onChange={handleChange}
+            rows={3}
+            className="p-4 border rounded-lg focus:ring-2 focus:ring-green-700 w-full"
+          />
+        </div>
+      </fieldset>
 
       <div>
         <label className="block text-gray-700">Upload up to 4 Photos (Optional)</label>

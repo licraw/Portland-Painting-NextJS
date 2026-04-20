@@ -11,11 +11,43 @@ const { NextRequest } = require("next/server");
 
 export const runtime = "nodejs";
 
+const GENERAL_AVAILABILITY_CUSTOM_FIELD_GID = "1214140070117320";
+
 function isValidUsZip(zip: unknown): zip is string {
   if (typeof zip !== "string") return false;
   const trimmed = zip.trim();
   if (!trimmed) return false;
   return /^\d{5}(-\d{4})?$/.test(trimmed);
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function buildGeneralAvailability(input: {
+  preferredDays?: unknown;
+  preferredTimeOfDay?: unknown;
+  schedulingNotes?: unknown;
+}): string | null {
+  const rawDays = Array.isArray(input.preferredDays)
+    ? input.preferredDays
+    : isNonEmptyString(input.preferredDays)
+      ? input.preferredDays.split(",")
+      : [];
+  const days = rawDays
+    .filter(isNonEmptyString)
+    .map((d) => d.trim())
+    .filter(Boolean);
+
+  const time = isNonEmptyString(input.preferredTimeOfDay) ? input.preferredTimeOfDay.trim() : "";
+  const notes = isNonEmptyString(input.schedulingNotes) ? input.schedulingNotes.trim() : "";
+
+  const lines: string[] = [];
+  if (days.length) lines.push(`Days: ${days.join(", ")}`);
+  if (time) lines.push(`Time: ${time}`);
+  if (notes) lines.push(`Notes: ${notes}`);
+
+  return lines.length ? lines.join("\n") : null;
 }
 
 export async function POST(req = new NextRequest()) {
@@ -32,6 +64,9 @@ export async function POST(req = new NextRequest()) {
       zipCode,
       promoCode = "0000",
       howDidYouFindUs,
+      preferredDays,
+      preferredTimeOfDay,
+      schedulingNotes,
       paintingAndStain,
       constructionAndRestoration,
     } = payload;
@@ -40,6 +75,11 @@ export async function POST(req = new NextRequest()) {
       return new Response(JSON.stringify({ error: "zipCode is required" }), { status: 400 });
     }
     const normalizedZipCode = zipCode.trim();
+    const generalAvailability = buildGeneralAvailability({
+      preferredDays,
+      preferredTimeOfDay,
+      schedulingNotes,
+    });
 
     /* 2️⃣  initialise Asana client */
     const client = Asana.ApiClient.instance;
@@ -70,6 +110,8 @@ export async function POST(req = new NextRequest()) {
 
     /* 5️⃣  build task data */
     const due_on = new Date().toISOString().split("T")[0];
+    const availabilityField =
+      generalAvailability ? { [GENERAL_AVAILABILITY_CUSTOM_FIELD_GID]: generalAvailability } : {};
     const taskData =
       formType === "homeLead"
         ? {
@@ -84,6 +126,7 @@ export async function POST(req = new NextRequest()) {
             due_on,
             projects: [projectId],
             tags: ["1209503778924319"],
+            ...(generalAvailability ? { custom_fields: availabilityField } : {}),
           }
         : {
             workspace: "9802913355207",
@@ -101,6 +144,7 @@ export async function POST(req = new NextRequest()) {
               "1208441371887529": "1208441371887530",
               "1209143077541096": promoCode,
               "1212483327157301": howDidYouFindUs,
+              ...availabilityField,
             },
           };
 

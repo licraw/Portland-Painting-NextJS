@@ -59,9 +59,10 @@ export default function ContactForm() {
         photos: files ? Array.from(files).slice(0, 4) : [],
       }));
     } else {
+      const normalizedValue = name === "zipCode" ? value.replace(/\s+/g, "") : value;
       setFormData((prev) => ({
         ...prev,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === "checkbox" ? checked : normalizedValue,
       }));
     }
   };
@@ -227,7 +228,7 @@ Message: ${formData.overview}`;
         onChange={handleChange}
         inputMode="numeric"
         autoComplete="postal-code"
-        pattern="\\d{5}(-\\d{4})?"
+        pattern="[0-9]{5}(-[0-9]{4})?"
         title="Enter a 5-digit ZIP code (or ZIP+4)."
       />
 
