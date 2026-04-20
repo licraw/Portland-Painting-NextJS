@@ -269,9 +269,18 @@ Promo Code: ${formData.promoCode || "None"}`;
 
         <div>
           <p className="text-sm text-gray-600 mb-2">Preferred days</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {DAYS.map((day) => (
-              <label key={day} className="flex items-center gap-2 text-gray-700">
+          <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
+            {DAYS.map((day, index) => (
+              <label
+                key={day}
+                className={[
+                  "flex items-center gap-2 text-gray-700 col-span-2",
+                  index === 3 ? "col-start-2 sm:col-start-auto" : "",
+                  index === 4 ? "col-start-4 sm:col-start-auto" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
                 <input
                   type="checkbox"
                   name="preferredDays"
