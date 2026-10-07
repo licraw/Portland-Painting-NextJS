@@ -124,7 +124,6 @@ export default function ReviewsPage() {
             const bTime = b.time ? new Date(b.time).getTime() : 0;
             return bTime - aTime;
           })
-          .slice(0, 5)
       : reviews.map((review) => ({
           text: review.text,
           author: review.author,
@@ -206,10 +205,6 @@ export default function ReviewsPage() {
             Google rating {displayRating.toFixed(1)} based on{" "}
             {ratingCount.toLocaleString()} reviews
           </p>
-          <p className="text-center text-sm text-gray-500 mb-6">
-            Showing the latest {displayReviews.length} 4- and 5-star reviews
-          </p>
-
           {/* Reviews List */}
           <div className="space-y-6">
             {displayReviews.map((review, index) => (

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 const placeId = process.env.GOOGLE_PLACE_ID;
@@ -32,7 +32,7 @@ if (!payload?.id) {
   process.exit(1);
 }
 
-const reviews = Array.isArray(payload.reviews)
+const fetchedReviews = Array.isArray(payload.reviews)
   ? payload.reviews
       .filter((review) => (review.rating ?? 0) >= 4)
       .map((review) => ({
@@ -48,6 +48,34 @@ const reviews = Array.isArray(payload.reviews)
       }))
   : [];
 
+let savedReviews = [];
+try {
+  const savedSnapshot = JSON.parse(await readFile(outputPath, "utf8"));
+  savedReviews = Array.isArray(savedSnapshot.reviews)
+    ? savedSnapshot.reviews.filter((review) => (review.rating ?? 0) >= 4)
+    : [];
+} catch (error) {
+  if (error?.code !== "ENOENT") {
+    console.warn(`Could not read the existing review snapshot: ${error.message}`);
+  }
+}
+
+const reviewKey = (review) =>
+  review.author_url && review.time
+    ? `${review.author_url}|${review.time}`
+    : `${review.author_name ?? ""}|${review.time ?? ""}|${review.text ?? ""}`;
+
+const reviewsByKey = new Map();
+for (const review of [...savedReviews, ...fetchedReviews]) {
+  reviewsByKey.set(reviewKey(review), review);
+}
+
+const reviews = [...reviewsByKey.values()].sort((a, b) => {
+  const aTime = a.time ? new Date(a.time).getTime() : 0;
+  const bTime = b.time ? new Date(b.time).getTime() : 0;
+  return bTime - aTime;
+});
+
 const output = {
   source: "google-places",
   place_id: placeId,
@@ -61,4 +89,6 @@ const output = {
 };
 
 await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, "utf8");
-console.log(`Wrote ${reviews.length} reviews to ${outputPath}`);
+console.log(
+  `Fetched ${fetchedReviews.length} qualifying reviews; wrote ${reviews.length} total reviews to ${outputPath}`,
+);
