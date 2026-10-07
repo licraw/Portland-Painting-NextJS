@@ -45,14 +45,16 @@ type ReviewsPageData = {
 function getGoogleReviewsFromSnapshot(): ReviewsPageData {
   const snapshot = googleReviewsSnapshot as ReviewsSnapshot;
   const snapshotReviews = Array.isArray(snapshot.reviews) ? snapshot.reviews : [];
-  const mappedReviews: DisplayReview[] = snapshotReviews.map((review) => ({
-    text: review.text,
-    author: review.author_name ?? "Google User",
-    rating: review.rating ?? 5,
-    relativeTimeDescription: review.relative_time_description,
-    profilePhotoUrl: review.profile_photo_url,
-    time: review.time,
-  }));
+  const mappedReviews: DisplayReview[] = snapshotReviews
+    .filter((review) => (review.rating ?? 0) >= 4)
+    .map((review) => ({
+      text: review.text,
+      author: review.author_name ?? "Google User",
+      rating: review.rating ?? 5,
+      relativeTimeDescription: review.relative_time_description,
+      profilePhotoUrl: review.profile_photo_url,
+      time: review.time,
+    }));
 
   if (!mappedReviews.length) {
     return null;
@@ -205,7 +207,7 @@ export default function ReviewsPage() {
             {ratingCount.toLocaleString()} reviews
           </p>
           <p className="text-center text-sm text-gray-500 mb-6">
-            Showing latest 5 reviews
+            Showing the latest {displayReviews.length} 4- and 5-star reviews
           </p>
 
           {/* Reviews List */}

@@ -33,17 +33,19 @@ if (!payload?.id) {
 }
 
 const reviews = Array.isArray(payload.reviews)
-  ? payload.reviews.map((review) => ({
-      author_name: review.authorAttribution?.displayName,
-      profile_photo_url: review.authorAttribution?.photoUri,
-      rating: review.rating,
-      relative_time_description: review.relativePublishTimeDescription,
-      text: review.text?.text,
-      time: review.publishTime,
-      author_url: review.authorAttribution?.uri,
-      language: review.text?.languageCode,
-      original_language: review.originalText?.languageCode,
-    }))
+  ? payload.reviews
+      .filter((review) => (review.rating ?? 0) >= 4)
+      .map((review) => ({
+        author_name: review.authorAttribution?.displayName,
+        profile_photo_url: review.authorAttribution?.photoUri,
+        rating: review.rating,
+        relative_time_description: review.relativePublishTimeDescription,
+        text: review.text?.text,
+        time: review.publishTime,
+        author_url: review.authorAttribution?.uri,
+        language: review.text?.languageCode,
+        original_language: review.originalText?.languageCode,
+      }))
   : [];
 
 const output = {

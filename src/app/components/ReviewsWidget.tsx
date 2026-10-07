@@ -30,6 +30,7 @@ export default function ReviewsWidget({
   const snapshot = googleReviewsSnapshot as ReviewsSnapshot;
   const allReviews = Array.isArray(snapshot.reviews) ? snapshot.reviews : [];
   const visibleReviews = [...allReviews]
+    .filter((review) => (review.rating ?? 0) >= 4)
     .sort((a, b) => {
       const aTime = a.time ? new Date(a.time).getTime() : 0;
       const bTime = b.time ? new Date(b.time).getTime() : 0;
