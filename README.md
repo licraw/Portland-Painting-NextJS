@@ -56,6 +56,10 @@ Find the URL and API keys in the Supabase project’s **Connect** dialog or unde
 **Settings → API Keys**. The secret key must remain server-only and must never
 use a `NEXT_PUBLIC_` prefix.
 
+Draft project stories are available only through the protected admin preview.
+Publishing a story makes it available at `/projects/[slug]` and adds it to the
+public sitemap. Returning a published story to draft removes public access.
+
 ## Google Reviews Setup
 
 Set these variables in `.env.local`:

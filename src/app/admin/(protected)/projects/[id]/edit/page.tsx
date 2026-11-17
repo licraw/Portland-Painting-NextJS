@@ -56,9 +56,13 @@ export default async function EditProjectPage({
         </Link>
         <Link
           className="text-sm font-medium text-[#17352B] underline decoration-[#17352B]/35 underline-offset-4 hover:decoration-[#17352B]"
-          href={`/admin/projects/${project.id}`}
+          href={
+            project.status === "published"
+              ? `/projects/${project.slug}`
+              : `/admin/projects/${project.id}`
+          }
         >
-          View project
+          {project.status === "published" ? "View public page" : "View draft"}
         </Link>
       </div>
 

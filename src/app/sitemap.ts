@@ -1,4 +1,8 @@
 import type { MetadataRoute } from "next";
+import {
+  createSupabasePublicClient,
+  isSupabasePublicConfigured,
+} from "@/lib/supabase/public";
 
 const baseUrl = "https://www.paintpdx.com";
 
@@ -22,11 +26,29 @@ const staticRoutes = [
   "/trade-show",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-
-  return staticRoutes.map((route) => ({
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${baseUrl}${route || "/"}`,
     lastModified: now,
   }));
+
+  if (!isSupabasePublicConfigured()) return staticEntries;
+
+  const { data: projects, error } = await createSupabasePublicClient()
+    .from("project_stories")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .lte("published_at", now.toISOString())
+    .order("published_at", { ascending: false });
+
+  if (error) return staticEntries;
+
+  return [
+    ...staticEntries,
+    ...(projects ?? []).map((project) => ({
+      url: `${baseUrl}/projects/${project.slug}`,
+      lastModified: new Date(project.updated_at),
+    })),
+  ];
 }

@@ -149,9 +149,15 @@ export default async function AdminProjectsPage({
                 <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 sm:justify-end">
                   <Link
                     className="text-sm font-medium text-[#17352B] underline decoration-[#17352B]/35 underline-offset-4 hover:decoration-[#17352B]"
-                    href={`/admin/projects/${project.id}`}
+                    href={
+                      project.status === "published"
+                        ? `/projects/${project.slug}`
+                        : `/admin/projects/${project.id}`
+                    }
                   >
-                    View
+                    {project.status === "published"
+                      ? "View public page"
+                      : "View draft"}
                   </Link>
                   <Link
                     className="text-sm font-medium text-[#17352B] underline decoration-[#17352B]/35 underline-offset-4 hover:decoration-[#17352B]"
