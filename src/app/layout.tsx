@@ -2,16 +2,11 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
-import Header from "./components/Header";
-import PencilBanner from "./components/PencilBanner";
-import Nav from "./components/Nav";
-import Footer from "./components/Footer";
 import UtmTracker from "./components/UtmTracker";
-import GoogleCaptchaWrapper from "./api/verifyRecaptcha/GoogleCaptchaWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import StickyReviewsWidget from "./components/StickyReviewsWidget";
+import SiteShell from "./components/SiteShell";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -117,25 +112,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <GoogleCaptchaWrapper>
-          <UtmTracker />
-          <SpeedInsights />
-          <Analytics />
-          <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
-            {/* Header */}
-            <Header>
-              <PencilBanner ctaAction="/estimate" />
-              <Nav />
-            </Header>
-
-            {/* Main content */}
-            <main>{children}</main>
-            <StickyReviewsWidget />
-
-            {/* Footer */}
-            <Footer />
-          </div>
-        </GoogleCaptchaWrapper>
+        <UtmTracker />
+        <SpeedInsights />
+        <Analytics />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

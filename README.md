@@ -1,18 +1,64 @@
 # Portland-Painting-NextJS
 
-Repo for Portland Painting and Restoration Next.js site.
+The Portland Painting and Restoration website, built with Next.js 15, React,
+and TypeScript.
+
+## Requirements
+
+- Node.js 22.x
+- Yarn 1.22.22
 
 ## Getting Started
 
 ```bash
-npm run dev
+yarn install --frozen-lockfile
+cp .env.example .env.local
+yarn dev
 ```
 
-Open `http://localhost:3000`.
+Open [http://localhost:3000](http://localhost:3000).
+
+Most pages work without integration credentials. Add only the variables needed
+for the feature you are developing to `.env.local`; see `.env.example` for the
+complete list.
+
+## Commands
+
+```bash
+yarn dev             # Start the local development server
+yarn lint            # Run ESLint
+yarn tsc --noEmit    # Run the TypeScript checker
+yarn build           # Create a production build
+yarn start           # Serve a completed production build
+```
+
+## Project Stories Admin
+
+Generate a hashed shared password and a session-signing secret:
+
+```bash
+yarn admin:setup
+```
+
+Copy the two generated values into `.env.local`, restart the development
+server, and open [http://localhost:3000/admin](http://localhost:3000/admin).
+Admin sessions expire after three hours. Never commit the generated values.
+
+The Project Stories editor also requires these Supabase values in `.env.local`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+SUPABASE_SECRET_KEY=your-server-only-secret-key
+```
+
+Find the URL and API keys in the Supabase project’s **Connect** dialog or under
+**Settings → API Keys**. The secret key must remain server-only and must never
+use a `NEXT_PUBLIC_` prefix.
 
 ## Google Reviews Setup
 
-Add these variables to your local environment:
+Set these variables in `.env.local`:
 
 ```bash
 GOOGLE_MAPS_API_KEY=your-google-maps-api-key
@@ -21,29 +67,19 @@ GOOGLE_PLACE_ID=your-google-business-place-id
 
 The reviews page uses Google Places Details API on the server and falls back to local reviews if either value is missing.
 
-## Blog From Google Sheets (HTML)
-
-You can keep using local markdown files in `content/`, and also publish blog posts from Google Sheets.
-
-Add these variables:
+To refresh the checked-in reviews snapshot manually, run:
 
 ```bash
-BLOG_SHEET_ID=your-google-sheet-id
-BLOG_SHEET_RANGE=Blogs!A:G
-GOOGLE_SHEETS_API_KEY=your-google-api-key
+node scripts/fetch-google-reviews.mjs
 ```
 
-Expected sheet columns (header row):
+## Other Integrations
 
-- `slug` (optional, auto-generated from title if empty)
-- `title`
-- `description`
-- `date` (ISO or any JS-parseable date)
-- `image` (absolute URL or public path like `/img/post.png`)
-- `html` (the full HTML string for the post body)
-- `published` (`true/false`, optional; defaults to published)
+The form and subscription API routes can also use Asana, SMTP email,
+Mailchimp, and reCAPTCHA. Their environment-variable names are documented in
+`.env.example`. Never commit real credentials.
 
-Notes:
+## Working With Agents
 
-- If the same slug exists in both sheet and local markdown, the sheet post wins.
-- Sheet content is rendered as HTML (with basic server-side sanitizing).
+Repository structure, validation expectations, and change conventions are in
+`AGENTS.md`.

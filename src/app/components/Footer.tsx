@@ -62,7 +62,7 @@ export default function Footer() {
           <div className="lg:w-1/2">
             <h3 className="text-xl font-semibold">Never miss an update</h3>
             <p className="text-gray-400 text-sm mt-2">
-              Get all the latest news, blog post and services updates from Portland, delivered directly to your inbox.
+              Get all the latest news and service updates from Portland, delivered directly to your inbox.
               <br />
               We’ll rarely send more than one email a month.
             </p>
@@ -140,11 +140,6 @@ export default function Footer() {
               <li>
                 <Link href="/contact" className="hover:text-white">
                   Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/blogs" className="hover:text-white">
-                  Blogs
                 </Link>
               </li>
             </ul>
