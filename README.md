@@ -56,6 +56,23 @@ Find the URL and API keys in the Supabase project’s **Connect** dialog or unde
 **Settings → API Keys**. The secret key must remain server-only and must never
 use a `NEXT_PUBLIC_` prefix.
 
+Draft project stories are available only through the protected admin preview.
+Publishing a story makes it available at `/projects/[slug]` and adds it to the
+public sitemap. Returning a published story to draft removes public access.
+
+Creating a project first saves it as a draft, then opens the photo step. The
+editor accepts JPEG, PNG, and WebP files, resizes them in the browser, converts
+them to WebP, removes embedded metadata, and uploads them directly to the
+`project-images` Supabase Storage bucket through a time-limited signed upload.
+Add a short, useful image description to every photo before uploading. HEIC
+files and drag-to-reorder are not supported yet.
+
+The Resource & Information Center follows the same draft and publishing model.
+Its pages are HTML-first, with optional photography, PDF downloads, and links
+back to related service pages. While the section is in beta, resource routes
+are available by direct link but excluded from navigation, crawling, and the
+public sitemap.
+
 ## Google Reviews Setup
 
 Set these variables in `.env.local`:

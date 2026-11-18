@@ -58,7 +58,7 @@ export default async function NewProjectPage({
       ) : null}
 
       {isConfigured ? (
-        <ProjectStoryForm action={createProjectStory} />
+        <ProjectStoryForm action={createProjectStory} isNew />
       ) : null}
     </div>
   );

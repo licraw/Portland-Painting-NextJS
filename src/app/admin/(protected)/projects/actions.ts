@@ -99,14 +99,13 @@ export async function createProjectStory(formData: FormData) {
     redirect(`/admin/projects/new?error=${result.error}`);
   }
 
-  const { payload } = result;
+  const payload: ProjectStoryPayload = { ...result.payload, status: "draft" };
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
     .from("project_stories")
     .insert({
       ...payload,
-      published_at:
-        payload.status === "published" ? new Date().toISOString() : null,
+      published_at: null,
     })
     .select("id")
     .single();
@@ -120,7 +119,7 @@ export async function createProjectStory(formData: FormData) {
   }
 
   revalidatePath("/admin/projects");
-  redirect(`/admin/projects?created=${data.id}`);
+  redirect(`/admin/projects/${data.id}/edit?created=1`);
 }
 
 export async function updateProjectStory(id: number, formData: FormData) {
@@ -142,7 +141,7 @@ export async function updateProjectStory(id: number, formData: FormData) {
   const supabase = createSupabaseAdminClient();
   const { data: currentProject, error: loadError } = await supabase
     .from("project_stories")
-    .select("published_at")
+    .select("published_at, slug")
     .eq("id", projectId)
     .maybeSingle();
 
@@ -171,6 +170,8 @@ export async function updateProjectStory(id: number, formData: FormData) {
 
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/projects/${currentProject.slug}`);
+  revalidatePath(`/projects/${payload.slug}`);
   redirect(`/admin/projects?updated=${projectId}`);
 }
 
@@ -183,6 +184,16 @@ export async function deleteProjectStory(id: number) {
   }
 
   const supabase = createSupabaseAdminClient();
+  const { data: project, error: projectLoadError } = await supabase
+    .from("project_stories")
+    .select("slug")
+    .eq("id", projectId)
+    .maybeSingle();
+
+  if (projectLoadError || !project) {
+    redirect("/admin/projects?error=delete");
+  }
+
   const { data: images, error: imageLoadError } = await supabase
     .from("project_story_images")
     .select("storage_path")
@@ -207,5 +218,6 @@ export async function deleteProjectStory(id: number) {
   if (error) redirect("/admin/projects?error=delete");
 
   revalidatePath("/admin/projects");
+  revalidatePath(`/projects/${project.slug}`);
   redirect("/admin/projects?deleted=1");
 }

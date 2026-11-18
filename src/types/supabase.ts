@@ -1,3 +1,11 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
 export type Database = {
   public: {
     Tables: {
@@ -111,6 +119,48 @@ export type Database = {
           },
         ];
       };
+      resource_pages: {
+        Row: {
+          category: string;
+          created_at: string;
+          download_label: string | null;
+          download_url: string | null;
+          featured: boolean;
+          hero_image_alt: string | null;
+          hero_image_url: string | null;
+          id: number;
+          introduction: string | null;
+          published_at: string | null;
+          related_service_label: string | null;
+          related_service_url: string | null;
+          sections: Json;
+          slug: string;
+          status: string;
+          summary: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          category: string;
+          download_label?: string | null;
+          download_url?: string | null;
+          featured?: boolean;
+          hero_image_alt?: string | null;
+          hero_image_url?: string | null;
+          id?: never;
+          introduction?: string | null;
+          published_at?: string | null;
+          related_service_label?: string | null;
+          related_service_url?: string | null;
+          sections?: Json;
+          slug: string;
+          status?: string;
+          summary?: string | null;
+          title: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["resource_pages"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<never, never>;
     Functions: Record<never, never>;
@@ -121,3 +171,7 @@ export type Database = {
 
 export type ProjectStory =
   Database["public"]["Tables"]["project_stories"]["Row"];
+export type ProjectStoryImage =
+  Database["public"]["Tables"]["project_story_images"]["Row"];
+export type ResourcePage =
+  Database["public"]["Tables"]["resource_pages"]["Row"];

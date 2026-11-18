@@ -6,10 +6,16 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { updateProjectStory } from "../../actions";
 import ProjectStoryForm from "../../ProjectStoryForm";
+import ProjectPhotoManager, {
+  type ProjectImageWithUrl,
+} from "../../ProjectPhotoManager";
 
 type EditProjectPageProps = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string | string[] }>;
+  searchParams: Promise<{
+    created?: string | string[];
+    error?: string | string[];
+  }>;
 };
 
 const errorMessages: Record<string, string> = {
@@ -32,18 +38,33 @@ export default async function EditProjectPage({
   const id = Number((await params).id);
   if (!Number.isSafeInteger(id) || id < 1) notFound();
 
-  const { data: project, error } = await createSupabaseAdminClient()
-    .from("project_stories")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+  const supabase = createSupabaseAdminClient();
+  const [{ data: project, error }, { data: imageRows, error: imagesError }] =
+    await Promise.all([
+      supabase.from("project_stories").select("*").eq("id", id).maybeSingle(),
+      supabase
+        .from("project_story_images")
+        .select("*")
+        .eq("project_story_id", id)
+        .order("sort_order", { ascending: true }),
+    ]);
 
-  if (error || !project) notFound();
+  if (error || imagesError || !project) notFound();
 
-  const errorParam = (await searchParams).error;
+  const resolvedSearchParams = await searchParams;
+  const errorParam = resolvedSearchParams.error;
   const errorKey = Array.isArray(errorParam) ? errorParam[0] : errorParam;
   const errorMessage = errorKey ? errorMessages[errorKey] : undefined;
+  const wasCreated = Array.isArray(resolvedSearchParams.created)
+    ? Boolean(resolvedSearchParams.created[0])
+    : Boolean(resolvedSearchParams.created);
   const updateAction = updateProjectStory.bind(null, project.id);
+  const images: ProjectImageWithUrl[] = (imageRows ?? []).map((image) => ({
+    ...image,
+    publicUrl: supabase.storage
+      .from("project-images")
+      .getPublicUrl(image.storage_path).data.publicUrl,
+  }));
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-12">
@@ -56,9 +77,13 @@ export default async function EditProjectPage({
         </Link>
         <Link
           className="text-sm font-medium text-[#17352B] underline decoration-[#17352B]/35 underline-offset-4 hover:decoration-[#17352B]"
-          href={`/admin/projects/${project.id}`}
+          href={
+            project.status === "published"
+              ? `/projects/${project.slug}`
+              : `/admin/projects/${project.id}`
+          }
         >
-          View project
+          {project.status === "published" ? "View public page" : "View draft"}
         </Link>
       </div>
 
@@ -82,6 +107,17 @@ export default async function EditProjectPage({
           {errorMessage}
         </p>
       ) : null}
+
+      {wasCreated ? (
+        <p
+          className="mt-8 border-l-2 border-[#687760] bg-[#687760]/10 px-4 py-3 text-sm text-[#17352B]"
+          role="status"
+        >
+          Draft saved. Add project photos, then review the story before publishing.
+        </p>
+      ) : null}
+
+      <ProjectPhotoManager images={images} projectId={project.id} />
 
       <ProjectStoryForm action={updateAction} project={project} />
     </div>

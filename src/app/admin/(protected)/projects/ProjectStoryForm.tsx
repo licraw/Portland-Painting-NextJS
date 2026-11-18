@@ -2,6 +2,7 @@ import type { ProjectStory } from "@/types/supabase";
 
 type ProjectStoryFormProps = {
   action: (formData: FormData) => void | Promise<void>;
+  isNew?: boolean;
   project?: ProjectStory;
 };
 
@@ -19,6 +20,7 @@ const storyFields = [
 
 export default function ProjectStoryForm({
   action,
+  isNew = false,
   project,
 }: ProjectStoryFormProps) {
   return (
@@ -135,22 +137,36 @@ export default function ProjectStoryForm({
       </fieldset>
 
       <div className="flex flex-col-reverse gap-3 border-t border-[#20231F]/15 pt-8 sm:flex-row sm:justify-end">
-        <button
-          className="border border-[#17352B] px-5 py-3 text-sm font-semibold text-[#17352B] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#17352B] focus:ring-offset-2 focus:ring-offset-[#F2EEE5]"
-          name="status"
-          type="submit"
-          value="draft"
-        >
-          Save draft
-        </button>
-        <button
-          className="bg-[#17352B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244B3D] focus:outline-none focus:ring-2 focus:ring-[#17352B] focus:ring-offset-2 focus:ring-offset-[#F2EEE5]"
-          name="status"
-          type="submit"
-          value="published"
-        >
-          {project?.status === "published" ? "Save published" : "Publish"}
-        </button>
+        {isNew ? (
+          <>
+            <input name="status" type="hidden" value="draft" />
+            <button
+              className="bg-[#17352B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244B3D] focus:outline-none focus:ring-2 focus:ring-[#17352B] focus:ring-offset-2 focus:ring-offset-[#F2EEE5]"
+              type="submit"
+            >
+              Save and add photos
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              className="border border-[#17352B] px-5 py-3 text-sm font-semibold text-[#17352B] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#17352B] focus:ring-offset-2 focus:ring-offset-[#F2EEE5]"
+              name="status"
+              type="submit"
+              value="draft"
+            >
+              Save draft
+            </button>
+            <button
+              className="bg-[#17352B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244B3D] focus:outline-none focus:ring-2 focus:ring-[#17352B] focus:ring-offset-2 focus:ring-offset-[#F2EEE5]"
+              name="status"
+              type="submit"
+              value="published"
+            >
+              {project?.status === "published" ? "Save published" : "Publish"}
+            </button>
+          </>
+        )}
       </div>
     </form>
   );

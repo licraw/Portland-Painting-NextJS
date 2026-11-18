@@ -1,6 +1,7 @@
 import { hasValidAdminSession } from "@/lib/admin-session";
 import { redirect } from "next/navigation";
 import { logout } from "./actions";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -19,9 +20,10 @@ export default async function ProtectedAdminLayout({
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-[#687760]">
               Portland Painting &amp; Restoration
             </p>
-            <p className="mt-1 font-serif text-xl text-[#17352B]">
-              Project Stories
-            </p>
+            <nav className="mt-2 flex gap-4 text-sm font-medium text-[#17352B]">
+              <Link className="underline-offset-4 hover:underline" href="/admin/projects">Projects</Link>
+              <Link className="underline-offset-4 hover:underline" href="/admin/resources">Resources</Link>
+            </nav>
           </div>
           <form action={logout}>
             <button
